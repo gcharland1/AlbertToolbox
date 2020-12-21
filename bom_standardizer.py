@@ -1,0 +1,2 @@
+class BomStandaridizer:
+    pass
