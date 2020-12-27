@@ -3,16 +3,23 @@
     "Elbow":{
       "Joints": 2
     },
+
     "Flange":{
       "Joints": 2,
       "Bolt Up": 1
     },
+
     "Coupling":{
       "Joints": 2
     },
+
     "Valve":{
       "Joints": 2,
       "Valve Handling": 1
+    },
+
+    "Support":{
+      "Support Installation": 1
     }
   },
   "Time" : {
