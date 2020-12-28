@@ -7,7 +7,7 @@ class Estimator:
     # changer avec self.pipe_length = new_length
     headers = ['No', 'Description', 'Diametre', 'Schedule', 'Materiel', 'Quantite', 'Temps']
     def __init__(self):
-        with open('dictionaries/operation_times.json', 'r') as json_file:
+        with open('libraries/operation_times.json', 'r') as json_file:
             op_data = json.load(json_file)
             self.time_dict = op_data['Time']
             self.count_dict = op_data['Count']

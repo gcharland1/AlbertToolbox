@@ -151,22 +151,3 @@ if __name__== "__main__":
         img_file = 'iso'+str(i)+'.png'
         reader = ImageReader(img_file, save_intermediate)
         a = reader.detect_rectangles()
-
-
-
-
-
-        # col_width = [0]*len(img_text[0])
-        # for l in img_text:
-        #     for c in range(len(l)):
-        #         if len(l[c]) > col_width[c]:
-        #             col_width[c] = len(l[c])
-        #
-        #
-        # with open(f'out/out_{i}.txt', 'w') as f:
-        #     for l in reader.image_to_bom():
-        #         line = ''
-        #         for c in range(len(l)):
-        #             line += str(l[c]).center(col_width[c] + 2, ' ')
-        #             line += ' | '
-        #         f.write(line + '\n')

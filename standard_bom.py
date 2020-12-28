@@ -3,7 +3,9 @@ from piping_item import PipingItem
 class StandardBom:
 
     def __init__(self):
-        self.content = []
+        self.items = []
+        self.quantities = []
 
-    def add_item(self, item, qty):
-        self.content.append([item, qty])
+    def add_item(self, item=PipingItem(), qty=0):
+        self.items.append(item)
+        self.quantities.append(qty)
