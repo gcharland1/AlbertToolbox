@@ -66,7 +66,7 @@ class piping_estimator:
             if file_name.split('.')[-1] == ext:
                 return True
             else:
-                info(f'Impossible d''utiliser ce fichier. Utiliser un {ext}')
+                info(f"Impossible d'utiliser ce fichier. Utiliser un {ext}")
                 return False
 
     def open_file(self):
@@ -101,10 +101,19 @@ class piping_estimator:
             info('Veuillez sélectionner un fichier BOM pour débuter', 'ERREUR')
             return []
 
+    def update_bom_data(self, fresh_data):
+        file = open(self.path+'/'+self.bom_file, 'w', newline='')
+        csv_writer = csv.writer(file, dialect='excel')
+        csv_writer.writerow(self.estimator.headers)
+        for r in fresh_data:
+            csv_writer.writerow(r)
+        file.close()
+
     def estimate_total_time(self):
-        total_time, updated_bom_data = self.estimator.man_hours(
-                                                    self.read_bom_data())
-        info(total_time)
+        total_time, updated_bom_data = self.estimator.man_hours(self.read_bom_data())
+        self.update_bom_data(updated_bom_data)
+        msg = f"Temps total:\n{total_time} h"
+        info(msg)
 
     def setup_GUI(self):
         print('Setuping GUI buttons and text')
@@ -253,6 +262,7 @@ class piping_estimator:
         self.computing_frame.grid(row=3, column=0, sticky='w', padx=PAD_X, pady=2*PAD_Y
         )
         self.main_frame.pack()
+        print('All done! App is ready to use')
 
 def info(message, title="Calcul du temps"):
     root = tkinter.Tk()
