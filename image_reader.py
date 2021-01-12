@@ -1,85 +1,108 @@
-from PIL import Image
 import pytesseract
 import numpy as np
 import cv2
-import os
 
+# if os == Windows:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# else:
 
 class ImageReader:
     def __init__(self, save_intermediate = False, output_path = './out/'):
-        self.img = None
-        self.loaded_image = False
         self.save = save_intermediate
         self.save_dir = output_path
 
-    def load_image(self, image_file):
-        try:
-            self.img = cv2.imread(image_file, 0)
-            self.loaded_image = True
-            if self.save:
-                cv2.imwrite(self.save_dir + 'original.png', self.img)
-        except:
-            self.loaded_image = False
-            print('Invalid image file. Double check please')
-
-        return self.loaded_image
-
-
-    def invert_image(self):
-        if self.loaded_image:
-            self.threshold, self.img_bin = cv2.threshold(self.img, 127, 255, cv2.THRESH_BINARY)
-            self.inverted = 255-self.img_bin
-
-            if self.save:
-                cv2.imwrite(self.save_dir + 'bin.png', self.inverted)
+    def load_image(self, image_file, as_grayscale = False):
+        if as_grayscale:
+            flag = cv2.IMREAD_GRAYSCALE
         else:
-            print('No image loaded. Use ImageReader.load_image("image_file") first')
+            flag = cv2.IMREAD_COLOR
+        img = cv2.imread(image_file, flag)
+        return img
 
-    def detect_grid(self, image_file=""):
-        if not self.loaded_image: # Try to load image
-            self.load_image(image_file)
+    def grayscale(self, img):
+        gray_img =  cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        return gray_img
 
-        if self.loaded_image:
-            self.invert_image()
+    def blur(self, img):
+        blur = cv2.GaussianBlur(img, (5, 5), 0)
+        return blur
 
-            # Defining a kernel length
-            kernel_length = np.array(self.inverted).shape[1] // 80
-
-            # A vertical kernel of (1 X kernel_length), which will detect all the vertical lines from the image.
-            vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, kernel_length))  # A horizontal kernel of (kernel_length X 1), which will help to detect all the horizontal line from the image.
-            hori_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kernel_length, 1))  # A kernel of (3 X 3) ones.
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-
-            # Morphological operation to detect vertical lines from an image
-            img_temp1 = cv2.erode(self.inverted, vertical_kernel, iterations=3)
-            vertical_lines_img = cv2.dilate(img_temp1, vertical_kernel, iterations=3)
-
-            # Morphological operation to detect horizontal lines from an image
-            img_temp2 = cv2.erode(self.inverted, hori_kernel, iterations=3)
-            horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=3)
-
-            # Weighting parameters, this will decide the quantity of an image to be added to make a new image.
-            alpha = 0.5
-            beta = 1.0 - alpha  # This function helps to add two image with specific weight parameter to get a third image as summation of two image.
-            img_final_bin = cv2.addWeighted(vertical_lines_img, alpha, horizontal_lines_img, beta, 0.0)
-            img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=2)
-            (thresh, self.grid_img_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-
-
-            if self.save:
-                cv2.imwrite(self.save_dir + "vertical_lines.jpg", vertical_lines_img)
-                cv2.imwrite(self.save_dir + "horizontal_lines.jpg", horizontal_lines_img)
-                cv2.imwrite(self.save_dir + "img_final_bin.jpg", self.grid_img_bin)
+    def threshold(self, img, adaptive=True):
+        if adaptive:
+            thresh = cv2.adaptiveThreshold(img, 255, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 11, 2)
         else:
-            print('No image loaded. Use ImageReader.load_image("image_file") or ImageReader.detect_grid("image_file")')
+            _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+        return thresh
+
+    def find_contours(self, img):
+        contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        return contours
+
+    def find_contours_by_hierarchy(self, img, hierarchy_level=0):
+        if hierarchy_level == 0:
+            level_contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        else:
+            contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            children = [-1] # Start with outer most contours
+            for level in range(hierarchy_level + 1):
+                parents = children # Parents are the previous level children
+                children = np.array([], dtype='uint8')
+                for parent in parents:
+                    children = np.append(children, np.where(hierarchy[0,:,3]==parent)[0])
+
+            contours = np.array(contours, dtype=object)
+            level_contours = contours[children]
+
+        return level_contours
+
+    def mask_outer_perimeter(self, shape, contours, min_area):
+        best_contour = None
+        max_area = 0
+        for c in contours:
+            area = cv2.contourArea(c)
+            if area > min_area:
+                if area > max_area:
+                    max_area = area
+                    best_contour = c
 
 
+        mask = np.zeros(shape, np.uint8)
+        cv2.drawContours(mask, [best_contour], 0, 255, -1)
+        cv2.drawContours(mask, [best_contour], 0, 0, 2)
+        return mask
 
+    def draw_coutours(self, img, contours, min_area = 500):
+        c = 0
+        for cnt in contours:
+            if cv2.contourArea(cnt) > min_area:
+                cv2.drawContours(img, contours, c, (0,255,0), 3)
+            c += 1
+        return img
 
+    def isolate_outer_box_content(self, img, min_area = 500):
+        gray = self.grayscale(img)
+        blur = self.blur(gray)
+        thresh = self.threshold(blur, True)
+        contours = self.find_contours(thresh)
+        mask = self.mask_outer_perimeter(gray.shape, contours, min_area)
+
+        out = np.zeros_like(gray)
+        out[mask == 255] = gray[mask == 255]
+        return out
 
 SAVE_INTERMEDIATE = True
 
 if __name__ == '__main__':
     image_reader = ImageReader(SAVE_INTERMEDIATE)
-    image_reader.detect_grid('./input/iso0.png')
+    for n in [0, 1, 2]:
+        img = image_reader.load_image(f'./input/iso{n}.png', False)
+        print(f'./input/iso{n}.png')
+        gray = image_reader.grayscale(img)
+        blur = image_reader.blur(gray)
+        thresh = image_reader.threshold(blur, True)
+
+        for level in [0, 1]:
+            contours = image_reader.find_contours_by_hierarchy(thresh, level)
+
+            cv2.drawContours(img, contours, -1, (0,255,0), 2)
+            cv2.imwrite(f'./out/iso{n}_level{level}.png', img)
