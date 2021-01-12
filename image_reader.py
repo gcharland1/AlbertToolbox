@@ -75,24 +75,25 @@ class ImageReader:
 
         return biggest_blob
 
-    def filter_table(self, box_coordinates):
-        return box_coordinates
+    def filter_table(self, box_coordinates, filter=0.75):
+        ws = box_coordinates[:, 2]
+        unique_w, freq_w = np.unique(ws, return_counts=True)
+        filtered_w = unique_w[freq_w>filter*np.max(freq_w)]
 
-    def image_to_table(self, image_file):
+        return box_coordinates[np.isin(ws, filtered_w)]
+
+    def image_to_table(self, image_file, hierarchy_level = 1):
         img = image_reader.load_image(image_file, False)
         gray = image_reader.grayscale(img)
         blur = image_reader.blur(gray)
         thresh = image_reader.threshold(blur, True)
 
-        hierarchy_level = 1
         contours = image_reader.find_contours_by_hierarchy(thresh, hierarchy_level)
         box_coordinates = []
         for c in contours:
             box_coordinates.append(cv2.boundingRect(c))
 
-        box_coordinates = self.filter_table(np.array(box_coordinates, dtype='uint8'))
-
-        return box_coordinates
+        return self.filter_table(np.array(box_coordinates, dtype='uint16'))
 
 
 SAVE_INTERMEDIATE = False
@@ -100,5 +101,5 @@ SAVE_INTERMEDIATE = False
 if __name__ == '__main__':
     image_reader = ImageReader(SAVE_INTERMEDIATE)
     for n in [0, 1, 2]:
-        print(image_reader.image_to_table(f'./input/iso{n}.png'))
+        coordinates = image_reader.image_to_table(f'./input/iso{n}.png')
 
