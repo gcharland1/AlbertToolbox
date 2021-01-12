@@ -1,6 +1,7 @@
 import pytesseract
 import numpy as np
 import cv2
+from PIL import Image
 from matplotlib import pyplot as plt
 
 # if os == Windows:
@@ -75,14 +76,35 @@ class ImageReader:
 
         return biggest_blob
 
-    def filter_table(self, box_coordinates, filter=0.75):
-        ws = box_coordinates[:, 2]
+    def filter_coordinates(self, box_coordinates, filter=0.75, axis=2):
+        ws = box_coordinates[:, axis]
         unique_w, freq_w = np.unique(ws, return_counts=True)
         filtered_w = unique_w[freq_w>filter*np.max(freq_w)]
 
-        return box_coordinates[np.isin(ws, filtered_w)]
+        box_coordinates = box_coordinates[np.isin(ws, filtered_w)]
+        return box_coordinates
 
-    def image_to_table(self, image_file, hierarchy_level = 1):
+    def coordinates_to_table(self, box_coordinates, tol=3):
+        xs = box_coordinates[:, 0]
+        ys = box_coordinates[:,1]
+        widths = box_coordinates[:,2]
+        heights = box_coordinates[:,3]
+
+        unique_x0 = xs[~(np.triu(np.abs(xs[:, None] - xs) <= tol, 1)).any(0)]
+        unique_widths = widths[~(np.triu(np.abs(xs[:, None] - xs) <= tol, 1)).any(0)]
+        sorted_indices = np.argsort(unique_x0)
+        unique_x0 = unique_x0[sorted_indices]
+        unique_widths = unique_widths[sorted_indices]
+
+        unique_y0 = ys[~(np.triu(np.abs(ys[:, None] - ys) <= tol, 1)).any(0)]
+        unique_heights = heights[~(np.triu(np.abs(ys[:, None] - ys) <= tol, 1)).any(0)]
+        sorted_indices = np.argsort(unique_y0)
+        unique_y0 = unique_y0[sorted_indices]
+        unique_heights = unique_heights[sorted_indices]
+
+        return [unique_x0, unique_y0, unique_widths, unique_heights]
+
+    def image_to_text_table(self, image_file, hierarchy_level = 1):
         img = image_reader.load_image(image_file, False)
         gray = image_reader.grayscale(img)
         blur = image_reader.blur(gray)
@@ -93,13 +115,33 @@ class ImageReader:
         for c in contours:
             box_coordinates.append(cv2.boundingRect(c))
 
-        return self.filter_table(np.array(box_coordinates, dtype='uint16'))
+        box_coordinates = self.filter_coordinates(np.array(box_coordinates, dtype='uint16'))
+        x, y, w, h = self.coordinates_to_table(box_coordinates)
 
+        text_table = []
+        for j in range(len(y)):
+            y0 = y[j]
+            y1 = y0 + h[j]
+            row = []
+            for i in range(len(x)):
+                x0 = x[i]
+                x1 = x0 + w[i]
+                tmp = Image.fromarray(gray[y0:y1, x0:x1])
+                text = pytesseract.image_to_string(tmp, config='--psm 6')
+                row.append(text.replace('\n', '').replace('\x0c', ''))
+            text_table.append(row)
+
+        return text_table
 
 SAVE_INTERMEDIATE = False
 
 if __name__ == '__main__':
     image_reader = ImageReader(SAVE_INTERMEDIATE)
     for n in [0, 1, 2]:
-        coordinates = image_reader.image_to_table(f'./input/iso{n}.png')
+        print(f'Image iso{n}.png content: ')
+        image_text_table = image_reader.image_to_text_table(f'./input/iso{n}.png')
+        for r in image_text_table:
+            print(r)
+        print('-'*12 + '\n')
+
 
