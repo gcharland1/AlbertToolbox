@@ -3,9 +3,12 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
+def home():
     return 'Hello, World!'
 
+@app.route('/<name>')
+def user(name):
+    return f'Hello {name}'
 
 @app.route('/get_cost')
 def get_cost():
