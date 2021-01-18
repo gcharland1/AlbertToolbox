@@ -36,11 +36,11 @@ class ImageReader:
         blur = cv2.GaussianBlur(img, (w, h), 0)
         return blur
 
-    def threshold(self, img, adaptive=True):
+    def threshold(self, img, adaptive=False):
         if adaptive:
             thresh = cv2.adaptiveThreshold(img, 255, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 11, 2)
         else:
-            _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+            _, thresh = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY)
         return thresh
 
     def find_contours(self, img):
@@ -118,7 +118,10 @@ class ImageReader:
         box_coordinates = self.filter_coordinates(np.array(box_coordinates, dtype='uint16'))
         x, y, w, h = self.coordinates_to_table(box_coordinates)
 
+        print(f'({len(y)} x {len(x)}) table located. Reading text')
+
         text_table = []
+        unwanted_characters = ['\n', '\x0c']
         for j in range(len(y)):
             y0 = y[j]
             y1 = y0 + h[j]
@@ -126,9 +129,11 @@ class ImageReader:
             for i in range(len(x)):
                 x0 = x[i]
                 x1 = x0 + w[i]
-                tmp = Image.fromarray(gray[y0:y1, x0:x1])
+                tmp = Image.fromarray(img[y0:y1, x0:x1])
                 text = pytesseract.image_to_string(tmp, config='--psm 6')
-                row.append(text.replace('\n', '').replace('\x0c', ''))
+                for chr in unwanted_characters:
+                    text = text.replace(chr, '')
+                row.append(text)
             text_table.append(row)
 
         return text_table
@@ -137,11 +142,11 @@ SAVE_INTERMEDIATE = False
 
 if __name__ == '__main__':
     image_reader = ImageReader(SAVE_INTERMEDIATE)
-    for n in [0, 1, 2]:
+    for n in range(7):
         print(f'Image iso{n}.png content: ')
         image_text_table = image_reader.image_to_text_table(f'./input/iso{n}.png')
         for r in image_text_table:
             print(r)
-        print('-'*12 + '\n')
+        print('-'*75 + '\n')
 
 

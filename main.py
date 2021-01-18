@@ -9,7 +9,6 @@ import tkinter
 from tkinter import filedialog
 import tkinter.messagebox
 import os
-
 import csv
 
 class piping_estimator:
@@ -66,7 +65,7 @@ class piping_estimator:
             if file_name.split('.')[-1] == ext:
                 return True
             else:
-                info(f'Impossible d''utiliser ce fichier. Utiliser un {ext}')
+                info(f"Impossible d'utiliser ce fichier. Utiliser un {ext}")
                 return False
 
     def open_file(self):
