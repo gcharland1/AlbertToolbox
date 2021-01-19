@@ -14,4 +14,4 @@
 ### 3. Try it!
 
 - Navigate to `http://0.0.0.0:8080`
-- Navigate to `http://0.0.0.0:8080/get_cost`
+- Navigate to `http://0.0.0.0:8080/`
