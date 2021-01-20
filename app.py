@@ -7,17 +7,39 @@ app.config['SECRET_KEY'] = '4b40c79de13feb562a644158dff8035c'
 
 @app.route('/')
 def home():
-    return flask.render_template("index.html")
+    return flask.render_template("index.html", title="Accueil")
+
+@app.route('/user')
+def user():
+    if "email" in flask.session:
+        name = flask.session["email"]
+        return f"<h1>{name}</h1>"
+    else:
+        return flask.redirect(flask.url_for("login"))
+
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    form = RegistrationForm()
-    return flask.render_template("register.html", title="Register", form=form)
+    if flask.request.method == "POST":
+        flask.session['email'] = flask.request.form['email']
+        return flask.redirect(flask.url_for(user))
+    else:
+        form = RegistrationForm()
+        return flask.render_template("register.html", title="Register", form=form)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm()
-    return flask.render_template("login.html", title="Login", form=form)
+    if flask.request.method == "POST":
+        flask.session['email'] = flask.request.form['email']
+        return flask.redirect(flask.url_for("user"))
+    else:
+        form = LoginForm()
+        return flask.render_template("login.html", title="Login", form=form)
+
+@app.route('/logout')
+def logout():
+    flask.session.pop("email", None)
+    return flask.redirect(flask.url_for("home"))
 
 @app.route('/piping_estimator')
 def get_cost():
