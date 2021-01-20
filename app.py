@@ -1,8 +1,10 @@
 import flask
 from forms import RegistrationForm, LoginForm
+import datetime
 
 app = flask.Flask(__name__)
 app.config['SECRET_KEY'] = '4b40c79de13feb562a644158dff8035c'
+app.permanent_session_lifetime = datetime.timedelta(minutes=5)
 
 
 @app.route('/')
@@ -21,6 +23,7 @@ def user():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if flask.request.method == "POST":
+        flask.session.permanent = True
         flask.session['email'] = flask.request.form['email']
         return flask.redirect(flask.url_for(user))
     else:
@@ -30,6 +33,7 @@ def register():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if flask.request.method == "POST":
+        flask.session.permanent = True
         flask.session['email'] = flask.request.form['email']
         return flask.redirect(flask.url_for("user"))
     else:
