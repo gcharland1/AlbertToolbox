@@ -2,7 +2,6 @@ import pytesseract
 import numpy as np
 import cv2
 from PIL import Image
-from matplotlib import pyplot as plt
 
 # if os == Windows:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -105,12 +104,12 @@ class ImageReader:
         return [unique_x0, unique_y0, unique_widths, unique_heights]
 
     def image_to_text_table(self, image_file, hierarchy_level = 1):
-        img = image_reader.load_image(image_file, False)
-        gray = image_reader.grayscale(img)
-        blur = image_reader.blur(gray)
-        thresh = image_reader.threshold(blur, True)
+        img = self.load_image(image_file, False)
+        gray = self.grayscale(img)
+        blur = self.blur(gray)
+        thresh = self.threshold(blur, True)
 
-        contours = image_reader.find_contours_by_hierarchy(thresh, hierarchy_level)
+        contours = self.find_contours_by_hierarchy(thresh, hierarchy_level)
         box_coordinates = []
         for c in contours:
             box_coordinates.append(cv2.boundingRect(c))

@@ -2,10 +2,19 @@
 {%block title%}{{title}}{%endblock%}
 {%block header%}Estimateur de tuyauterie{%endblock%}
 {%block content%}
-<h2>Entrer vos informations</h2>
-<form action="#">
-    <label for="file_name">Votre fichier:</label>
-    <input type="file" accept="image/*" id="file_name" name="file_name"><br><br>
-    <input type="submit" value="Submit">
-</form>
+<div class="content-section w-auto p-5">
+  <form action="" method="POST" enctype=multipart/form-data>
+      {{form.hidden_tag()}}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Entrer vos fichiers</legend>
+        <div class="form-group">
+          {{form.file.label(class="form-control-label")}}
+          {{form.file(class="form-control form-control-lg")}}
+        </div>
+      </fieldset>
+      <div class="form-group pt-3">
+        {{form.submit(class="btn btn-outline-info")}}
+      </div>
+  </form>
+</div>
 {%endblock%}
