@@ -4,21 +4,18 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
 class RegistrationForm(FlaskForm):
-
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    username = StringField('Nom d''utilisateur', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+    password = PasswordField('Mot de passe', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmer mot de passe', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Créer mon compte')
 
 
 class LoginForm(FlaskForm):
-
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Sign Up')
+    password = PasswordField('Mot de passe', validators=[DataRequired()])
+    submit = SubmitField('Se connecter')
 
 class PipingForm(FlaskForm):
-
-    file = FileField('Image File', validators=[DataRequired()])
+    file = FileField('Fichier image', validators=[DataRequired()])
     submit = SubmitField('Calculer les coûts')
