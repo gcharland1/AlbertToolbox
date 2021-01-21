@@ -1,2 +1,10 @@
 venv/*
 .idea/*
+upload/*
+out/*
+*.sqlite3
+users.sqlite3
+__pycache__/
+__pycache__/*
+input/*
+
