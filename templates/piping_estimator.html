@@ -1,0 +1,20 @@
+{%extends "base.html"%}
+{%block title%}{{title}}{%endblock%}
+{%block header%}Estimateur de tuyauterie{%endblock%}
+{%block content%}
+<div class="content-section w-auto p-5">
+  <form action="" method="POST" enctype=multipart/form-data>
+      {{form.hidden_tag()}}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Entrer vos fichiers</legend>
+        <div class="form-group">
+          {{form.file.label(class="form-control-label")}}
+          {{form.file(class="form-control form-control-lg")}}
+        </div>
+      </fieldset>
+      <div class="form-group pt-3">
+        {{form.submit(class="btn btn-outline-info")}}
+      </div>
+  </form>
+</div>
+{%endblock%}

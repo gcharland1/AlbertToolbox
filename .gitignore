@@ -1,0 +1,9 @@
+venv/*
+.idea/*
+upload/*
+input/*
+out/*
+users.sqlite3
+*.sqlite3
+__pycache__/
+__pycache__/*

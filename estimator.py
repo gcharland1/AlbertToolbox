@@ -1,5 +1,3 @@
-import time
-import math
 import json
 
 class Estimator:
@@ -21,18 +19,11 @@ class Estimator:
 
         total_time = 0
         for item in bom_data: # For ELEMENT in BOM: (Dans une liste)
-
-            try:
-                item_qty = float(item[i_qty])
-            except:
-                print(f"Item quantity must be numerical, received {item[i_qty]}. Ignoring")
-                item_qty = 0
-
+            item_qty = float(item[i_qty])
             item_dia = item[i_dia]
             item_mtl = item[i_mtl]
             item_typ = item[i_typ]
             item_time = 0
-
             try:
                 item_ops = self.count_dict[item_typ]
             except:
