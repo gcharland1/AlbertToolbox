@@ -4,11 +4,12 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 
 import forms
-#import image_reader
+import image_reader
 
 
 
 app = flask.Flask(__name__)
+
 app.permanent_session_lifetime = datetime.timedelta(minutes=5)
 app.config['SECRET_KEY'] = '4b40c79de13feb562a644158dff8035c'
 app.config['UPLOAD_PATH'] = "./upload/"
@@ -28,10 +29,11 @@ class users(db.Model):
         self.email = email
         self.password = password
 
-@app.route('/<name>')
+@app.route('/name')
 def name(name):
     return name
 
+@app.route('/home')
 @app.route('/')
 def home():
     return flask.render_template("index.html", title="Accueil")
@@ -48,7 +50,6 @@ def user():
 def register():
     if flask.request.method == "POST":
 
-        # Add data base script here
         username = flask.request.form['username']
         email = flask.request.form['email']
         password = flask.request.form['password']
@@ -106,7 +107,7 @@ def login():
 def logout():
     if "user" in flask.session:
         flask.session.pop("user", None)
-        flask.flash("Déconnecté avec succès", "info")
+        flask.flash("Déconnecté avec succes", "info")
 
     return flask.redirect(flask.url_for("home"))
 
@@ -116,18 +117,24 @@ def show_tools():
 
 @app.route('/piping_estimator', methods=["GET", "POST"])
 def piping_estimator():
-    form = forms.PipingForm()
-    if flask.request.method == 'POST':
-        filename = form.file.data.filename
-        print(filename)
-        file_data = flask.request.files[form.file.name].read()
-        open(os.path.join(app.config["UPLOAD_PATH"], filename), 'wb').write(file_data)
+    if "premium" in flask.session:
+        form = forms.PipingForm()
+        if flask.request.method == 'POST':
+            filename = form.file.data.filename
+            print(filename)
+            file_data = flask.request.files[form.file.name].read()
+            image_path = os.path.join(app.config["UPLOAD_PATH"], filename)
+            open(image_path, 'wb').write(file_data)
+            reader = image_reader.ImageReader()
+            bom_content = reader.image_to_text_table(image_path)
+            os.remove(image_path)
+            return flask.url_for("name", name=bom_content)
 
-        return flask.redirect(flask.url_for('name', name="succes"))
-
+        else:
+            return flask.render_template("piping_estimator.html", title="Estimateur de coûts", form=form)
     else:
-        return flask.render_template("piping_estimator.html", title="Estimateur de coûts", form=form)
-
+        form = forms.PipingForm()
+        return flask.render_template("piping_beta.html", title="Estimateur Beta", form=form)
 
 if __name__ == '__main__':
     db.create_all()
