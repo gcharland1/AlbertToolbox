@@ -26,27 +26,26 @@
           <a class="nav-link" href="/piping_estimator">Estimateur de tuyauterie</a>
         </li>
       </ul>
-      {% if "user" in session %}
       <span class="navbar-nav">
-              <p class="navbar-text position-sticky-end font-weight-bold">{{session["user"]}} </p>
-              <a class="nav-link active position-sticky-end" href="/logout">Déconnexion</a>
-            </span>
-      {% else %}
-      <span class="navbar-nav">
-              <a class="nav-link position-sticky-end" href="/register">S'enregistrer</a>
-              <a class="nav-link position-sticky-end" href="/login">Connexion</a>
-            </span>
-      {% endif %}
+        {% if "user" in session %}
+          <p class="navbar-text position-sticky-end font-weight-bold">{{session["user"]}}</p>
+          <a class="nav-link active position-sticky-end" href="/logout">Déconnexion</a>
+        {% else %}
+          <a class="nav-link position-sticky-end" href="/register">S'enregistrer</a>
+          <a class="nav-link position-sticky-end" href="/login">Connexion</a>
+        {% endif %}
+      </span>
     </div>
   </div>
 </nav>
 {%with messages = get_flashed_messages()%}
-{%if messages%}
-{%for msg in messages%}
-<div class="alert alert-primary" role="alert">{{msg}}</div>
-{%endfor%}
-{%endif%}
+  {%if messages%}
+    {%for msg in messages%}
+      <div class="alert alert-primary" role="alert">{{msg}}</div>
+    {%endfor%}
+  {%endif%}
 {%endwith%}
+
 <div class="container-fluid">
   <h1>{%block header%}{%endblock%}</h1>
   {%block content%}{%endblock%}

@@ -6,14 +6,37 @@
   <form action="" method="POST" enctype=multipart/form-data>
     {{form.hidden_tag()}}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Entrer vos fichiers</legend>
+      <legend class="border-bottom mb-4">Entrer vos données</legend>
+      <button class="btn btn-secondary">Ajouter une ligne</button>
       <div class="form-group">
-        {{form.file.label(class="form-control-label")}}
-        {{form.file(class="form-control form-control-lg")}}
+        <table class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Item no.</th>
+              <th scope="col">{{form.rows[0].item_field.label()}}</th>
+              <th scope="col">{{form.rows[0].diameter_field.label()}}</th>
+              <th scope="col">{{form.rows[0].schedule_field.label()}}</th>
+              <th scope="col">{{form.rows[0].material_field.label()}}</th>
+              <th scope="col">{{form.rows[0].quantity_field.label()}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%for i in range(form.n_rows)%}
+            <tr>
+              <td scope="row">{{i + 1}}</td>
+              <td>{{form.rows[i].item_field}}</td>
+              <td>{{form.rows[i].diameter_field}}</td>
+              <td>{{form.rows[i].schedule_field}}</td>
+              <td>{{form.rows[i].material_field}}</td>
+              <td>{{form.rows[i].quantity_field}}</td>
+            </tr>
+          {%endfor%}
+          </tbody>
+        </table>
       </div>
     </fieldset>
     <div class="form-group pt-3">
-      {{form.submit(class="btn btn-outline-info")}}
+      {{form.submit_field(class="btn btn-primary")}}
     </div>
   </form>
 </div>

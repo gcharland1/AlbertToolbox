@@ -30,8 +30,8 @@ class users(db.Model):
         self.password = password
 
 @app.route('/name')
-def name(name):
-    return name
+def name(text):
+    return text
 
 @app.route('/home')
 @app.route('/')
@@ -133,7 +133,14 @@ def piping_estimator():
         else:
             return flask.render_template("piping_estimator.html", title="Estimateur de coûts", form=form)
     else:
-        form = forms.PipingForm()
+        if flask.request.method == "POST":
+            return "Success"
+        else:
+            form = forms.BetaPipingForm()
+            for i in range(5):
+                form.rows.append_entry()
+                form.n_rows += 1
+
         return flask.render_template("piping_beta.html", title="Estimateur Beta", form=form)
 
 if __name__ == '__main__':
