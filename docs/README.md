@@ -9,7 +9,7 @@
 ### 2. Set up environment
 
 - `pip install requirements.txt`
-- `python app.py`
+- `python run.py`
 
 ### 3. Try it!
 
