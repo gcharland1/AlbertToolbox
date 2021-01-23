@@ -1,6 +1,5 @@
 import flask
 
-from app import db
 from app.tools import forms
 from bin import estimator
 
@@ -38,7 +37,7 @@ def piping_beta():
                                      form=form,
                                      bom_data=[])
 
-@tools.route('/piping_estimator', methods=["GET", "POST"])
+@tools.route('/tools', methods=["GET", "POST"])
 def piping_estimator():
     form = forms.PipingForm()
     if flask.request.method == 'POST':
@@ -53,4 +52,4 @@ def piping_estimator():
         return flask.url_for("name", name=bom_content)
 
     else:
-        return flask.render_template("tools/piping_estimator.html", title="Estimateur de coûts", form=form)
+        return flask.render_template("tools/tools.html", title="Estimateur de coûts", form=form)

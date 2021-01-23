@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-  <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
   <link rel="shortcut icon" href="{{url_for('static', filename='images/icon.ico')}}" type="image/x-icon">
   
   <title>{%block title%}{%endblock%}</title>
@@ -13,26 +13,38 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Les outils Albert</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="/">
+      <img src="{{url_for('static', filename='images/logo.png')}}" alt="Les outils Albert" width="250px">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/tools">Nos Outils</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href={{url_for("tools.piping_beta")}}>Estimateur de tuyauterie</a>
-        </li>
-      </ul>
-      <span class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="font-size:1.4rem;">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href={{url_for('show_tools')}}>
+          Nos outils
+        </a>
+        <a class="nav-item nav-link active" href={{url_for('tools.piping_beta')}}>
+            Estimateur de tuyauterie
+        </a>
+      </div>
+      <span class="navbar-nav ms-auto">
         {% if "user" in session %}
-          <p class="navbar-text position-sticky-end font-weight-bold">{{session["user"]}}</p>
-          <a class="nav-link active position-sticky-end" href={{url_for("auth.logout")}}>Déconnexion</a>
+          <a class="nav-link active position-sticky-end">
+            {{session["user"]}}
+          </a>
+          <a class="nav-link position-sticky-end" href={{url_for("auth.logout")}}>
+            Déconnexion
+          </a>
         {% else %}
-          <a class="nav-link position-sticky-end" href={{url_for("auth.register")}}>S'enregistrer</a>
-          <a class="nav-link position-sticky-end" href={{url_for("auth.login")}}>Connexion</a>
+          <a class="nav-link position-sticky-end" href={{url_for("auth.register")}}>
+            S'enregistrer
+          </a>
+          <a class="nav-link position-sticky-end" href={{url_for("auth.login")}}>
+            Connexion
+          </a>
         {% endif %}
       </span>
     </div>
