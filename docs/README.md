@@ -8,10 +8,9 @@
 
 ### 2. Set up environment
 
-- `pip install requirements.txt`
+- `pip install -r requirements.txt`
 - `python run.py`
 
 ### 3. Try it!
 
-- Navigate to `http://0.0.0.0:8080`
-- Navigate to `http://0.0.0.0:8080/`
+- Navigate to `http://0.0.0.0:8080` 
