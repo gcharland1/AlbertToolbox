@@ -1,14 +1,13 @@
 import flask
 import datetime
-import os
-from flask_sqlalchemy import SQLAlchemy
+import flask_sqlalchemy
 
 import forms
-import image_reader
-
+import piping_tools
 
 
 app = flask.Flask(__name__)
+app.register_blueprint(piping_tools.piping_tools, url_prefix="/")
 
 app.permanent_session_lifetime = datetime.timedelta(minutes=5)
 app.config['SECRET_KEY'] = '4b40c79de13feb562a644158dff8035c'
@@ -16,7 +15,7 @@ app.config['UPLOAD_PATH'] = "./upload/"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy(app)
+db = flask_sqlalchemy.SQLAlchemy(app)
 
 class users(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
@@ -29,22 +28,10 @@ class users(db.Model):
         self.email = email
         self.password = password
 
-@app.route('/name')
-def name(text):
-    return text
-
 @app.route('/home')
 @app.route('/')
 def home():
     return flask.render_template("index.html", title="Accueil")
-
-@app.route('/user')
-def user():
-    if "email" in flask.session:
-        name = flask.session["email"]
-        return f"<h1>{name}</h1>"
-    else:
-        return flask.redirect(flask.url_for("login"))
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -111,37 +98,10 @@ def logout():
 
     return flask.redirect(flask.url_for("home"))
 
-@app.route('/tools')
+@app.route('/our_tools')
 def show_tools():
     return flask.render_template("our_tools.html", title="Nos outils")
 
-@app.route('/piping_estimator', methods=["GET", "POST"])
-def piping_estimator():
-    if "premium" in flask.session:
-        form = forms.PipingForm()
-        if flask.request.method == 'POST':
-            filename = form.file.data.filename
-            print(filename)
-            file_data = flask.request.files[form.file.name].read()
-            image_path = os.path.join(app.config["UPLOAD_PATH"], filename)
-            open(image_path, 'wb').write(file_data)
-            reader = image_reader.ImageReader()
-            bom_content = reader.image_to_text_table(image_path)
-            os.remove(image_path)
-            return flask.url_for("name", name=bom_content)
-
-        else:
-            return flask.render_template("piping_estimator.html", title="Estimateur de coûts", form=form)
-    else:
-        if flask.request.method == "POST":
-            return "Success"
-        else:
-            form = forms.BetaPipingForm()
-            for i in range(5):
-                form.rows.append_entry()
-                form.n_rows += 1
-
-        return flask.render_template("piping_beta.html", title="Estimateur Beta", form=form)
 
 if __name__ == '__main__':
     db.create_all()
