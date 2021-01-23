@@ -1,0 +1,41 @@
+{%extends "base.html"%}
+{%block title%}{{title}}{%endblock%}
+{%block header%}Estimateur de tuyauterie - Beta{%endblock%}
+{%block content%}
+<div class="content-section w-auto p-5">
+  <legend class="border-bottom mb-4">Résultats</legend>
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Item no.</th>
+        <th scope="col">Type</th>
+        <th scope="col">Diamètre (po)</th>
+        <th scope="col">Schédule</th>
+        <th scope="col">Matériel</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Temps</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for r in range(bom|length)%}
+      <tr>
+        {%for c in range(bom[r]|length)%}
+        {%if c == 0%}
+        <th scope="row">{{bom[r][c]}}</th>
+        {%elif c == bom[r]|length - 1%}
+        <td>{{bom[r][c]}} h</td>
+        {%else%}
+        <td>{{bom[r][c]}}</td>
+        {%endif%}
+        {%endfor%}
+      </tr>
+      {%endfor%}
+      <tr>
+        <th scope="row" colspan="{{bom[0]|length - 1}}" style="text-align:right; padding-right:3em;">Temps Total</th>
+        <td style="font-weight:bold">{{total_time}} h</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+{%endblock%}
