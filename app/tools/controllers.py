@@ -7,19 +7,28 @@ from bin import estimator
 tools = flask.Blueprint('tools', __name__, )
 
 @tools.route('/piping_beta', methods=["GET", "POST"])
-def piping_beta(n_rows=10):
+def piping_beta():
     form = forms.BetaPipingForm()
     if flask.request.method == "POST":
         form_rows = form.rows
+        n_rows = len(form.rows)
+
         bom_rows = []
-        for r in form_rows:
-            bom_rows.append([r.item_field.data,
-                             r.diameter_field.data,
-                             r.schedule_field.data,
-                             r.material_field.data,
-                             r.quantity_field.data])
-        return str(bom_rows)
+        for r in range(n_rows):
+            bom_rows.append([r+1,
+                             form_rows[r].item_field.data,
+                             form_rows[r].diameter_field.data,
+                             form_rows[r].schedule_field.data,
+                             form_rows[r].material_field.data,
+                             form_rows[r].quantity_field.data,
+                             0])
+
+        pipe_estimator = estimator.Estimator()
+        total_time, bom_rows = pipe_estimator.man_hours(bom_rows)
+
+        return str(total_time)
     else:
+        n_rows = 3
         for i in range(n_rows):
             form.rows.append_entry()
             form.n_rows += 1

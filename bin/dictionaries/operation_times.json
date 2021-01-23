@@ -105,5 +105,17 @@
       "24" : 1.94,
       "36" : 2.5
     }
+  },
+
+  "Sch Factors" : {
+    "10" : 1,
+    "20" : 1,
+    "40" : 1,
+    "80" : 1
+  },
+
+  "Mtl Factors" : {
+    "Carbon Steel" : 1,
+    "Stainless Steel" : 1
   }
 }

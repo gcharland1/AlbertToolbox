@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FileField, SelectField, FieldList, FormField, BooleanField
 from wtforms.validators import DataRequired
+import json
 
 
 class PipingForm(FlaskForm):
@@ -8,10 +9,12 @@ class PipingForm(FlaskForm):
     submit = SubmitField('Calculer les coûts')
 
 class BetaPipingItemForm(FlaskForm):
-    item_list = ["Coude", "Valve", "Bride", "Tuyau"]
-    diameter_list = ["1", "1-1/2", "2", "2-1/2", "3", "4", "6", "8", "10", "12", "14", "16"]
-    schedule_list = ["10", "20", "40", "80"]
-    material_list = ["Acier Carbone", "Innox"]
+    with open('bin/dictionaries/operation_times.json', 'r') as json_file:
+        op_data = json.load(json_file)
+        item_list = op_data['Count'].keys()
+        diameter_list = op_data['Time']['Weld'].keys()
+        schedule_list = op_data['Sch Factors'].keys()
+        material_list = op_data['Mtl Factors'].keys()
 
     select_field = BooleanField("Sélectionner")
     item_field = SelectField("Type d'élément", choices=item_list, validators=[DataRequired()])
