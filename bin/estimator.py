@@ -19,7 +19,11 @@ class Estimator:
 
         total_time = 0
         for item in bom_data: # For ELEMENT in BOM: (Dans une liste)
-            item_qty = float(item[i_qty])
+            try:
+                item_qty = abs(float(item[i_qty]))
+            except:
+                item_qty = 0
+                item[i_qty] = 0
             item_dia = item[i_dia]
             item_mtl = item[i_mtl]
             item_typ = item[i_typ]

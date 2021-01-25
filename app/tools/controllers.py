@@ -27,7 +27,7 @@ def piping_beta():
 
         return flask.render_template("tools/piping_cost.html", title="Résultats", bom=bom_data, total_time=total_time)
     else:
-        n_rows = 5
+        n_rows = 10
         for i in range(n_rows):
             form.rows.append_entry()
             form.n_rows += 1

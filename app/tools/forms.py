@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, FileField, SelectField, FieldList, FormField, BooleanField
+from wtforms import SubmitField, FileField, SelectField, FieldList, FormField, BooleanField, FloatField
 from wtforms.validators import DataRequired
 import json
 
@@ -21,7 +21,7 @@ class BetaPipingItemForm(FlaskForm):
     diameter_field = SelectField("Diamètre (po)", choices=diameter_list, validators=[DataRequired()])
     schedule_field = SelectField("Schedule", choices=schedule_list, validators=[DataRequired()])
     material_field = SelectField("Matériel", choices=material_list, validators=[DataRequired()])
-    quantity_field = StringField("Quantité/Longueur (pi)", validators=[DataRequired()])
+    quantity_field = FloatField("Quantité/Longueur (pi)", default=0, validators=[DataRequired()])
 
 class BetaPipingForm(FlaskForm):
     rows = FieldList(FormField(BetaPipingItemForm))
