@@ -2,5 +2,14 @@
 {%block title%}{{title}}{%endblock%}
 {%block header%}Albert Toolbox{%endblock%}
 {%block content%}
-<p>Bienvenu à Albert Toolbox, la boite à outil des ingénieurs intelligents</p>
+<div class="container-fluid m-1">
+  <div class="row m-2" style="background:#f00">
+    <div class="col-2 m-3" style="background:#ff0">
+      <h2>{{section_title}}</h2>
+    </div>
+    <div class="col m-3" style="background:#0f0">
+      <p>{{section_content}}</p>
+    </div>
+  </div>
+</div>
 {%endblock%}

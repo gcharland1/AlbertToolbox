@@ -1,0 +1,7 @@
+À propos
+
+Albert Toolbox est une boîte d'outils dédiés aux ingénieurs.
+
+Les projets que nous avons réalisés nous ont menés à developper des outils pour faciliter notre travail au quotidien.
+Ce projet, Albert Toolbox, vise à partager ces outils avec le reste des nos collègues ingénieurs afin de faire rayonner
+notre expertise québecoise.

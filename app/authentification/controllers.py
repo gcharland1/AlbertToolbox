@@ -4,7 +4,7 @@ from app import db
 from app.authentification import forms
 from app.authentification import user
 
-auth = flask.Blueprint('auth', __name__, )
+auth = flask.Blueprint('auth', __name__)
 
 @auth.route('/register', methods=["GET", "POST"])
 def register():
@@ -27,7 +27,7 @@ def register():
 
             flask.session.permanent = True
             msg = f"Connecté en tant que {username}"
-            url = "home"
+            url = "main"
 
         flask.flash(flask.Markup(msg), "info")
 
@@ -49,7 +49,7 @@ def login():
 
                 flask.session["user"] = username
                 msg = f"Connecté en tant que {username}"
-                url = "home"
+                url = "main"
             else:
                 msg = "Mot de passe invalide"
                 url = "login"
@@ -69,4 +69,4 @@ def logout():
         flask.session.pop("user", None)
         flask.flash("Déconnecté avec succes", "info")
 
-    return flask.redirect(flask.url_for("home"))
+    return flask.redirect(flask.url_for("main"))

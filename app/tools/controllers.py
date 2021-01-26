@@ -3,7 +3,7 @@ import flask
 from app.tools import forms
 from bin import estimator
 
-tools = flask.Blueprint('tools', __name__, )
+tools = flask.Blueprint('tools', __name__)
 
 @tools.route('/piping_beta', methods=["GET", "POST"])
 def piping_beta():
