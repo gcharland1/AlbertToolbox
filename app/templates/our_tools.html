@@ -1,5 +1,22 @@
 {%extends "base.html"%}
-{%block header%}Les outils Albert{%endblock%}
+{%block title%}{{title}}{%endblock%}
 {%block content%}
-Voici la liste de nos outils...
-{%endblock%}
+
+<div class="container-fluid w-75">
+  {% for i in range(titles|length) %}
+  {% if i > 0 %}
+  <hr><hr>
+  {% endif %}
+  <div class="row my-5 align-middle">
+    <div class="col-3" style="text-align:right;">
+      <h1>{{ titles[i] }}</h1>
+    </div>
+    <div class="col-9" style="text-align:justify;" >
+      {% for j in range(content[i]|length) %}
+      <p>{{ content[i][j] }}</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

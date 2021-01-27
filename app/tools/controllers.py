@@ -14,13 +14,15 @@ def piping_beta():
 
         bom_data = []
         for r in range(n_rows):
-            bom_data.append([r+1,
-                             form_data[r].item_field.data,
-                             form_data[r].diameter_field.data,
-                             form_data[r].schedule_field.data,
-                             form_data[r].material_field.data,
-                             form_data[r].quantity_field.data,
-                             0])
+            if not (form_data[r].quantity_field.data == None):
+                if form_data[r].quantity_field.data > 0:
+                    bom_data.append([r+1,
+                                     form_data[r].item_field.data,
+                                     form_data[r].diameter_field.data,
+                                     form_data[r].schedule_field.data,
+                                     form_data[r].material_field.data,
+                                     form_data[r].quantity_field.data,
+                                     0])
 
         pipe_estimator = estimator.Estimator()
         total_time, bom_data = pipe_estimator.man_hours(bom_data)

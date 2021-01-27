@@ -1,15 +1,21 @@
 {%extends "base.html"%}
 {%block title%}{{title}}{%endblock%}
-{%block header%}Albert Toolbox{%endblock%}
 {%block content%}
-<div class="container-fluid m-1">
-  <div class="row m-2" style="background:#f00">
-    <div class="col-2 m-3" style="background:#ff0">
-      <h2>{{section_title}}</h2>
+<div class="container-fluid w-75">
+  {% for i in range(titles|length) %}
+  {% if i > 0 %}
+  <hr><hr>
+  {% endif %}
+  <div class="row my-5 align-middle">
+    <div class="col-3" style="text-align:right;">
+      <h1>{{ titles[i] }}</h1>
     </div>
-    <div class="col m-3" style="background:#0f0">
-      <p>{{section_content}}</p>
+    <div class="col-9" style="text-align:justify;" >
+      {% for j in range(content[i]|length) %}
+      <p>{{ content[i][j] }}</p>
+      {% endfor %}
     </div>
   </div>
+  {% endfor %}
 </div>
-{%endblock%}
+{% endblock %}

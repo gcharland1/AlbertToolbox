@@ -1,0 +1,7 @@
+L'estimateur de tuyauterie
+
+Notre tout premier outil, à être lancé sur le marché est un estimateur de coûts de tuyauterie. Notre crénault étant la
+tuyauterie industrielle, nous avons développé cet outils à l'interne pour nous permettre d'estimer les coûts liés à une
+ligne, en quelques cliques.
+
+Cet outil vous permettra à votre tour de réduire le temps consacré à l'estimation des coûts.

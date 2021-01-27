@@ -1,6 +1,10 @@
 import flask
 import flask_sqlalchemy
 
+class ColorScheme:
+    backgrounds_green = ["#BAC7BE", "#C2E1C2", "#7DCD85", "#80AB82", "#778472"]
+    backgrounds_gray  = ["#F4F3EE", "#BCB8B1", "#8A817C",]
+    pass
 
 app = flask.Flask(__name__)
 app.config.from_object('config')
