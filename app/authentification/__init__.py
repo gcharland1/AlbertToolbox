@@ -1,4 +1,6 @@
 from app import db
+import hashlib
+import os
 
 class base(db.Model):
     __abstract__ = True
@@ -12,11 +14,24 @@ class user(base):
     name = db.Column("name", db.String(128), nullable=False)
     email = db.Column("email", db.String(128), nullable=False, unique=True)
     password = db.Column("password", db.String(128), nullable=False)
+    salt = db.Column("salt", db.String(32), nullable=False)
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, salt):
         self.name = name
         self.email = email
         self.password = password
+        self.salt = salt
 
     def __repr__(self):
         return '<User %r>' % (self.name)
+
+def hash_string(password, salt=None):
+    if salt == None:
+        salt = os.urandom(32)
+    key = hashlib.pbkdf2_hmac(
+            'sha256',  # The hash digest algorithm for HMAC
+            password.encode('utf-8'),  # Convert the password to bytes
+            salt,  # Provide the salt
+            100000  # It is recommended to use at least 100,000 iterations of SHA-256
+    )
+    return key, salt

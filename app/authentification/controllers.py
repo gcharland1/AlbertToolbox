@@ -3,31 +3,31 @@ import flask
 from app import db
 from app.authentification import forms
 from app.authentification import user
+from app.authentification import hash_string
 
 auth = flask.Blueprint('auth', __name__)
 
 @auth.route('/register', methods=["GET", "POST"])
 def register():
     if flask.request.method == "POST":
-
-        username = flask.request.form['username']
         email = flask.request.form['email']
-        password = flask.request.form['password']
-
         found_user = user.query.filter_by(email=email).first()
         if found_user:
             msg = f'Un compte existe déjà avec ce email. <a href={flask.url_for("auth.login")}>Se connecter?</a>'
             url = "auth.register"
         else:
+            username = flask.request.form['username']
+            password, salt = hash_string(flask.request.form['password'])
             flask.session['user'] = username
 
-            usr = user(username, email, password)
+            usr = user(username, email, password, salt)
             db.session.add(usr)
             db.session.commit()
 
             flask.session.permanent = True
             msg = f"Connecté en tant que {username}"
-            url = "main"
+            url = "main.home"
+
 
         flask.flash(flask.Markup(msg), "info")
 
@@ -39,20 +39,20 @@ def register():
 @auth.route('/login', methods=["GET", "POST"])
 def login():
     if flask.request.method == "POST":
-        flask.session.permanent = True
         email = flask.request.form['email']
-        password = flask.request.form['password']
         found_user = user.query.filter_by(email=email).first()
         if found_user:
+            salt = found_user.salt
+            password, _ = hash_string(flask.request.form['password'], salt)
             if found_user.password == password:
                 username = found_user.name
-
                 flask.session["user"] = username
+                flask.session.permanent = True
                 msg = f"Connecté en tant que {username}"
-                url = "main"
+                url = "main.home"
             else:
                 msg = "Mot de passe invalide"
-                url = "login"
+                url = "auth.login"
         else:
             msg = f'Aucun utilisateur avec cet email. <a href={flask.url_for("auth.register")}>S''inscrire?</a>'
             url = "auth.login"
@@ -69,4 +69,4 @@ def logout():
         flask.session.pop("user", None)
         flask.flash("Déconnecté avec succes", "info")
 
-    return flask.redirect(flask.url_for("main"))
+    return flask.redirect(flask.url_for("main.home"))
