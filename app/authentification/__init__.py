@@ -17,14 +17,14 @@ class User(Base):
     email = db.Column("email", db.String(128), nullable=False, unique=True)
     password = db.Column("password", db.String(128), nullable=False)
     salt = db.Column("salt", db.String(32), nullable=False)
-    temp_link = db.Column("password_reset_link", db.String(255), nullable=True)
+    tmp_link = db.Column("tmp_link", db.String(255), nullable=False)
 
     def __init__(self, name, email, password, salt):
         self.name = name
         self.email = email
         self.password = password
         self.salt = salt
-        self.temp_link = None
+        self.tmp_link = ""
 
     def __repr__(self):
         return '<User %r>' % (self.name)

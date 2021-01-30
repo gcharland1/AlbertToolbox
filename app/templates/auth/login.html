@@ -21,8 +21,9 @@
     </form>
   </div>
   <div class="border-top w-auto py-3 position-relative">
-    <small class="text-muted position-absolute end-50">
-      Vous n'avez pas de compte? <a class="ml-2" href={{url_for("auth.register")}}>S'enregistrer</a>.
+    <small class="text-muted position-relative text-center">
+      <p>Vous n'avez pas de compte? <a class="ml-2" href={{url_for("auth.register")}}>S'enregistrer</a>.</p>
+      <p>Mot de passe oublié? <a class="ml-2" href={{url_for("auth.forgot_password")}}>Réinitialiser</a>.</p>
     </small>
   </div>
 {% endblock %}

@@ -15,6 +15,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     submit = SubmitField('Se connecter')
 
-class ResetForm(FlaskForm):
+class ForgotPasswordForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Réinitialiser')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Nouveau mot de passe', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmer mot de passe', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Changer mon mot de passe')
