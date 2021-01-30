@@ -43,12 +43,11 @@ def piping_beta(n):
             form.add_entry()
 
         elif form.remove_entries_field.data:
-            print("Remove entry")
+            form.remove_entry()
 
     return flask.render_template("tools/piping_beta.html",
                                  title="Estimateur Beta",
-                                 form=form,
-                                 bom_data=[])
+                                 form=form)
 
 @tools.route('/tools', methods=["GET", "POST"])
 def piping_estimator():

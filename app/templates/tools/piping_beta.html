@@ -8,6 +8,7 @@
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">Entrez vos données</legend>
       <div class="form-group">
+        {% if form.n_rows > 0 %}
         {{ form.hidden_fields }}
         <table class="table table-striped">
           <thead class="thead-light">
@@ -32,9 +33,10 @@
               <td>{{form.rows[i].material_field}}</td>
               <td>{{form.rows[i].quantity_field}}</td>
             </tr>
-            {%endfor%}
+            {% endfor %}
           </tbody>
         </table>
+      {% endif %}
       </div>
     </fieldset>
     <div class="form-group pt-3">
