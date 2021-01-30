@@ -20,7 +20,7 @@
 
 ### 4. Try it!
 
-- Navigate to `http://0.0.0.0:8080` 
+- Navigate to `localhost:8080` 
 
 
 ## Developpement info and good practices
