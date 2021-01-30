@@ -3,7 +3,6 @@ import os
 
 main = flask.Blueprint('main', __name__, )
 
-
 @main.route('/')
 def home():
     content_dir = "app/static/content/index"

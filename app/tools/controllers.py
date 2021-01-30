@@ -9,40 +9,41 @@ tools = flask.Blueprint('tools', __name__)
 @tools.route('/piping_beta/', defaults={"n": 5}, methods=["GET", "POST"])
 @tools.route('/piping_beta/<n>', methods=["GET", "POST"])
 def piping_beta(n):
-    form = forms.BetaPipingForm()
     n = int(n)
-    for i in range(n):
+    form = forms.BetaPipingForm()
+    for _ in range(n):
         form.add_entry()
 
-    if form.add_entry_field.data:
-        form.add_entry()
+    if flask.request.method == "POST":
+        if form.submit_field.data:
+            form_data = form.rows
+            n_rows = len(form_data)
 
-    elif form.remove_entries_field.data:
-        return "Removed entry"
+            bom_data = []
+            for r in range(n_rows):
+                if not (form_data[r].quantity_field.data == None):
+                    if form_data[r].quantity_field.data > 0:
+                        bom_data.append([r+1,
+                                         form_data[r].item_field.data,
+                                         form_data[r].diameter_field.data,
+                                         form_data[r].schedule_field.data,
+                                         form_data[r].material_field.data,
+                                         form_data[r].quantity_field.data,
+                                         0])
 
-    elif form.submit_field.data:
-        form_data = form.rows
-        n_rows = len(form_data)
+            pipe_estimator = estimator.Estimator()
+            total_time, bom_data = pipe_estimator.man_hours(bom_data)
 
-        bom_data = []
-        for r in range(n_rows):
-            if not (form_data[r].quantity_field.data == None):
-                if form_data[r].quantity_field.data > 0:
-                    bom_data.append([r+1,
-                                     form_data[r].item_field.data,
-                                     form_data[r].diameter_field.data,
-                                     form_data[r].schedule_field.data,
-                                     form_data[r].material_field.data,
-                                     form_data[r].quantity_field.data,
-                                     0])
+            return flask.render_template("tools/piping_cost.html",
+                                         title="Résultats",
+                                         bom=bom_data,
+                                         total_time=total_time)
 
-        pipe_estimator = estimator.Estimator()
-        total_time, bom_data = pipe_estimator.man_hours(bom_data)
+        elif form.add_entry_field.data:
+            form.add_entry()
 
-        return flask.render_template("tools/piping_cost.html",
-                                     title="Résultats",
-                                     bom=bom_data,
-                                     total_time=total_time)
+        elif form.remove_entries_field.data:
+            print("Remove entry")
 
     return flask.render_template("tools/piping_beta.html",
                                  title="Estimateur Beta",
