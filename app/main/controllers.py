@@ -1,8 +1,6 @@
 import flask
 import os
 
-from app import ColorScheme
-
 main = flask.Blueprint('main', __name__, )
 
 
@@ -27,7 +25,6 @@ def get_content(dir):
     files = [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
 
     for file in files:
-        print(file)
         file_title, file_content = read_article(os.path.join(dir, file))
         contents.append(file_content)
         titles.append(file_title)

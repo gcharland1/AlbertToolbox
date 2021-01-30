@@ -16,7 +16,7 @@ DATABASE_CONNECT_OPTIONS = {}
 # operations using the other.
 THREADS_PER_PAGE = 2
 
-# Enable protection agains *Cross-site Request Forgery (CSRF)*
+# Enable protection against *Cross-site Request Forgery (CSRF)*
 CSRF_ENABLED     = True
 
 # Use a secure, unique and absolutely secret key for
@@ -25,3 +25,11 @@ CSRF_SESSION_KEY = "secret"
 
 # Secret key for signing cookies
 SECRET_KEY = "secret"
+
+# Mail service config
+MAIL_SERVER = 'smtp.googlemail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USERNAME = 'albert.toolbox@gmail.com'  # enter your email here
+MAIL_DEFAULT_SENDER = 'albert.toolbox@gmail.com' # enter your email here
+MAIL_PASSWORD = 'albertconseil' # enter your password here
