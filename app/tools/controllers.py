@@ -5,10 +5,22 @@ from bin import estimator
 
 tools = flask.Blueprint('tools', __name__)
 
-@tools.route('/piping_beta', methods=["GET", "POST"])
-def piping_beta():
+
+@tools.route('/piping_beta/', defaults={"n": 5}, methods=["GET", "POST"])
+@tools.route('/piping_beta/<n>', methods=["GET", "POST"])
+def piping_beta(n):
     form = forms.BetaPipingForm()
-    if flask.request.method == "POST":
+    n = int(n)
+    for i in range(n):
+        form.add_entry()
+
+    if form.add_entry_field.data:
+        form.add_entry()
+
+    elif form.remove_entries_field.data:
+        return "Removed entry"
+
+    elif form.submit_field.data:
         form_data = form.rows
         n_rows = len(form_data)
 
@@ -27,17 +39,15 @@ def piping_beta():
         pipe_estimator = estimator.Estimator()
         total_time, bom_data = pipe_estimator.man_hours(bom_data)
 
-        return flask.render_template("tools/piping_cost.html", title="Résultats", bom=bom_data, total_time=total_time)
-    else:
-        n_rows = 10
-        for i in range(n_rows):
-            form.rows.append_entry()
-            form.n_rows += 1
+        return flask.render_template("tools/piping_cost.html",
+                                     title="Résultats",
+                                     bom=bom_data,
+                                     total_time=total_time)
 
-        return flask.render_template("tools/piping_beta.html",
-                                     title="Estimateur Beta",
-                                     form=form,
-                                     bom_data=[])
+    return flask.render_template("tools/piping_beta.html",
+                                 title="Estimateur Beta",
+                                 form=form,
+                                 bom_data=[])
 
 @tools.route('/tools', methods=["GET", "POST"])
 def piping_estimator():

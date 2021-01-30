@@ -24,6 +24,17 @@ class BetaPipingItemForm(FlaskForm):
     quantity_field = FloatField("Quantité/Longueur (pi)", default=0, validators=[DataRequired()])
 
 class BetaPipingForm(FlaskForm):
-    rows = FieldList(FormField(BetaPipingItemForm))
     n_rows = 0
+
+    rows = FieldList(FormField(BetaPipingItemForm))
+    add_entry_field = SubmitField("Ajouter une ligne")
+    remove_entries_field = SubmitField("Retirer les lignes sélectionnées")
     submit_field = SubmitField("Calculer les coûts")
+
+    def add_entry(self):
+        self.rows.append_entry()
+        self.n_rows += 1
+
+    def remove_entries(self):
+        self.rows.pop_entry()
+        self.rows -= 1

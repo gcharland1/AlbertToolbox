@@ -4,10 +4,11 @@
 <div class="container-fluid py-3 w-75">
   <h1>Estimateur de tuyauterie - Beta</h1>
   
-  <form action="" method="POST" enctype=multipart/form-data>
+  <form action="{{ url_for('tools.piping_beta', n=form.n_rows) }}" method="POST">
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">Entrez vos données</legend>
       <div class="form-group">
+        {{ form.hidden_fields }}
         <table class="table table-striped">
           <thead class="thead-light">
             <tr>
@@ -38,6 +39,8 @@
     </fieldset>
     <div class="form-group pt-3">
       {{form.submit_field(class="btn btn-primary")}}
+      {{form.add_entry_field(class="btn btn-secondary")}}
+      {{form.remove_entries_field(class="btn btn-danger")}}
     </div>
   </form>
 </div>
