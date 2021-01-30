@@ -1,9 +1,12 @@
 import flask
 
 from app import db
+from app import mail_service
+
 from app.authentification import forms
 from app.authentification import User
 from app.authentification import hash_string, get_random_string
+
 
 auth = flask.Blueprint('auth', __name__)
 
@@ -20,7 +23,7 @@ def register():
             password, salt = hash_string(flask.request.form['password'])
             flask.session['user'] = username
 
-            usr = user(username, email, password, salt)
+            usr = User(username, email, password, salt)
             db.session.add(usr)
             db.session.commit()
 
@@ -69,14 +72,21 @@ def reset_password():
         email = flask.request.form['email']
         found_user = User.query.filter_by(email=email).first()
         if found_user:
+            username = found_user.name
+
             temp_link = get_random_string(16)
-
             found_user.temp_link = temp_link
-            
 
-            msg = f"Un mot de passe temporaire a été envoyé à {email}. " + \
-                          "Ce nouveau mot de passe est valide pour une durée de 5 min."
-            url = "main.home"
+
+            msg_link = flask.url_for("main.home") + username + "/" + temp_link
+
+            if mail_service.reset_password(email, username, msg_link):
+                msg = f"Un mot de passe temporaire a été envoyé à {email}. " + \
+                              "Ce nouveau mot de passe est valide pour une durée de 5 min."
+                url = "main.home"
+            else:
+                msg = "Une erreur est survenue. Veuillez réessayer plus tard."
+                url = "auth.login"
         else:
             msg = f'Aucun utilisateur correspond à cet email. <a href={flask.url_for("auth.register")}>S''inscrire?</a>'
             url = "auth.reset_password"

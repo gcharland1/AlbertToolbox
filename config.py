@@ -28,8 +28,16 @@ SECRET_KEY = "secret"
 
 # Mail service config
 MAIL_SERVER = 'smtp.googlemail.com'
+
+# If using SSL/TLS
+#MAIL_PORT = 465
+#MAIL_USE_SSL = True
+
+# If using STARTTLS
 MAIL_PORT = 587
+MAIL_USE_TLS = True
+
 MAIL_USE_TLS = True
 MAIL_USERNAME = 'albert.toolbox@gmail.com'  # enter your email here
 MAIL_DEFAULT_SENDER = 'albert.toolbox@gmail.com' # enter your email here
-MAIL_PASSWORD = 'albertconseil' # enter your password here
+MAIL_PASSWORD = 'nrkjfggiucocwbxw' # enter your password here
