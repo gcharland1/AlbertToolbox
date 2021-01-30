@@ -43,7 +43,9 @@ def piping_beta(n):
             form.add_entry()
 
         elif form.remove_entries_field.data:
-            form.remove_entry()
+            if not form.remove_entry():
+                msg = "Il faut au minimum une ligne."
+                flask.flash(msg, "info")
 
     return flask.render_template("tools/piping_beta.html",
                                  title="Estimateur Beta",

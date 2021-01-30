@@ -37,6 +37,9 @@ class BetaPipingForm(FlaskForm):
         self.n_rows += 1
 
     def remove_entry(self):
-        if self.n_rows > 0:
+        if self.n_rows > 1:
             self.rows.pop_entry()
             self.n_rows -= 1
+            return True
+        else:
+            return False
