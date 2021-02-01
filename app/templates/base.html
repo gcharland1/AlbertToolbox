@@ -17,7 +17,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href={{url_for("main.home")}}>
-        <img src="{{url_for('static', filename='images/logo.png')}}" alt="Les outils Albert" width="250px">
+        <img src={{url_for('static', filename='images/logo.png')}} alt="Les outils Albert" width="250px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
@@ -71,14 +71,16 @@
   <footer class="bg-dark text-center text-lg-start mt-auto">
     <div class="container p-4 text-light">
       <div class="row ">
-        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Albert Toolbox</h5>
-  
-          <p>
-            Une division d'Albert Groupe Conseil
-          </p>
+        <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+          <h4 class="text-uppercase">Albert Toolbox. Une division de</h4>
+          <div class="text-center pt-1">
+            <a href="http://www.albertconseil.com/">
+              <img class="img-center" src={{url_for('static', filename='images/albert_logo.png')}} alt="Albert Groupe Conseil" width="250px">
+            </a>
+          </div>
+          
         </div>
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
           <h5 class="text-uppercase">navigation</h5>
   
           <ul class="list-unstyled mb-0">
@@ -93,18 +95,19 @@
             </li>
           </ul>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
           <h5 class="text-uppercase mb-0">Nous joindre</h5>
   
           <ul class="list-unstyled">
             <li>
-              <a target="_blank" href="http://www.albertconseil.com/francais" class="text-light">Albert Conseil</a>
+              <a target="_blank" href="http://www.albertconseil.com/" class="text-light">albertconseil.com</a>
             </li>
             <li>
               <a href="#" class="text-light">Contacts</a>
             </li>
             <li>
-              <a href="#" class="text-light">Courriel</a>
+              <a href="mailto:gcharland@albertconseil.com?subject=Albert%20Toolbox%20-%20-Demande%20d'information"
+                 class="text-light">Courriel</a>
             </li>
           </ul>
         </div>
