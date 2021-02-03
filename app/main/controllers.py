@@ -1,19 +1,23 @@
 import flask
 import os
 
+from app import app
+
 main = flask.Blueprint('main', __name__, )
 
 @main.route('/')
 def home():
     content_dir = "app/static/content/index"
-    titles, contents = get_content(content_dir)
+    abs_dir = os.path.join(app.config['BASE_DIR'], content_dir)
+    titles, contents = get_content(abs_dir)
 
     return flask.render_template("index.html", title="Accueil", titles=titles, content=contents)
 
 @main.route('/tools')
 def show_tools():
     content_dir = "app/static/content/our_tools"
-    titles, contents = get_content(content_dir)
+    abs_dir = os.path.join(app.config['BASE_DIR'], content_dir)
+    titles, contents = get_content(abs_dir)
 
     return flask.render_template("index.html", title="Nos Outils", titles=titles, content=contents)
 
