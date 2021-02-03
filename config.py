@@ -3,7 +3,7 @@ DEBUG = False
 
 # Define the application directory
 import os
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.getcwd())
 
 #SERVER_NAME = "albert-toolbox.com"
 # Define the database - we are working with

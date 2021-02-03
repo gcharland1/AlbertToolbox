@@ -1,6 +1,7 @@
 import flask
 import flask_sqlalchemy
 import flask_mail
+import os
 
 class ColorScheme:
     backgrounds_green = ["#BAC7BE", "#C2E1C2", "#7DCD85", "#80AB82", "#778472"]

@@ -11,7 +11,7 @@ class PipingForm(FlaskForm):
     submit = SubmitField('Calculer les coûts')
 
 class BetaPipingItemForm(FlaskForm):
-    with open(os.path.join(app.config['DIR'], 'bin/dictionaries/operation_times.json'), 'r') as json_file:
+    with open(os.path.join(app.config['BASE_DIR'], 'bin/dictionaries/operation_times.json'), 'r') as json_file:
         op_data = json.load(json_file)
         item_list = op_data['Count'].keys()
         diameter_list = op_data['Time']['Weld'].keys()
