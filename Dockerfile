@@ -1,5 +1,6 @@
 FROM python:3.9-buster
-WORKDIR /app
+WORKDIR .
 COPY . .
 RUN pip install -r requirements.txt
-CMD ["python", "run.py" ]
+ENTRYPOINT ["python"]
+CMD ["run.py" ]
