@@ -107,15 +107,45 @@
     }
   },
 
-  "Sch Factors" : {
-    "10" : 1,
-    "20" : 1,
-    "40" : 1,
-    "80" : 1
+  "Schedule Factors" : {
+    "10" : {
+      "Weld": 0.5,
+      "Bolt Up": 1,
+      "Valve Handling": 0.5,
+      "Pipe Handling": 0.5
+    },
+    "20" : {
+      "Weld": 0.75,
+      "Bolt Up": 1,
+      "Valve Handling": 0.75,
+      "Pipe Handling": 0.75
+    },
+    "40" : {
+      "Weld": 1,
+      "Bolt Up": 1,
+      "Valve Handling": 1,
+      "Pipe Handling": 1
+    },
+    "80" : {
+      "Weld": 2,
+      "Bolt Up": 1.4,
+      "Valve Handling": 2,
+      "Pipe Handling": 2
+    }
   },
 
-  "Mtl Factors" : {
-    "Carbon Steel" : 1,
-    "Stainless Steel" : 1
+  "Material Factors" : {
+    "Carbon Steel" : {
+      "Weld": 1,
+      "Bolt Up": 1,
+      "Valve Handling": 1,
+      "Pipe Handling": 1
+    },
+    "Stainless Steel" : {
+      "Weld": 1.7,
+      "Bolt Up": 1,
+      "Valve Handling": 1.4,
+      "Pipe Handling": 1.4
+    }
   }
 }

@@ -15,8 +15,8 @@ class BetaPipingItemForm(FlaskForm):
         op_data = json.load(json_file)
         item_list = op_data['Count'].keys()
         diameter_list = op_data['Time']['Weld'].keys()
-        schedule_list = op_data['Sch Factors'].keys()
-        material_list = op_data['Mtl Factors'].keys()
+        schedule_list = op_data['Schedule Factors'].keys()
+        material_list = op_data['Material Factors'].keys()
 
     select_field = BooleanField("Sélectionner")
     item_field = SelectField("Type d'élément", choices=item_list, validators=[DataRequired()])
