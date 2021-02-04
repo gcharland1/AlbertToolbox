@@ -3,9 +3,6 @@
 {%block header%}Estimateur de tuyauterie - Beta{%endblock%}
 {%block content%}
 <div class="content-section w-auto p-5">
-  <form>
-    <input type="button" value="Go back!" onclick="history.back()">
-  </form>
   <legend class="border-bottom mb-4">Résultats</legend>
   <table class="table table-striped">
     <thead class="thead-light">
@@ -39,6 +36,8 @@
       </tr>
     </tbody>
   </table>
-  </div>
+  <form>
+    <input type="button" class="btn btn-primary" value="Retour" onclick="history.back()">
+  </form>
 </div>
 {%endblock%}
