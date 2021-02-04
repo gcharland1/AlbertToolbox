@@ -12,10 +12,10 @@ class Estimator:
 
     def man_hours(self, bom_data):
         i_typ = self.headers.index('Description')
-        i_dia = self.headers.index('Diametre')
+        i_dia = self.headers.index('Diamètre')
         i_sch = self.headers.index('Schedule')
         i_mtl = self.headers.index('Materiel')
-        i_qty = self.headers.index('Quantite')
+        i_qty = self.headers.index('Quantité')
         i_time = self.headers.index('Temps')
 
         total_time = 0
