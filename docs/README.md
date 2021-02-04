@@ -15,8 +15,8 @@
 
 ### 3. Set up environment
 
-- `pip install -r requirements.txt`
-- `python run.py`
+- `pip3 install -r requirements.txt`
+- `python3 run.py`
 
 ### 4. Try it!
 
