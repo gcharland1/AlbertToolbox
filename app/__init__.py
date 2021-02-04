@@ -5,7 +5,7 @@ import os
 
 class ColorScheme:
     backgrounds_green = ["#BAC7BE", "#C2E1C2", "#7DCD85", "#80AB82", "#778472"]
-    backgrounds_gray  = ["#F4F3EE", "#BCB8B1", "#8A817C",]
+    backgrounds_gray  = ["#F4F3EE", "#BCB8B1", "#8A817C"]
     pass
 
 app = flask.Flask(__name__)
@@ -16,8 +16,11 @@ mail = flask_mail.Mail(app)
 
 @app.errorhandler(404)
 def not_found(error):
-    return flask.render_template("404.html", title="404 - Not found")
+    return flask.render_template("error_handling/404.html", title="404 - Not found"),404
 
+@app.errorhandler(500)
+def internal_error(error):
+    return flask.render_template("error_handling/500.html", title="500 - Internal error"),500
 
 from app.main.controllers import main
 from app.authentification.controllers import auth

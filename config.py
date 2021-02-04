@@ -5,7 +5,7 @@ DEBUG = False
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-SERVER_NAME = "albert-toolbox.com"
+# SERVER_NAME = "localhost"
 # Define the database - we are working with
 # SQLite for this example
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
@@ -38,7 +38,6 @@ MAIL_SERVER = 'smtp.googlemail.com'
 MAIL_PORT = 587
 MAIL_USE_TLS = True
 
-MAIL_USE_TLS = True
 MAIL_USERNAME = 'albert.toolbox@gmail.com'  # enter your email here
 MAIL_DEFAULT_SENDER = 'albert.toolbox@gmail.com' # enter your email here
 MAIL_PASSWORD = 'nrkjfggiucocwbxw' # enter your password here
