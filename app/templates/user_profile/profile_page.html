@@ -2,12 +2,12 @@
 {% block title %}{{title}}{% endblock %}
 {% block content %}
 <div class="container-fluid py-3 w-75">
-  <h2 class="text-uppercase py-2"><u>Mon profil</u></h2>
-  
   <table class="table">
     <thead class="thead">
       <tr>
-        <th scope="row" colspan="3">Mes données</th>
+        <th scope="row" colspan="3">
+          <h2 class="text-uppercase"><b>Mon profil</b></h2>
+        </th>
       </tr>
     </thead>
     <tr>
@@ -27,6 +27,10 @@
       </td>
     </tr>
   </table>
-  
+</div>
+<div class="border-top w-auto py-3 position-relative">
+  <small class="text-muted position-relative text-center">
+    <p><a class="ml-2" href="#">Supprimer mon compte</a></p>
+  </small>
 </div>
 {% endblock %}
