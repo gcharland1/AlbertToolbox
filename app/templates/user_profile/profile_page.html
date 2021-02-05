@@ -1,36 +1,32 @@
 {% extends "base.html" %}
 {% block title %}{{title}}{% endblock %}
 {% block content %}
-<div class="container-fluid py-3 w-75">
+<div class="container-fluid py-3 w-75" style="max-width:750px">
   <table class="table">
     <thead class="thead">
-      <tr>
-        <th scope="row" colspan="3">
+      <tr class="text-align-center">
+        <th scope="row">
           <h2 class="text-uppercase"><b>Mon profil</b></h2>
         </th>
+        <td class="text-end">
+          <form action={{url_for('user_profile.edit_profile')}}>
+            <button class="btn btn-danger">Modifier</button>
+          </form>
+        </td>
       </tr>
     </thead>
-    <tr>
+    <tr class="align-middle">
       <th scope="row">Nom d'utilisateur:</th>
       <td>{{ user.name }}</td>
-      <td><button class="btn btn-primary">Modifier</button></td>
     </tr>
-    <tr>
+    <tr class="align-middle">
       <th scope="row">Addresse courriel:</th>
       <td>{{ user.email }}</td>
-      <td><button class="btn btn-primary">Modifier</button></td>
     </tr>
-    <tr>
+    <tr class="align-middle">
       <th scope="row">Mot de passe:</th>
-      <td colspan="2">
-        <button class="btn btn-danger">Modifier mon mot de passe</button>
-      </td>
+      <td>************</td>
     </tr>
   </table>
-</div>
-<div class="border-top w-auto py-3 position-relative">
-  <small class="text-muted position-relative text-center">
-    <p><a class="ml-2" href="#">Supprimer mon compte</a></p>
-  </small>
 </div>
 {% endblock %}
