@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<div class="container-fluid py-3 w-75">
+  <h2 class="text-uppercase py-2"><u>Mon profil</u></h2>
+  
+  <table class="table">
+    <thead class="thead">
+      <tr>
+        <th scope="row" colspan="3">Mes données</th>
+      </tr>
+    </thead>
+    <tr>
+      <th scope="row">Nom d'utilisateur:</th>
+      <td>{{ user.name }}</td>
+      <td><button class="btn btn-primary">Modifier</button></td>
+    </tr>
+    <tr>
+      <th scope="row">Addresse courriel:</th>
+      <td>{{ user.email }}</td>
+      <td><button class="btn btn-primary">Modifier</button></td>
+    </tr>
+    <tr>
+      <th scope="row">Mot de passe:</th>
+      <td colspan="2">
+        <button class="btn btn-danger">Modifier mon mot de passe</button>
+      </td>
+    </tr>
+  </table>
+  
+</div>
+{% endblock %}

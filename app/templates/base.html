@@ -35,7 +35,7 @@
         </div>
         <span class="navbar-nav ms-auto">
           {% if "user" in session %}
-            <a class="nav-link active position-sticky-end">
+            <a class="nav-link active position-sticky-end" href={{url_for("user_profile.profile_page")}}>
               {{session["user"]}}
             </a>
             <a class="nav-link position-sticky-end" href={{url_for("auth.logout")}}>
