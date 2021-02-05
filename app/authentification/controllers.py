@@ -28,7 +28,6 @@ def register():
             db.session.add(usr)
             db.session.commit()
 
-            flask.session.permanent = True
             msg = f"Connecté en tant que {username}"
             url = "main.home"
 
@@ -50,12 +49,17 @@ def login():
             if found_user.password == password:
                 username = found_user.name
                 flask.session["user"] = username
-                flask.session.permanent = True
+                if 'keep_me_signed' in flask.request.form:
+                    print(flask.request.form['keep_me_signed'])
+                    flask.session.permanent = True
+
                 msg = f"Connecté en tant que {username}"
                 url = "main.home"
+
             else:
                 msg = "Mot de passe invalide"
                 url = "auth.login"
+
         else:
             msg = f'Aucun utilisateur correspond à cet email. <a href={flask.url_for("auth.register")}>S''inscrire?</a>'
             url = "auth.login"
@@ -128,6 +132,7 @@ def reset_password(username, tmp_link):
 def logout():
     if "user" in flask.session:
         flask.session.pop("user", None)
+        flask.session.permanent = False
         flask.flash("Déconnecté avec succès", "info")
 
     return flask.redirect(flask.url_for("main.home"))
