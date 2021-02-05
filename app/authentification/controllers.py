@@ -50,7 +50,6 @@ def login():
                 username = found_user.name
                 flask.session["user"] = username
                 if 'keep_me_signed' in flask.request.form:
-                    print(flask.request.form['keep_me_signed'])
                     flask.session.permanent = True
 
                 msg = f"Connecté en tant que {username}"
