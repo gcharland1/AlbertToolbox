@@ -26,23 +26,53 @@ def edit_profile():
         user = User.query.filter_by(name=username).first()
         form = forms.EditProfileFrom()
         if flask.request.method == "POST":
-            msg = ""
             update_db = False
-            if form.cancel.data:
-                msg += "Modifications annulées avec succès"
-            else:
-                if form.new_password.data:
-                    new_password = flask.request.form['new_password']
-                    confirm_new_password = flask.request.form['confirm_new_password']
+            msg = None
+            url = flask.url_for('user_profile.edit_profile')
+            if hash_string(flask.request.form['old_password'], user.salt)[0] == user.password:
+                new_username = flask.request.form['username']
+                new_email = flask.request.form['email']
+                new_password = flask.request.form['new_password']
+                confirm_new_password = flask.request.form['confirm_new_password']
+
+                if not new_username == user.name:
+                    user.name = new_username
+                    update_db = True
+
+                if not new_email == user.email:
+                    user.email = new_email
+                    update_db = True
+
+                if new_password:
                     if new_password == confirm_new_password:
                         user.password, user.salt = hash_string(flask.request.form['password'])
+                        update_db = True
                     else:
-                        msg += "Les mots de passe ne sont pas identiques"
-            url = flask.url_for('user_profile.profile_page')
-            flask.flash(msg, "info")
+                        msg = "Les nouveaux mots de passe ne sont pas identiques. "
+                        msg += "Aucune donnée enregistré."
+                        update_db = False
+
+
+                if update_db:
+                    db.session.commit()
+                    msg = "Vos données ont été enregistré avec succès."
+                    url = flask.url_for('user_profile.profile_page')
+
+                    flask.session['user'] = new_username
+                else:
+                    if not msg:
+                        msg = "Aucune modification apportée. Cliquez sur annuler pour revenir à votre profil."
+
+            else:
+                msg = "Votre mot de passe actuel est invalide. Aucun changement apporté à votre compte."
+
+            if msg:
+                flask.flash(msg, "info")
             return flask.redirect(url)
+
         else:
             return flask.render_template("user_profile/edit_profile.html", form=form, title=user.name, user=user)
+
     else:
         msg = f"Vous n'êtes pas connecté. <a href={flask.url_for('auth.login')}>Se connecter?</a>"
         url = 'main.home'
