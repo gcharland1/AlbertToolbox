@@ -79,3 +79,11 @@ def edit_profile():
 
         flask.flash(flask.Markup(msg), 'info')
         return flask.redirect(flask.url_for(url))
+
+@user_profile.route('/delete_account', methods=["GET", "POST"])
+def delete_account():
+    form = forms.DeleteProfileForm()
+    if flask.request.method == "POST":
+        return "Success"
+    else:
+        return flask.render_template('user_profile/delete_account.html', title="Supprimer mon compte", form=form)
