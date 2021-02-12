@@ -2,8 +2,9 @@
 {%block title%}{{title}}{%endblock%}
 {%block header%}Estimateur de tuyauterie - Beta{%endblock%}
 {%block content%}
-<div class="content-section w-auto p-5">
-  <legend class="border-bottom mb-4">Résultats</legend>
+<div class="container-fluid center m-auto p-5">
+  <h2 class="border-bottom mb-4">Résultats</h2>
+  <h4>{{ 'Taux horaire: %0.2f $/heure'|format(hourly_rate) }}</h4>
   <table class="table table-striped">
     <thead class="thead-light">
       <tr>
@@ -14,25 +15,29 @@
         <th scope="col">Matériel</th>
         <th scope="col">Quantité</th>
         <th scope="col">Temps</th>
+        <th scope="col">Coûts</th>
       </tr>
     </thead>
     <tbody>
-      {%for r in range(bom|length)%}
+      {% for r in range(bom|length) %}
       <tr>
-        {%for c in range(bom[r]|length)%}
-        {%if c == 0%}
-        <th scope="row">{{bom[r][c]}}</th>
-        {%elif c == bom[r]|length - 1%}
-        <td>{{bom[r][c]}} h</td>
-        {%else%}
-        <td>{{bom[r][c]}}</td>
-        {%endif%}
-        {%endfor%}
+        {% for c in range(bom[r]|length) %}
+          {% if c == 0 %}
+            <th scope="row">{{bom[r][c]}}</th>
+          {% elif c == bom[r]|length - 2 %}
+            <td>{{ '%0.2f'|format(bom[r][c]) }} h</td>
+          {% elif c == bom[r]|length - 1 %}
+            <td>{{ '%0.2f'|format(bom[r][c]) }} $</td>
+          {% else %}
+          <td>{{bom[r][c]}}</td>
+          {% endif %}
+        {% endfor %}
       </tr>
-      {%endfor%}
+      {% endfor %}
       <tr>
-        <th scope="row" colspan="{{bom[0]|length - 1}}" style="text-align:right; padding-right:3em;">Temps Total</th>
-        <td style="font-weight:bold">{{total_time}} h</td>
+        <th scope="row" colspan="{{bom[0]|length - 2}}" style="text-align:right; padding-right:3em;">Temps Total</th>
+        <td style="font-weight:bold">{{ '%0.2f'|format(total_time) }} h</td>
+        <td style="font-weight:bold">{{ '%0.2f'|format(total_cost) }} $</td>
       </tr>
     </tbody>
   </table>
@@ -40,4 +45,4 @@
     <input type="button" class="btn btn-primary" value="Retour" onclick="history.back()">
   </form>
 </div>
-{%endblock%}
+{% endblock %}

@@ -19,7 +19,10 @@ def piping_beta(n):
             form_data = form.rows
             n_rows = len(form_data)
 
+            hourly_rate = form.salary_field.data
             bom_data = []
+            item_time = 0
+            item_cost = 0
             for r in range(n_rows):
                 if not (form_data[r].quantity_field.data == None):
                     if form_data[r].quantity_field.data > 0:
@@ -29,15 +32,18 @@ def piping_beta(n):
                                          form_data[r].schedule_field.data,
                                          form_data[r].material_field.data,
                                          form_data[r].quantity_field.data,
-                                         0])
+                                         item_time,
+                                         item_cost])
 
             pipe_estimator = estimator.Estimator()
-            total_time, bom_data = pipe_estimator.man_hours(bom_data)
+            total_time, total_cost, bom_data = pipe_estimator.man_hours(bom_data=bom_data, rate=hourly_rate)
 
             return flask.render_template("tools/piping_cost.html",
                                          title="Résultats",
                                          bom=bom_data,
-                                         total_time=total_time)
+                                         total_time=total_time,
+                                         total_cost=total_cost,
+                                         hourly_rate=hourly_rate)
 
         elif form.add_entry_field.data:
             form.add_entry()
