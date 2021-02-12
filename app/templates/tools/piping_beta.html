@@ -8,6 +8,10 @@
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">Entrez vos données</legend>
       <div class="form-group">
+        {{ form.salary_field.label(class="pe-2") }}
+        {{ form.salary_field(width="10") }}
+      </div>
+      <div class="form-group">
         {% if form.n_rows > 0 %}
         {{ form.hidden_fields }}
         <table class="table table-striped">

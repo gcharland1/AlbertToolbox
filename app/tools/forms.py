@@ -30,9 +30,11 @@ class BetaPipingForm(FlaskForm):
 
     rows = FieldList(FormField(BetaPipingItemForm))
 
+    salary_field = FloatField("Taux horaire ($/hr)", default=100, validators=[])
+
     add_entry_field = SubmitField("Ajouter une ligne")
     remove_entries_field = SubmitField("Retirer une ligne")
-    submit_field = SubmitField("Calculer les coûts")
+    submit_field = SubmitField("Calculer le temps de fabrication")
 
     def add_entry(self):
         self.rows.append_entry()
