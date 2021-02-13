@@ -9,12 +9,13 @@ tuyauterie, et ce, en quelques clics seulement.
 
 1. Entrer le coût horaire moyen de vos ouvriers en tuyauterie
 2. Entrer les données de la ligne de tuyauterie, tel qu'indiqué au BOM
-3. C’est tout! L’estimateur se charge du reste pour vous présenter les résultats.
+3. C’est tout! L’estimateur se charge du reste pour vous présenter les résultats
 
 **À venir**
 
 Nous travaillons présentement sur une version améliorée qui inclura :
 
-* Les coûts de matériel, selon les prix des principaux distributeurs québécois
+* L'option d'imprimer un rapport détaillé en PDF directement de l'application
+* L'estimé des coûts de matériel, selon les prix des principaux distributeurs québécois
 * L’option de lire les plans directement du PDF
 * Une librairie encore plus grande d’équipements, de matériaux et de dimensions

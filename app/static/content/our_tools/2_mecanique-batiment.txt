@@ -1,0 +1,15 @@
+Assistant de conception en mécanique du bâtiment
+
+####*À venir ...*
+
+Le prochain outil à entrer dans le Albert Toolbox est un assistant de conception pour la mécanique du bâtiment. Voici un
+aperçu de ce qu'il offrira:
+
+* Un environnement de conception dynamique style _drag and drop_
+* Des algorithmes de calculs respectant les exigeantes gouvernementales
+* Le dimensionnement automatique du réseau de plomberie domestique en fonction des appareils installés et de
+l'acheminement déterminée par le concepteur.
+* Un générateur de rapport détaillant les calculs pour les dossiers de l'ingénieur
+
+Vous avez des idées que vous aimeriez voir dans cet outil? N’hésitez pas à
+[nous contacter](mailto:gcharland@albertconseil.com) pour nous en faire part.
