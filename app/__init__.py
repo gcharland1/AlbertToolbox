@@ -25,9 +25,11 @@ def internal_error(error):
 from app.main.controllers import main
 from app.authentification.controllers import auth
 from app.piping_estimator.controllers import tools
+from app.user_profile.controllers import user_profile
 
 app.register_blueprint(main, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/")
+app.register_blueprint(user_profile, url_prefix="/profile")
 app.register_blueprint(tools, url_prefix="/")
 
 db.create_all()

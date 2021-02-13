@@ -35,7 +35,7 @@
         </div>
         <span class="navbar-nav ms-auto">
           {% if "user" in session %}
-            <a class="nav-link active position-sticky-end">
+            <a class="nav-link active position-sticky-end" href={{url_for("user_profile.profile_page")}}>
               {{session["user"]}}
             </a>
             <a class="nav-link position-sticky-end" href={{url_for("auth.logout")}}>
@@ -75,7 +75,9 @@
           <h4 class="text-uppercase">Albert Toolbox. Une division de</h4>
           <div class="text-center pt-1">
             <a href="http://www.albertconseil.com/">
-              <img class="img-center" src={{url_for('static', filename='images/albert_logo.png')}} alt="Albert Groupe Conseil" width="250px">
+              <img class="img-center"
+                   src={{url_for('static', filename='images/albert_logo.png')}}
+                   alt="Albert Groupe Conseil" width="250px">
             </a>
           </div>
           

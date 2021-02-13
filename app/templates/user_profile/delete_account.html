@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<div class="container-fluid w-75 py-3" style="max-width:750px">
+  <form method="POST">
+    <fieldset class="form-group text-center">
+      <legend class="border-bottom mb-4">Supprimer définitivement mon compte</legend>
+      <p>Cette action est irréversible. Toutes vos données donées d'utilisateur seront perdues et supprimées définitivement.</p>
+      <div class="form-group pb-3">
+        {{form.i_understand(class="form-checkbox")}}
+        {{form.i_understand.label(class="form-checkbox-label")}}
+      </div>
+      <p>Pour confirmer la suppression de votre compte appiyez sur le bouton ci-dessous.</p>
+      <div class="form-group pb-3">
+        {{ form.submit(class="btn btn-danger") }}
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

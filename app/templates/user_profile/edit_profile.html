@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<div class="container-fluid py-3 w-75" style="max-width:750px">
+  <form method="POST" action="">
+    <table class="table">
+      <thead class="thead">
+        <tr class="text-align-center">
+          <th scope="row" colspan="2">
+            <h2 class="text-uppercase"><b>Modifier mon profil</b></h2>
+          </th>
+        </tr>
+      </thead>
+      <tr class="align-middle">
+        <th scope="row">{{ form.username.label(class="form-control-label") }}</th>
+        <td>{{ form.username(class="form-control", value=user.name) }}</td>
+      </tr>
+      <tr class="align-middle">
+        <th scope="row">{{ form.email.label(class="form-control-label") }}</th>
+        <td>{{ form.email(class="form-control", value=user.email) }}</td>
+      </tr>
+      <tr class="align-middle">
+        <th scope="row">{{ form.old_password.label(class="form-control-label") }}</th>
+        <td>{{ form.old_password(class="form-control") }}</td>
+      </tr>
+      <tr class="align-middle">
+        <th scope="row">{{ form.new_password.label(class="form-control-label") }}</th>
+        <td>{{ form.new_password(class="form-control") }}</td>
+      </tr>
+      <tr class="align-middle">
+        <th scope="row">{{ form.confirm_new_password.label(class="form-control-label") }}</th>
+        <td>{{ form.confirm_new_password(class="form-control") }}</td>
+      </tr>
+    </table>
+    <div class="container-fluid text-end">
+        {{ form.submit(class="btn btn-primary") }}
+        <a class="btn btn-secondary" href={{url_for('user_profile.profile_page')}}>Annuler</a>
+     </div>
+  </form>
+  <div class="w-100 text-center mt-5">
+    <small class="text-muted">
+      <a class="btn btn-small  btn-danger" href={{url_for('user_profile.delete_account')}}>Supprimer mon compte</a>
+    </small>
+  </div>
+</div>
+{% endblock %}
