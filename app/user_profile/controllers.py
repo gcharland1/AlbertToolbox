@@ -45,7 +45,7 @@ def edit_profile():
 
                 if new_password:
                     if new_password == confirm_new_password:
-                        user.password, user.salt = hash_string(flask.request.form['password'])
+                        user.password, user.salt = hash_string(flask.request.form['new_password'])
                         update_db = True
                     else:
                         msg = "Les nouveaux mots de passe ne sont pas identiques. "
@@ -82,8 +82,22 @@ def edit_profile():
 
 @user_profile.route('/delete_account', methods=["GET", "POST"])
 def delete_account():
-    form = forms.DeleteProfileForm()
-    if flask.request.method == "POST":
-        return "Success"
+    if 'user' in flask.session:
+        form = forms.DeleteProfileForm()
+        if flask.request.method == "POST":
+            user = User.query.filter_by(name=flask.session["user"]).first()
+            db.session.delete(user)
+            db.session.commit()
+
+            flask.session.pop('user', None)
+            msg = "Votre compte a été supprimé avec succès"
+            url = "main.home"
+        else:
+            return flask.render_template('user_profile/delete_account.html', title="Supprimer mon compte", form=form)
     else:
-        return flask.render_template('user_profile/delete_account.html', title="Supprimer mon compte", form=form)
+        msg = f"Vous devez <a href={flask.url_for('auth.login')}>vous connecter</a> afin de supprimer votre compte."
+        url = "main.home"
+
+    if msg:
+        flask.flash(flask.Markup(msg), 'info')
+    return flask.redirect(flask.url_for(url))

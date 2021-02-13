@@ -14,5 +14,4 @@ class EditProfileFrom(FlaskForm):
 
 class DeleteProfileForm(FlaskForm):
     i_understand = BooleanField("J'ai bien compris.", validators=[DataRequired()])
-    confirmation_text = StringField("Supprimer mon compte", validators=[DataRequired(), EqualTo('Supprimer mon compte')])
     submit = SubmitField('Supprimer définitivement mon compte')
