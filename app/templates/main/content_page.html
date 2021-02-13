@@ -8,12 +8,10 @@
   {% endif %}
   <div class="row my-5 align-middle">
     <div class="col-3" style="text-align:right;">
-      <h1>{{ titles[i] }}</h1>
+      <h2>{{ titles[i] }}</h2>
     </div>
     <div class="col-9" style="text-align:justify;" >
-      {% for j in range(content[i]|length) %}
-      <p>{{ content[i][j] }}</p>
-      {% endfor %}
+      {{ content[i]|safe }}
     </div>
   </div>
   {% endfor %}

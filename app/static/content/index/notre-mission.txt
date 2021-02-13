@@ -1,0 +1,11 @@
+Notre Mission
+
+Bien que le projet soit encore au stade embryonnaire, l’équipe derrière le Albert Toolbox a comme objectifs de faciliter
+le travail des ingénieurs afin de faire rayonner le savoir-faire québécois.
+
+Pour y arriver, nous voulons:
+
+* Éliminer les pertes de temps lors de l’estimation des coûts de projets,
+* Accélérer le processus de conception en automatisant les tâches triviales,
+* Automatiser les calculs redondants qui ne nécessitent pas l'expertise d'un ingénieur
+
