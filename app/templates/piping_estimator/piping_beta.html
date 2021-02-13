@@ -4,7 +4,7 @@
 <div class="container-fluid py-3 w-75">
   <h1>Estimateur de tuyauterie - Beta</h1>
   
-  <form action="{{ url_for('tools.piping_beta', n=form.n_rows) }}" method="POST">
+  <form action="{{ url_for('piping_estimator.piping_beta', n=form.n_rows) }}" method="POST">
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">Entrez vos données</legend>
       <div class="form-group">

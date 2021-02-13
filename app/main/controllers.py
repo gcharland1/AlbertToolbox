@@ -14,7 +14,7 @@ def home():
 
     return flask.render_template("main/content_page.html", title="Accueil", titles=titles, content=contents)
 
-@main.route('/tools')
+@main.route('/piping_estimator')
 def show_tools():
     content_dir = "app/static/content/our_tools"
     abs_dir = os.path.join(app.config['BASE_DIR'], content_dir)
