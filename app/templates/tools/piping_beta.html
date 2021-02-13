@@ -17,7 +17,6 @@
         <table class="table table-striped">
           <thead class="thead-light">
             <tr>
-              <th scope="col"></th>
               <th scope="col">Item no.</th>
               <th scope="col">{{form.rows[0].item_field.label()}}</th>
               <th scope="col">{{form.rows[0].diameter_field.label()}}</th>
@@ -29,7 +28,6 @@
           <tbody>
             {%for i in range(form.n_rows)%}
             <tr>
-              <td>{{form.rows[i].select_field}}</td>
               <td scope="row">{{i + 1}}</td>
               <td>{{form.rows[i].item_field}}</td>
               <td>{{form.rows[i].diameter_field}}</td>
