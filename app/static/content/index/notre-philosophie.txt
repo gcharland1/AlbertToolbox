@@ -1,9 +1,0 @@
-Notre Mission
-
-En démarrant le projet Albert Toolbox, nous avons comme objectif de faciliter la vie de tous nos collègues ingénieurs.
-Il est souvent mentionné que notre ingénierie est l'un des fleurons du Québec. Chez Albert Groupe Conseil, nous
-coyons dur comme fer à cette affirmation.
-
-C'est avec celà en tête que nous voulons créer un coffre à outil complêt pour permettre à tous les ingénieurs du Québec
-de travailler à leur plein potentiel. Que ce soit pour de la mécanique du bâtiment, de la tuyauterie industrielle ou
-encore des estimés de coûts de projets, s'il exste une tâche, il existe un outil qui peut la faciliter.
