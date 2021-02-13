@@ -80,7 +80,7 @@ def forgot_password():
             found_user.tmp_link = tmp_link
             db.session.commit()
 
-            msg_link = "albert-toolbox.com" + flask.url_for('auth.reset_password', username=username, tmp_link=tmp_link)
+            msg_link = "www.albert-toolbox.com" + flask.url_for('auth.reset_password', username=username, tmp_link=tmp_link)
             print(msg_link)
 
             if mail_service.reset_password(email, username, msg_link):
