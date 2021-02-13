@@ -23,9 +23,10 @@ def piping_beta(n):
             bom_data = []
             item_time = 0
             item_cost = 0
-            for r in range(n_rows):
-                if not (form_data[r].quantity_field.data == None):
-                    if form_data[r].quantity_field.data > 0:
+            for r in range(0, n_rows):
+                if form_data[r].quantity_field.data:
+                    row_qty = form_data[r].quantity_field.data
+                    if not row_qty in [float("inf"), float("-inf")]:
                         bom_data.append([r+1,
                                          form_data[r].item_field.data,
                                          form_data[r].diameter_field.data,

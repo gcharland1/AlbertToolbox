@@ -28,13 +28,14 @@ class Estimator:
         total_time = 0
         total_cost = 0
         for item in bom_data: # For ELEMENT in BOM: (Dans une liste)
-            if not item[i_qty] in ["Inf", "-Inf", "inf", "-inf"]:
-                try:
-                    item_qty = abs(float(item[i_qty]))
-                except:
-                    item_qty = 0
-                    item[i_qty] = 0
-            else:
+            try:
+                item_qty = abs(float(item[i_qty]))
+                item[i_qty] = item_qty
+            except:
+                item_qty = 0
+                item[i_qty] = 0
+
+            if item_qty in [float("Inf"), float("-inf")]:
                 item_qty = 0
                 item[i_qty] = 0
 
