@@ -47,6 +47,7 @@ def read_article(file):
             else:
                 content += r
 
+    md_title = md.markdown(title)
     md_content = md.markdown(content)
-    return title, md_content
+    return md_title, md_content
 

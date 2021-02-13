@@ -8,7 +8,7 @@
   {% endif %}
   <div class="row my-5 align-middle">
     <div class="col-3" style="text-align:right;">
-      <h2>{{ titles[i] }}</h2>
+      <h2>{{ titles[i]|safe }}</h2>
     </div>
     <div class="col-9" style="text-align:justify;" >
       {{ content[i]|safe }}
