@@ -1,13 +1,7 @@
 À propos
 
-Albert Toolbox est une boîte d'outils dédiés aux ingénieurs. Nos outils sont tous conçus par des ingénieurs qui ont
-de l'expérience sur de vrais projets.
+Albert Toolbox, une division de Albert Groupe Conseil, est une boite à outils virtuelle dédiée aux ingénieurs du Québec.
 
-Nos projets réalisés dans le passé nous ont mené à developper des outils pour faciliter notre travail au quotidien.
-Albert Toolbox est une division d'Albert Groupe Conseil qui vise à partager ces outils avec le reste des nos collègues
-ingénieurs afin de faire rayonner d'avantage notre merveilleuse profession.
-
-Nos projets réalisés dans le passé nous ont mené à developper des outils pour faciliter notre travail au quotidien.
-Albert Toolbox est une division d'Albert Groupe Conseil qui vise à partager ces outils avec le reste des nos collègues
-ingénieurs afin de faire rayonner d'avantage notre merveilleuse profession.
-
+Le projet est réalisé par une équipe d’ingénieurs qui ont de vraies expériences de travail dans le milieu de
+l’ingénierie. Chaque outil développé pour le Albert Toolbox est né d’un problème rencontré sur le terrain et d’un désir
+d’optimisation du travail d’ingénieur.

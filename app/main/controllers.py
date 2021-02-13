@@ -1,5 +1,6 @@
 import flask
 import os
+import markdown as md
 
 from app import app
 
@@ -11,7 +12,7 @@ def home():
     abs_dir = os.path.join(app.config['BASE_DIR'], content_dir)
     titles, contents = get_content(abs_dir)
 
-    return flask.render_template("index.html", title="Accueil", titles=titles, content=contents)
+    return flask.render_template("main/content_page.html", title="Accueil", titles=titles, content=contents)
 
 @main.route('/tools')
 def show_tools():
@@ -19,7 +20,7 @@ def show_tools():
     abs_dir = os.path.join(app.config['BASE_DIR'], content_dir)
     titles, contents = get_content(abs_dir)
 
-    return flask.render_template("index.html", title="Nos Outils", titles=titles, content=contents)
+    return flask.render_template("main/content_page.html", title="Nos Outils", titles=titles, content=contents)
 
 def get_content(dir):
     titles = []
@@ -37,20 +38,15 @@ def get_content(dir):
 def read_article(file):
     line_count = 0
     title = ""
-    content = []
+    content = ""
     with open(file, 'r', encoding='utf-8') as f:
-        content_line = ""
         for r in f:
             if line_count == 0:
                 title += r
                 line_count += 1
             else:
-                if r == "\n":
-                    content.append(content_line)
-                    content_line = ""
-                else:
-                    content_line += r
-        content.append(content_line)
+                content += r
 
-    return title, content
+    md_content = md.markdown(content)
+    return title, md_content
 
