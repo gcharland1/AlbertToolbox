@@ -6,7 +6,7 @@ from bin import estimator
 tools = flask.Blueprint('piping_estimator', __name__)
 
 
-@tools.route('/piping_beta/', defaults={"n": 5}, methods=["GET", "POST"])
+@tools.route('/piping_beta/', defaults={"n": 2}, methods=["GET", "POST"])
 @tools.route('/piping_beta/<n>', methods=["GET", "POST"])
 def piping_beta(n):
     n = int(n)
