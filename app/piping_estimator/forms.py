@@ -40,6 +40,11 @@ class BetaPipingForm(FlaskForm):
         self.rows.append_entry()
         self.n_rows += 1
 
+        self.rows[-1].diameter_field.data = self.rows[-2].diameter_field.data
+        self.rows[-1].schedule_field.data = self.rows[-2].schedule_field.data
+        self.rows[-1].material_field.data = self.rows[-2].material_field.data
+
+
     def remove_entry(self):
         if self.n_rows > 1:
             self.rows.pop_entry()
