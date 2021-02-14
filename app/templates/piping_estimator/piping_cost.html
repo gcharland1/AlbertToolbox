@@ -15,7 +15,7 @@
         <th scope="col">Matériel</th>
         <th scope="col">Quantité</th>
         <th scope="col">Temps</th>
-        <th scope="col">Coûts de main d'oeuvre</th>
+        <th scope="col">Main d'oeuvre</th>
       </tr>
     </thead>
     <tbody>
@@ -35,7 +35,7 @@
       </tr>
       {% endfor %}
       <tr>
-        <th scope="row" colspan="{{bom[0]|length - 2}}" style="text-align:right; padding-right:3em;">Total</th>
+        <th scope="row" colspan="6" style="text-align:right; padding-right:3em;">Total</th>
         <td style="font-weight:bold">{{ '%0.2f'|format(total_time) }} h</td>
         <td  style="font-weight:bold">{{ '%0.2f'|format(total_cost) }} $</td>
       </tr>
