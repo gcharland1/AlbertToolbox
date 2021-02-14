@@ -47,7 +47,7 @@ def piping_beta(n):
                                          hourly_rate=hourly_rate)
 
         elif form.add_entry_field.data:
-            form.add_entry()
+            form.add_entry(copy=True)
 
         elif form.remove_entries_field.data:
             if not form.remove_entry():
