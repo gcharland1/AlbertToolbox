@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container-fluid w-75 p-5">
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Nouvel offre de servies</legend>
+        <div class="form-group">
+          <!-- Section Client -->
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th colspan=2>Informations du client</th>
+              </tr>
+            </thead>
+            <tr>
+              <th>{{ form.client_description.first_name.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.first_name(class="form-control") }}</td>
+            </tr>
+            <tr>
+              <th>{{ form.client_description.last_name.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.last_name(class="form-control") }}</td>
+            </tr>
+            <tr>
+              <th>{{ form.client_description.company.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.company(class="form-control") }}</td>
+            </tr>
+            <tr>
+              <th>{{ form.client_description.address.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.address(class="form-control") }}</td>
+            </tr>
+            <tr>
+              <th>{{ form.client_description.city.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.city(class="form-control") }}</td>
+            </tr>
+            <tr>
+              <th>{{ form.client_description.province.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.province(class="form-control") }}</td>
+            </tr>
+            <tr>
+              <th>{{ form.client_description.zip.label(class="form-control-label") }}</th>
+              <td>{{ form.client_description.zip(class="form-control") }}</td>
+            </tr>
+          </table>
+          
+          <!--- Section Projet -->
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th colspan=2>Description du projet</th>
+              </tr>
+            </thead>
+            {% with f = form.project_description %}
+              <tr>
+                <th>{{ f.mandate.label(class="form-control-label") }}</th>
+                <td>{{ f.mandate(class="form-control") }}</td>
+              </tr>
+              <!-- Mechanical Inclusions -->
+              <tr>
+                <th>{{ f.mechanical_inclusions.label(class="form-control-label") }}</th>
+                <td>{{ f.mechanical_inclusions.add_button(class="btn btn-secondary") }}</td>
+                <td>{{ f.mechanical_inclusions.rem_button(class="btn btn-danger") }}</td>
+              </tr>
+              {% for i in range(f.mechanical_inclusions.n) %}
+              <tr>
+                <td colspan=2>{{ form.project_description.mechanical_inclusions[i](class="form-control") }}</td>
+              </tr>
+              {% endfor %}
+            {% endwith %}
+          </table>
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}
