@@ -9,9 +9,10 @@
     <!-- Section Client -->
     <h5><u>Client:</u></h5>
     <div class="input-group">
-      <select class="form-select" name="Clients existants" id="existing-client">
+      <select class="form-select" name="client" id="existing-client" required="required">
+        <option selected disabled hidden>Choisir</option>
         {% for client in clients %}
-        <option value={{client}}>{{client}}</option>
+        <option value="{{client}}">{{client}}</option>
         {% endfor %}
       </select>
       <a href="{{url_for('services_offering.new_client')}}"><button class="btn btn-success" type="button">Nouveau client</button></a>
@@ -21,7 +22,7 @@
     <!--- Section Services -->
     <h5 class="pt-3"><u>Services:</u></h5>
     <div class="input-group">
-      <select class="form-select" onchange="defineMandate()" id="mandate-type">
+      <select class="form-select" name="mandate_type" onchange="defineMandate()" id="mandate-type">
         <option selected disabled hidden>Choisir</option>
         {% for type in service_types %}
         <option value="{{type}}">{{type}}</option>
@@ -34,7 +35,7 @@
       function defineMandate() {
         var mandateDefinitionDiv = document.getElementById("next-step");
         var mandate = document.getElementById("mandate-type").value;
-        var available_forms = ['Mécanique du bâtiment']
+        var available_forms = ['Mécanique du bâtiment'];
         
         if (available_forms.includes(mandate)) {
           mandateDefinitionDiv.innerHTML = '<button form="services_form" type="submit" value="Submit" class="btn btn-primary">Suivant</button>';

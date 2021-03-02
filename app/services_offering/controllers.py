@@ -8,11 +8,19 @@ from app.services_offering import Client
 services_offering = flask.Blueprint('services_offering', __name__)
 
 
-@services_offering.route('/ods', methods=["GET", "POST"])
+@services_offering.route('/', methods=["GET", "POST"])
 def new_services_offer():
-
     if flask.request.method == "POST":
-        return "POST"
+        form_data = flask.request.form
+        flask.session['client'] = form_data['client']
+        mandate_type = form_data['mandate_type']
+
+        if mandate_type == "Mécanique du bâtiment":
+            url = 'services_offering.building_mechanic'
+        else:
+            url = 'services_offering.building_mechanic'
+
+        return flask.redirect(flask.url_for(url))
     else:
         clients = Client.query.all()
 
@@ -20,6 +28,19 @@ def new_services_offer():
                                      title="Offre de service",
                                      clients=clients,
                                      service_types=['Mécanique du bâtiment', 'Industriel', 'Énergétique'])
+
+
+@services_offering.route('/building_mechanic', methods=["GET", "POST"])
+def building_mechanic():
+    if 'client' in flask.session:
+        client = flask.session['client']
+        return flask.render_template("services_offering/building_mechanic_form.html",
+                                     client=client)
+    else:
+        msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
+        flask.flash(flask.Markup(msg), "info")
+        return flask.render_template("services_offering/ods.html")
+
 
 
 @services_offering.route('/new_client', methods=["GET", "POST"])
