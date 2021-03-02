@@ -5,11 +5,12 @@ DEBUG = False
 
 # Define the application directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-print(BASE_DIR)
+
 # SERVER_NAME = "albert-toolbox.com"
+
 # Define the database - we are working with
 # SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + BASE_DIR
 
 SQLALCHEMY_BINDS = {
     'users':    'sqlite:///' + os.path.join(BASE_DIR, 'users.db'),
