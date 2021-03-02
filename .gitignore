@@ -1,6 +1,6 @@
 venv/*
 .idea/*
-app.db
+users.db
 __pycache__/
 __pycache__/*
 *.wsgi

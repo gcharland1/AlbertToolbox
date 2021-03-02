@@ -1,7 +1,6 @@
 import flask
 import flask_sqlalchemy
 import flask_mail
-import os
 
 class ColorScheme:
     backgrounds_green = ["#BAC7BE", "#C2E1C2", "#7DCD85", "#80AB82", "#778472"]
@@ -26,10 +25,12 @@ from app.main.controllers import main
 from app.authentification.controllers import auth
 from app.piping_estimator.controllers import tools
 from app.user_profile.controllers import user_profile
+from app.services_offering.controllers import services_offering
 
 app.register_blueprint(main, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/")
 app.register_blueprint(user_profile, url_prefix="/profile")
 app.register_blueprint(tools, url_prefix="/")
+app.register_blueprint(services_offering, url_prefix="/services")
 
-db.create_all()
+db.create_all(bind=['users', 'clients'])

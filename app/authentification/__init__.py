@@ -13,6 +13,7 @@ class Base(db.Model):
 
 
 class User(Base):
+    __bind_key__ = 'users'
     name = db.Column("name", db.String(128), nullable=False)
     email = db.Column("email", db.String(128), nullable=False, unique=True)
     password = db.Column("password", db.String(128), nullable=False)

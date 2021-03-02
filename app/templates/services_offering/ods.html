@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block scripts %}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid w-75 p-5">
+  <h3 class="border-bottom mb-4">Nouvel offre de servies</h3>
+  <form class="form-inline" method="POST" id="services_form" action="">
+    <!-- Section Client -->
+    <h5><u>Client:</u></h5>
+    <div class="input-group">
+      <select class="form-select" name="client" id="existing-client" required="required">
+        <option selected disabled hidden>Choisir</option>
+        {% for client in clients %}
+        <option value="{{client}}">{{client}}</option>
+        {% endfor %}
+      </select>
+      <a href="{{url_for('services_offering.new_client')}}"><button class="btn btn-success" type="button">Nouveau client</button></a>
+    </div>
+    
+    
+    <!--- Section Services -->
+    <h5 class="pt-3"><u>Services:</u></h5>
+    <div class="input-group">
+      <select class="form-select" name="mandate_type" onchange="defineMandate()" id="mandate-type">
+        <option selected disabled hidden>Choisir</option>
+        {% for type in service_types %}
+        <option value="{{type}}">{{type}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="py-2" id="next-step" style="display:none">
+    </div>
+    <script type="text/javascript">
+      function defineMandate() {
+        var mandateDefinitionDiv = document.getElementById("next-step");
+        var mandate = document.getElementById("mandate-type").value;
+        var available_forms = ['Mécanique du bâtiment'];
+        
+        if (available_forms.includes(mandate)) {
+          mandateDefinitionDiv.innerHTML = '<button form="services_form" type="submit" value="Submit" class="btn btn-primary">Suivant</button>';
+        } else {
+          mandateDefinitionDiv.innerHTML = "<b>Option à venir. Utiliser le fichier Word pour l'instant</b>";
+        }
+        mandateDefinitionDiv.style.display = 'Block';
+      }
+    </script>
+  </form>
+</div>
+{% endblock %}

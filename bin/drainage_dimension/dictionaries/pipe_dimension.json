@@ -1,0 +1,106 @@
+{
+  "Equipements": {
+    "Armoire a biere": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Avaloir de douche 1 pomme": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Avaloir de douche 3 pomme": {
+      "Min Dia": 2,
+      "CH": 3
+    },
+    "Avaloir de douche 6 pomme": {
+      "Min Dia": 3,
+      "CH": 6
+    },
+    "Avaloir de sol": {
+      "Min Dia": 2,
+      "CH": 2
+    },
+    "Bac a laver 2 compartiments": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Bac a laver 3 compartiments": {
+      "Min Dia": 1.5,
+      "CH": 2
+    },
+    "Baignoire": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Bain de pieds": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Bidet": {
+      "Min Dia": 1.25,
+      "CH": 1
+    },
+    "Bloc sanitaire avec reservoir": {
+      "Min Dia": "None",
+      "CH": 6
+    },
+    "Bloc sanitaire avec robinet": {
+      "Min Dia": "None",
+      "CH": 8
+    },
+    "Broyeur d'ordure": {
+      "Min Dia": 2,
+      "CH": 3
+    },
+    "Eplucheur de legumes": {
+      "Min Dia": 2,
+      "CH": 3
+    },
+    "Evier": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Fontaine d'eau": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Glacière": {
+      "Min Dia": 1.25,
+      "CH": 1
+    },
+    "Lavabo salon de coiffure": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Lavabo salon de dentiste": {
+      "Min Dia": 1.25,
+      "CH": 1
+    },
+    "Lavabo domestique": {
+      "Min Dia": 1.25,
+      "CH": 1
+    },
+    "Lavabo industriel": {
+      "Min Dia": 1.5,
+      "CH": "None"
+    },
+    "Lave vaisselle domestique": {
+      "Min Dia": 1.5,
+      "CH": 1.5
+    },
+    "Lave vaisselle commercial": {
+      "Min Dia": 2,
+      "CH": 3
+    },
+    "Machine a laver domestique": {
+      "Min Dia": "None",
+      "CH": 2
+    },
+    "Machine a laver commerciale": {
+      "Min Dia": "None",
+      "CH": 2
+    }
+
+  }
+
+}
