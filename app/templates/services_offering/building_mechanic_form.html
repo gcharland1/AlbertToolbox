@@ -2,29 +2,83 @@
 {% block scripts %}{% endblock %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-<div class="container-fluid w-75 p-5">
-  <h3>{{ client }}</h3>
-  <h3 class="border-bottom mb-4">Définition du mandat</h3>
+<div class="container-fluid w-100 p-5">
+  <p>
+    <b>{{ client.contact_fname + " " + client.contact_name }}</b><br>
+    {{ client.company_name }}<br>
+    {{ client.address }}<br>
+    {{ ", ".join([client.city, client.province, client.zip]) }}<br>
+  </p>
+  <h5>Offre de services: {{ session['project_name']}}</h5>
   <form id="mandate-form" class="form-inline" method="POST" action="#">
     <fieldset class="form-group">
-      <label for="role" class="form-field-label">Description du mandat</label>
-      <textarea id="role" name="role" class="form-control" rows="4" required="Required">Albert Groupe conseil sera responsable de</textarea>
+      <!-- Mandate description -->
       <div class="form-group mt-2">
-        <button class="btn btn-secondary mt-3" type="button" onclick="showSection('mec-details')">Détailler la partie mécaniques</button>
-        <div id="mec-details" style="display:None">
+        <label for="role">Description du mandat</label>
+        <textarea id="role" name="role" class="form-control" rows="4" required="Required">Albert Groupe conseil sera responsable de</textarea>
+      </div>
+      <br>
+      
+      <!-- Mechanical section -->
+      <button class="btn btn-secondary mt-2" type="button" onclick="toggleSection('mec-details')">Détailler la partie mécaniques</button>
+      <div class="mt-2 form-group" id="mec-details" style="display:None">
+        <h5><u>Inclusions Mécaniques</u></h5>
+        <button class="btn btn-success" type="button" onclick="addElement('mec-inclusions-table', 'mec-inc')">Ajouter une inclusion</button>
+        <button class="btn btn-danger" type="button" onclick="remSelectedElements('mec-inclusions-table')">Supprimer les inclusions sélectionnées</button>
+        <table class="table" id="mec-inclusions-table">
+          {% for e in default_specifications['mechanical']['inclusions'] %}
+          <tr>
+            <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+            <td><input type="text" class="form-control" name="mec-inc" value="{{ e }}"></td>
+          </tr>
+          {% endfor %}
+        </table>
         
-        </div>
+        <h5><u>Exclusions Mécaniques</u></h5>
+        <button class="btn btn-success" type="button" onclick="addElement('mec-exclusions-table', 'mec-exc')">Ajouter une exclusion</button>
+        <button class="btn btn-danger" type="button" onclick="remSelectedElements('mec-exclusions-table')">Supprimer les exclusions sélectionnées</button>
+        <table class="table" id="mec-exclusions-table">
+          {% for e in default_specifications['mechanical']['exclusions'] %}
+          <tr>
+            <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+            <td><input type="text" class="form-control" name="mec-exc" value="{{ e }}"></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <br>
+      
+      <!-- Electrical Section -->
+      <button class="btn btn-secondary mt-2" type="button" onclick="toggleSection('elec-details')">Détailler la partie électrique</button>
+      <div class="mt-2 form-group" id="elec-details" style="display:None">
+        <h5><u>Inclusions Électriques</u></h5>
+        <button class="btn btn-success" type="button" onclick="addElement('elec-inclusions-table', 'elec-inc[]')">Ajouter une inclusion</button>
+        <button class="btn btn-danger" type="button" onclick="remSelectedElements('elec-inclusions-table')">Supprimer les inclusions sélectionnées</button>
+        <table class="table mt-1" id="elec-inclusions-table">
+          {% for e in default_specifications['electrical']['inclusions'] %}
+          <tr>
+            <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+            <td><input type="text" class="form-control" name="elec-inc[]" value="{{ e }}"></td>
+          </tr>
+          {% endfor %}
+        </table>
+        
+        <h5><u>Exclusions Électriques</u></h5>
+        <button class="btn btn-success" type="button" onclick="addElement('elec-exclusions-table', 'elec-exc')">Ajouter une exclusion</button>
+        <button class="btn btn-danger" type="button" onclick="remSelectedElements('elec-exclusions-table')">Supprimer les exclusions sélectionnées</button>
+        <table class="table" id="elec-exclusions-table">
+          {% for e in default_specifications['electrical']['exclusions'] %}
+          <tr>
+            <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+            <td><input type="text" class="form-control" name="elec-exc" value="{{ e }}"></td>
+          </tr>
+          {% endfor %}
+        </table>
       </div>
       
-      <div class="form-group mt-2">
-        <button class="btn btn-secondary" type="button" onclick="showSection('elec-details')">Détailler la partie électrique</button>
-        <div id="elec-details" style="display:none">
-          <b>Element</b>
-        </div>
-      </div>
-      
+      <!-- Script -->
       <script type="text/javascript">
-        function showSection(id) {
+        function toggleSection(id) {
           var element = document.getElementById(id);
           if (element.style.display == 'none') {
             element.style.display = 'block';
@@ -32,12 +86,28 @@
             element.style.display = 'none';
           }
         }
+        
+        function addElement(table_id, element_name) {
+          var table = document.getElementById(table_id);
+          table.innerHTML += `<tr><td><input type="checkbox" class="checkbox"></td><td><input type="text" class="form-control" name="$(element_name)"></td></tr>`;
+        }
+        
+        function remSelectedElements(table_id) {
+          var table = document.getElementById(table_id);
+          var rows = table.getElementsByTagName("tr");
+          var boxes = table.getElementsByClassName("checkbox");
+          
+          for (var i=rows.length-1; i>=0; i--) {
+            if (boxes[i].checked) {
+              rows[i].parentNode.removeChild(rows[i]);
+            }
+          }
+        }
       </script>
       
       
-      
       <div class="form-group mt-2">
-        <button class="btn btn-primary" type="submit" value="Submit">Créer un nouveau client</button>
+        <button class="btn btn-primary" type="submit" value="Submit">Suivant</button>
         <a href="{{url_for('services_offering.new_services_offer')}}">
           <button class="btn btn-danger" type="button">Annuler</button>
         </a>

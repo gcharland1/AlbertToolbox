@@ -1,4 +1,5 @@
 import flask
+import json
 
 from app import db
 
@@ -12,10 +13,12 @@ services_offering = flask.Blueprint('services_offering', __name__)
 def new_services_offer():
     if flask.request.method == "POST":
         form_data = flask.request.form
-        flask.session['client'] = form_data['client']
-        mandate_type = form_data['mandate_type']
 
-        if mandate_type == "Mécanique du bâtiment":
+        flask.session['client'] = form_data['client']
+        flask.session['mandate_type'] = form_data['mandate_type']
+        flask.session['project_name'] = form_data['project_name']
+
+        if flask.session['mandate_type'] == "Mécanique du bâtiment":
             url = 'services_offering.building_mechanic'
         else:
             url = 'services_offering.building_mechanic'
@@ -32,14 +35,31 @@ def new_services_offer():
 
 @services_offering.route('/building_mechanic', methods=["GET", "POST"])
 def building_mechanic():
-    if 'client' in flask.session:
-        client = flask.session['client']
-        return flask.render_template("services_offering/building_mechanic_form.html",
-                                     client=client)
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+        flask.session['mec_inc'] = form_data.getlist("mec-inc")
+        flask.session['mec_exc'] = form_data.getlist("mec-exc")
+        flask.session['elec_inc'] = form_data.getlist("elec-inc")
+        flask.session['elec_exc'] = form_data.getlist("elec-exc")
+
+        return "Succes"
     else:
-        msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
-        flask.flash(flask.Markup(msg), "info")
-        return flask.render_template("services_offering/ods.html")
+        if 'client' in flask.session:
+            client = Client.query.filter_by(company_name=flask.session['client']).first()
+            with open('bin/services_offering/project_specifications.json', 'r', encoding='utf-8') as json_file:
+                defaults = json.load(json_file)
+                default_specifications = defaults['building mechanics']
+                default_mechanical_inclusions = defaults['building mechanics']['mechanical']['inclusions']
+                default_mechanical_exclusions = defaults['building mechanics']['mechanical']['exclusions']
+                default_electrical_inclusions = defaults['building mechanics']['electrical']['inclusions']
+                default_electrical_exclusions = defaults['building mechanics']['electrical']['exclusions']
+            return flask.render_template("services_offering/building_mechanic_form.html",
+                                         client=client,
+                                         default_specifications=default_specifications)
+        else:
+            msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
+            flask.flash(flask.Markup(msg), "info")
+            return flask.render_template("services_offering/ods.html")
 
 
 
