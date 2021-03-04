@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block scripts %}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container-fluid w-100">
+  <div class="card card-body">
+    <p>
+      <b>{{ client.contact_fname + " " + client.contact_name }}</b><br>
+      {{ client.company_name }}<br>
+      {{ client.address }}<br>
+      {{ ", ".join([client.city, client.province, client.zip]) }}<br>
+    </p>
+    <h5>Offre de services: {{ session['project_name']}}</h5>
+    <b>Description du mandat</b>
+    <p>{{ session['mandate'] }}</p>
+    
+    <!-- Inclusions mécaniques -->
+    {% if session['mec_inc']|length > 0 %}
+    <b>Inclusions mécaniques</b>
+    <ul>
+      {% for i in session['mec_inc'] %}
+      <li>{{ i }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <!-- Exclusion mécaniques -->
+    {% if session['mec_exc']|length > 0 %}
+    <b>Exclusions mécaniques</b>
+    <ul>
+      {% for i in session['mec_exc'] %}
+      <li>{{ i }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <!-- Inclusions électriques -->
+    {% if session['elec_inc']|length > 0 %}
+    <b>Inclusions électriques</b>
+    <ul>
+      {% for i in session['elec_inc'] %}
+      <li>{{ i }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <!-- Exclusion électriques -->
+    {% if session['elec_exc']|length > 0 %}
+    <b>Exclusions électriques</b>
+    <ul>
+      {% for i in session['elec_exc'] %}
+      <li>{{ i }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <b>HONNORAIRES</b>
+    <table class="table w-75">
+      {% for i in range(session['prices']|length) %}
+      <tr>
+        <td>{{ session['price_descriptions'][i] }}</td>
+        <td>{{ session['prices'][i] }} $</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <th scope="row" class="sticky-end">TOTAL</th>
+        <td><b>{{ session['total_price'] }} $</b></td>
+      </tr>
+    </table>
+  </div>
+  
+  <div class="pt-3">
+    <a type="button" class="btn btn-primary" href="{{url_for('services_offering.generate_pdf')}}">Créer l'offre de service</a>
+  </div>
+</div>
+{% endblock %}

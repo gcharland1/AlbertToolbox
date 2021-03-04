@@ -14,7 +14,7 @@ def new_services_offer():
     if flask.request.method == "POST":
         form_data = flask.request.form
 
-        flask.session['client'] = form_data['client']
+        flask.session['client_company'] = form_data['client']
         flask.session['mandate_type'] = form_data['mandate_type']
         flask.session['project_name'] = form_data['project_name']
 
@@ -25,43 +25,93 @@ def new_services_offer():
 
         return flask.redirect(flask.url_for(url))
     else:
+        indices = ['client_company', 'price_defined', 'inclusions_defined']
+        clear_session(indices)
         clients = Client.query.all()
-
         return flask.render_template('services_offering/ods.html',
                                      title="Offre de service",
                                      clients=clients,
                                      service_types=['Mécanique du bâtiment', 'Industriel', 'Énergétique'])
 
-
 @services_offering.route('/building_mechanic', methods=["GET", "POST"])
 def building_mechanic():
-    if flask.request.method == "POST":
-        form_data = flask.request.form
-        flask.session['mec_inc'] = form_data.getlist("mec-inc")
-        flask.session['mec_exc'] = form_data.getlist("mec-exc")
-        flask.session['elec_inc'] = form_data.getlist("elec-inc")
-        flask.session['elec_exc'] = form_data.getlist("elec-exc")
+    if 'client_company' in flask.session:
+        client = Client.query.filter_by(company_name=flask.session['client']).first()
 
-        return "Succes"
-    else:
-        if 'client' in flask.session:
-            client = Client.query.filter_by(company_name=flask.session['client']).first()
-            with open('bin/services_offering/project_specifications.json', 'r', encoding='utf-8') as json_file:
-                defaults = json.load(json_file)
-                default_specifications = defaults['building mechanics']
-                default_mechanical_inclusions = defaults['building mechanics']['mechanical']['inclusions']
-                default_mechanical_exclusions = defaults['building mechanics']['mechanical']['exclusions']
-                default_electrical_inclusions = defaults['building mechanics']['electrical']['inclusions']
-                default_electrical_exclusions = defaults['building mechanics']['electrical']['exclusions']
-            return flask.render_template("services_offering/building_mechanic_form.html",
-                                         client=client,
-                                         default_specifications=default_specifications)
+        if flask.request.method == "POST":
+            form_data = flask.request.form
+            flask.session['mandate'] = form_data['role']
+
+            flask.session['mec_inc'] = form_data.getlist("mec-inc")
+            flask.session['mec_exc'] = form_data.getlist("mec-exc")
+            flask.session['elec_inc'] = form_data.getlist("elec-inc")
+            flask.session['elec_exc'] = form_data.getlist("elec-exc")
+
+            flask.session['inclusions_defined'] = True
+
+            return flask.redirect(flask.url_for('services_offering.price_definition'))
+
         else:
-            msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
-            flask.flash(flask.Markup(msg), "info")
-            return flask.render_template("services_offering/ods.html")
+            if not 'inclusions_defined' in flask.session:
+                with open('bin/services_offering/project_specifications.json', 'r', encoding='utf-8') as json_file:
+                    defaults = json.load(json_file)
+                    flask.session['mec_inc'] = defaults['building mechanics']['mechanical']['inclusions']
+                    flask.session['mec_exc'] = defaults['building mechanics']['mechanical']['exclusions']
+                    flask.session['elec_inc'] = defaults['building mechanics']['electrical']['inclusions']
+                    flask.session['elec_exc'] = defaults['building mechanics']['electrical']['exclusions']
 
+            return flask.render_template("services_offering/building_mechanic_form.html",
+                                         title="Offre de services",
+                                         client=client)
+    else:
+        msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
+        flask.flash(flask.Markup(msg), "info")
+        return flask.redirect(flask.url_for('services_offering.new_services_offer'))
 
+@services_offering.route('/pricing', methods=["GET", "POST"])
+def price_definition():
+    if 'client_company' in flask.session:
+        client = Client.query.filter_by(company_name=flask.session['client']).first()
+
+        if flask.request.method == "POST":
+            form_data = flask.request.form
+            flask.session['price_descriptions'] = form_data.getlist('price-description')
+            flask.session['prices'] = form_data.getlist('price', type=int)
+
+            flask.session['total_price'] = sum(flask.session['prices'])
+
+            flask.session['prices_defined'] = True
+
+            return flask.redirect(flask.url_for('services_offering.review_offer'))
+        else:
+            return flask.render_template('services_offering/project_rate.html',
+                                         title='Offre de service',
+                                         client=client)
+    else:
+        msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
+        flask.flash(flask.Markup(msg), "info")
+        return flask.redirect(flask.url_for('services_offering.new_services_offer'))
+
+@services_offering.route('/review', methods=["POST", "GET"])
+def review_offer():
+    if 'client_company' in flask.session:
+        client = Client.query.filter_by(company_name=flask.session['client']).first()
+
+        if flask.request.method == "POST":
+            return "POST"
+        else:
+            return flask.render_template('services_offering/review_offer.html',
+                                         title="Offre de services",
+                                         client=client)
+    else:
+        msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
+        flask.flash(flask.Markup(msg), "info")
+        return flask.redirect(flask.url_for('services_offering.new_services_offer'))
+
+@services_offering.route('/generate_pdf')
+def generate_pdf():
+
+    return "PDF"
 
 @services_offering.route('/new_client', methods=["GET", "POST"])
 def new_client():
@@ -83,3 +133,8 @@ def new_client():
         return flask.redirect(flask.url_for('services_offering.new_services_offer'))
 
     return flask.render_template('services_offering/new_client.html')
+
+def clear_session(indexes):
+    for i in indexes:
+        if i in flask.session:
+            flask.session.pop(i)
