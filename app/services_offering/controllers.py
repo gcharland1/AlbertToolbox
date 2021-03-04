@@ -36,7 +36,7 @@ def new_services_offer():
 @services_offering.route('/building_mechanic', methods=["GET", "POST"])
 def building_mechanic():
     if 'client_company' in flask.session:
-        client = Client.query.filter_by(company_name=flask.session['client']).first()
+        client = Client.query.filter_by(company_name=flask.session['client_company']).first()
 
         if flask.request.method == "POST":
             form_data = flask.request.form
@@ -71,7 +71,7 @@ def building_mechanic():
 @services_offering.route('/pricing', methods=["GET", "POST"])
 def price_definition():
     if 'client_company' in flask.session:
-        client = Client.query.filter_by(company_name=flask.session['client']).first()
+        client = Client.query.filter_by(company_name=flask.session['client_company']).first()
 
         if flask.request.method == "POST":
             form_data = flask.request.form
@@ -95,7 +95,7 @@ def price_definition():
 @services_offering.route('/review', methods=["POST", "GET"])
 def review_offer():
     if 'client_company' in flask.session:
-        client = Client.query.filter_by(company_name=flask.session['client']).first()
+        client = Client.query.filter_by(company_name=flask.session['client_company']).first()
 
         if flask.request.method == "POST":
             return "POST"
