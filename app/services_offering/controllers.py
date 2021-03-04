@@ -1,9 +1,10 @@
 import flask
 import json
+import os
 
 from app import db
+from app import app
 
-from app.services_offering import forms
 from app.services_offering import Client
 
 services_offering = flask.Blueprint('services_offering', __name__)
@@ -53,7 +54,7 @@ def building_mechanic():
 
         else:
             if not 'inclusions_defined' in flask.session:
-                with open('bin/services_offering/project_specifications.json', 'r', encoding='utf-8') as json_file:
+                with open(os.path.join(app.config['BASE_DIR'], 'bin/services_offering/project_specifications.json'), 'r', encoding='utf-8') as json_file:
                     defaults = json.load(json_file)
                     flask.session['mec_inc'] = defaults['building mechanics']['mechanical']['inclusions']
                     flask.session['mec_exc'] = defaults['building mechanics']['mechanical']['exclusions']
