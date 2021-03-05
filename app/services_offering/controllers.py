@@ -111,6 +111,7 @@ def review_offer():
 
 @services_offering.route('/generate_pdf')
 def generate_pdf():
+    services_offering_data = {}
 
     return "PDF"
 

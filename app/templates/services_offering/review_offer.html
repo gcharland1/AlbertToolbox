@@ -2,71 +2,151 @@
 {% block scripts %}{% endblock %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-<div class="container-fluid w-100">
-  <div class="card card-body">
-    <p>
-      <b>{{ client.contact_fname + " " + client.contact_name }}</b><br>
-      {{ client.company_name }}<br>
-      {{ client.address }}<br>
-      {{ ", ".join([client.city, client.province, client.zip]) }}<br>
-    </p>
-    <h5>Offre de services: {{ session['project_name']}}</h5>
-    <b>Description du mandat</b>
-    <p>{{ session['mandate'] }}</p>
+<div class="container-fluid w-75">
+  <div class="card card-body mx-auto px-5 py-7" style="width:8.5in">
+    <!-- DATE -->
+    <div>
+      <p id="date">Sherbrooke, le </p>
+      <script type="text/javascript">
+        let months = ["", "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "novembre", "décembre"];
+        let [year, month, date] = new Date().toLocaleDateString("fr-CA").split('-');
+        //let today = new Date().toLocaleDateString("fr-CA").split('-');
+        
+        document.getElementById("date").innerHTML += `${date} ${months[Number(month)]} ${year}`;
+      </script>
+    </div>
     
-    <!-- Inclusions mécaniques -->
-    {% if session['mec_inc']|length > 0 %}
-    <b>Inclusions mécaniques</b>
-    <ul>
-      {% for i in session['mec_inc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+    <!-- ENTÊTE -->
+    <div>
+      <p>
+        <b>{{ client.contact_fname + " " + client.contact_name }}</b><br>
+        {{ client.company_name }}<br>
+        {{ client.address }}<br>
+        {{ ", ".join([client.city, client.province, client.zip]) }}<br>
+      </p>
+      <p><b>Sujet: Offre de services {{ session['project_name']}}</b></p>
+      <p>Bonjour {{ client.contact_fname }},</p>
+      <p>Voici notre offre de service pour la réalisation du projet: {{ session['project_name']}}.</p>
+    </div>
     
-    <!-- Exclusion mécaniques -->
-    {% if session['mec_exc']|length > 0 %}
-    <b>Exclusions mécaniques</b>
-    <ul>
-      {% for i in session['mec_exc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+    <!-- DESCRIPTION DU MANDAT -->
+    <div>
+      <b>Description du mandat</b>
+      <p>{{ session['mandate'] }}</p>
+    </div>
     
-    <!-- Inclusions électriques -->
-    {% if session['elec_inc']|length > 0 %}
-    <b>Inclusions électriques</b>
-    <ul>
-      {% for i in session['elec_inc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+    <!-- INCLUSIONS ET EXCLUSIONS -->
+    <div>
+      <!-- Inclusions mécaniques -->
+      {% if session['mec_inc']|length > 0 %}
+      <b>Inclusions mécaniques</b>
+      <ul>
+        {% for i in session['mec_inc'] %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      
+      <!-- Exclusion mécaniques -->
+      {% if session['mec_exc']|length > 0 %}
+      <b>Exclusions mécaniques</b>
+      <ul>
+        {% for i in session['mec_exc'] %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      
+      <!-- Inclusions électriques -->
+      {% if session['elec_inc']|length > 0 %}
+      <b>Inclusions électriques</b>
+      <ul>
+        {% for i in session['elec_inc'] %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      
+      <!-- Exclusion électriques -->
+      {% if session['elec_exc']|length > 0 %}
+      <b>Exclusions électriques</b>
+      <ul>
+        {% for i in session['elec_exc'] %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
     
-    <!-- Exclusion électriques -->
-    {% if session['elec_exc']|length > 0 %}
-    <b>Exclusions électriques</b>
-    <ul>
-      {% for i in session['elec_exc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+    <!-- HONORAIRES -->
+    <div>
+      <b>HONORAIRES*</b>
+      <div class="container-fluid w-75 mx-auto justify-content-center">
+        <table class="table">
+          {% for i in range(session['prices']|length) %}
+          <tr>
+            <td>{{ session['price_descriptions'][i] }}</td>
+            <td>{{ session['prices'][i] }} $</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <th scope="row" class="sticky-end">TOTAL</th>
+            <td><b>{{ session['total_price'] }} $</b></td>
+          </tr>
+        </table>
+        <small>* Ces taux excluent les taxes applicables</small>
+      </div>
+    </div>
     
-    <b>HONNORAIRES</b>
-    <table class="table w-75">
-      {% for i in range(session['prices']|length) %}
-      <tr>
-        <td>{{ session['price_descriptions'][i] }}</td>
-        <td>{{ session['prices'][i] }} $</td>
-      </tr>
-      {% endfor %}
-      <tr>
-        <th scope="row" class="sticky-end">TOTAL</th>
-        <td><b>{{ session['total_price'] }} $</b></td>
-      </tr>
-    </table>
+    <!-- DÉLAIS -->
+    <div>
+      <b>Délais</b>
+      <p class="mb-3">Délais à déterminer avec le client.</p>
+    </div>
+  
+    <!-- TERMES ET CONDITIONS -->
+    <div>
+      <b>Termes et conditions</b>
+      <ul>
+        <li>Facturation mensuelle progressive basée sur l'avancement du mandat, payable 30 jours après la réception de la facture</li>
+        <li>Cette offre est valide pour une période de 30 jours</li>
+      </ul>
+    </div>
+    
+    <!-- SIGNATURES -->
+    <div>
+      <p>Sur réception de cotre approbation de l'offre de services, par la signature de la présente, nous débuterons le mandat.</p>
+      <p>En espérant le tout conforme à vos attentes.</p>
+      <p>Cordialement,</p>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <img class="w-50" src="{{url_for('static', filename='/images/local/signature_sam.png')}}">
+          </div>
+          <div class="col-6">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <hr class="w-75">
+            <p>
+              Préparé par:<br>
+              Samuel Leblanc-Robert, ing.<br>
+              Albert Groupe Conseil inc.
+            </p>
+          </div>
+          <div class="col-6">
+            <hr class="w-75">
+            <p>
+              Approuvé par:<br>
+              {{ client.contact_fname }} {{ client.contact_name }}<br>
+              {{ client.company_name }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   
   <div class="pt-3">
