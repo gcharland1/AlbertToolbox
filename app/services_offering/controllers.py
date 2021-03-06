@@ -6,6 +6,7 @@ from app import db
 from app import app
 
 from app.services_offering import Client
+from bin.services_offering.generate_latex_report import ReportBuilder
 
 services_offering = flask.Blueprint('services_offering', __name__)
 
@@ -111,9 +112,42 @@ def review_offer():
 
 @services_offering.route('/generate_pdf')
 def generate_pdf():
-    services_offering_data = {}
+    if flask.session['mandate_type'] == 'Mécanique du bâtiment':
+        useful_indices = ['project_name',
+                           'mandate',
+                           'mec_inc',
+                           'mec_exc',
+                           'elec_inc',
+                           'elec_exc',
+                           'prices',
+                           'price_descriptions',
+                           'total_price',
+                           'client']
+    else:
+        useful_indices = []
 
-    return "PDF"
+    client = Client.query.filter_by(company_name=flask.session['client_company']).first()
+
+    data = {}
+    data['contact_fname'] = client.contact_fname
+    data['contact_name'] = client.contact_name
+    data['client_company'] = client.company_name
+    data['client_address'] = client.address
+    data['client_city'] = client.city
+    data['client_province'] = client.province
+    data['client_zip'] = client.zip
+
+    for index in flask.session:
+        if index in useful_indices:
+            data[index] = flask.session[index]
+
+    report_builder = ReportBuilder()
+    work_dir = os.path.join(app.config['BASE_DIR'], 'bin/services_offering/latex/')
+    pdf_file = report_builder.building_mechanics(work_dir, data)
+
+    clear_session(data.keys())
+
+    return flask.send_from_directory(work_dir, pdf_file)
 
 @services_offering.route('/new_client', methods=["GET", "POST"])
 def new_client():
@@ -136,7 +170,7 @@ def new_client():
 
     return flask.render_template('services_offering/new_client.html')
 
-def clear_session(indexes):
-    for i in indexes:
+def clear_session(keys):
+    for i in keys:
         if i in flask.session:
             flask.session.pop(i)

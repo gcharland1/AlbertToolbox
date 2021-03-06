@@ -1,0 +1,83 @@
+\documentclass[12pt, letterpaper]{letter}
+
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage[bottom=4.5cm, top=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{fancyhdr}
+%\usepackage{lmodern}
+%\usepackage{helvet}
+
+\geometry{
+voffset = 1.5cm,
+headheight = 1.5cm
+}
+
+\fancypagestyle{logo}{
+	\fancyhf{}
+	\fancyhead[L,LO]{
+		\hspace{-1.5cm}
+		\includegraphics[height=1.75cm]{images/albert_logo.png}}
+		\renewcommand{\headrulewidth}{0pt}
+}
+
+\renewcommand{\baselinestretch}{1.25}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+\pagestyle{logo}
+\begin{flushleft}
+
+Sherbrooke, le \today \\
+\vspace{0.5cm}
+\input{address.tex}
+\end{flushleft}
+\vspace{1cm}
+\input{introduction.tex}
+
+\par
+\input{mandate.tex}
+
+\par
+\begin{samepage}
+\input{pricing.tex}
+\end{samepage}
+
+\par
+DÉLAIS \\
+Délais à déterminer avec le client.
+
+\par
+TERMES ET CONDITIONS
+\begin{itemize}
+    \item[\textbullet] Facturation mensuelle progressive basée sur l'avancement du mandat, payable 30 jours après la réception de la facture
+    \item[\textbullet] Cette offre est valide pour une période de 30 jours
+\end{itemize}
+
+\begin{flushleft}
+\noindent 
+\parbox[b]{0.45\linewidth}{%
+    \strut 
+    \begin{center}
+    \includegraphics[height=1.5cm]{images/signature_sam.png}
+    \end{center}
+    \hrule\vspace{0.5cm}
+    Préparé par:\\
+    Samuel L. Robert, ing.\\
+    Albert Conseil inc.\\
+} 
+\hspace{0.5cm} % distance between the two signature blocks 
+\parbox[b]{0.45\linewidth}{%
+    \strut 
+    \vspace{1.5cm}
+    \hrule\vspace{0.5cm}
+    Approuvé par:\\
+    \input{client_signature.tex}}
+\end{flushleft}
+\par\vspace{1cm} 
+
+\end{document}

@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 <div class="container-fluid w-75">
-  <div class="card card-body mx-auto px-5 py-7" style="width:8.5in">
+  <div class="card card-body mx-auto px-5 py-7" style="width:8.5in" id="print-area">
     <!-- DATE -->
     <div>
       <p id="date">Sherbrooke, le </p>
@@ -149,8 +149,9 @@
     </div>
   </div>
   
+  <!-- IMPRESSION -->
   <div class="pt-3">
-    <a type="button" class="btn btn-primary" href="{{url_for('services_offering.generate_pdf')}}">Créer l'offre de service</a>
+    <a type="button" class="btn btn-primary" href={{url_for('services_offering.generate_pdf')}}>Créer le PDF</a>
   </div>
 </div>
 {% endblock %}
