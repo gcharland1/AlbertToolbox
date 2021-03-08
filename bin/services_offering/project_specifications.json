@@ -1,7 +1,6 @@
 {
-  "building mechanics" : {
-    "mechanical": {
-      "inclusions": [
+  "Mécanique du bâtiment" : {
+    "Inclusions mécaniques": [
         "Préparation des plans de ventilation selon les normes en vigueur et choix du client. Ceci inclus la ventilation des logements, pressurisation des corridors, ventilation de salle à déchet et ventilation du garage intérieur",
         "Préparation des plans de drainage sanitaire et pluvial, coordination des services d'égout et d'aqueduc avec ing. civil et la ville",
         "Préparations des diagrammes de plomberie, diagramme pluvial, d’eau domestique, de drainage sanitaire",
@@ -12,15 +11,13 @@
         "Plans de détails typiques d’installations mécaniques",
         "Réponses aux questions des entrepreneurs permettant de clarifier les plans et devis en phase de soumission/construction"
       ],
-      "exclusions": [
+    "Exclusions mécaniques": [
         "Surveillance, dessins d'atelier, TQC, modifications aux plans en cours de chantier",
         "Révision de parcours de tuyauteries/gaines de ventilation préalablement coordonnées, de même que concepts mis aux plans préalablement coordonnes avec le client et les autres intervenant",
         "Plans de protection incendie, gicleurs, canalisation d’incendie, extincteurs automatiques",
         "Mesures d’économie d’énergie, plancher radiant, géothermie. (svp nous informer si ça fait parti du projet et nous adapterons notre offre)"
-      ]
-    },
-    "electrical" : {
-      "inclusions" : [
+      ],
+    "Inclusions électriques" : [
         "Réalisation des calculs de charge",
         "Préparation des plans indiquant la localisation et l’aménagement des salles électriques",
         "Préparation du diagramme unifilaire de la distribution principale et secondaire",
@@ -30,11 +27,10 @@
         "Mise en plan Autocad avec devis et détails aux plans",
         "Émission d’addendas au besoin durant la période d’appel d’offres"
       ],
-      "exclusions": [
+    "Exclusions électriques" : [
         "Gestion de la construction, surveillance",
         "TQC ou modifications aux plans en cours de chantier"
       ]
-    }
   }
 }
 

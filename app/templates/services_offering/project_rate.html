@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% block scripts %}{% endblock %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 <div class="container-fluid w-100 p-5">
@@ -10,45 +9,46 @@
       {{ client.address }}<br>
       {{ ", ".join([client.city, client.province, client.zip]) }}<br>
     </p>
-    <h5>Offre de services: {{ session['project_name']}}</h5>
+    
+    <h5>Offre de services: {{ session['offer']['project_name'] }}</h5>
     <b>Description du mandat</b>
-    <p>{{ session['mandate'] }}</p>
+    <p>{{ session['offer']['mandate'] }}</p>
     
     <!-- Inclusions mécaniques -->
-    {% if session['mec_inc']|length > 0 %}
-    <b>Inclusions mécaniques</b>
-    <ul>
-      {% for i in session['mec_inc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+    {% for key in session['offer']['mandate_details'].keys(): %}
+      <b>{{ key }}</b>
+      <ul>
+        {% for i in session['offer']['mandate_details'][key] %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
     
     <!-- Exclusion mécaniques -->
-    {% if session['mec_exc']|length > 0 %}
+    {% if session['offer']['mec_exc']|length > 0 %}
     <b>Exclusions mécaniques</b>
     <ul>
-      {% for i in session['mec_exc'] %}
+      {% for i in session['offer']['mec_exc'] %}
       <li>{{ i }}</li>
       {% endfor %}
     </ul>
     {% endif %}
     
     <!-- Inclusions électriques -->
-    {% if session['elec_inc']|length > 0 %}
+    {% if session['offer']['elec_inc']|length > 0 %}
     <b>Inclusions électriques</b>
     <ul>
-      {% for i in session['elec_inc'] %}
+      {% for i in session['offer']['elec_inc'] %}
       <li>{{ i }}</li>
       {% endfor %}
     </ul>
     {% endif %}
     
     <!-- Exclusion électriques -->
-    {% if session['elec_exc']|length > 0 %}
+    {% if session['offer']['elec_exc']|length > 0 %}
     <b>Exclusions électriques</b>
     <ul>
-      {% for i in session['elec_exc'] %}
+      {% for i in session['offer']['elec_exc'] %}
       <li>{{ i }}</li>
       {% endfor %}
     </ul>
@@ -56,21 +56,21 @@
   </div>
   <div class="w-75 container-fluid p-3">
     <h5>Honoraires</h5>
-    <form id="mandate-form" class="form-inline" method="POST" action="#">
+    <form id="mandate-form" class="form-inline" method="POST">
       <fieldset class="form-group">
         <button class="btn btn-success" type="button" onclick="addElement('price-table', 'price')">Ajouter une catégorie</button>
         <button class="btn btn-danger" type="button" onclick="remSelectedElements('price-table')">Supprimer les catégories sélectionnées</button>
         <table class="table" id="price-table">
-          {% for i in range(session['prices']|length) %}
+          {% for i in range(session['offer']['prices']|length) %}
           <tr>
             <td><input type="checkbox" class="checkbox"></td>
-            <td><input type="text" class="form-control" name="price-description" value="{{ session['price_descriptions'][i]}} "></td>
+            <td><input type="text" class="form-control" name="price-description" value="{{ session['offer']['price_descriptions'][i]}} "></td>
             <td>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <div class="input-group-text">$</div>
                 </div>
-                <input type="number" class="form-control" name="price" value="{{ session['prices'][i] }}" required>
+                <input type="number" class="form-control" name="price" value="{{ session['offer']['prices'][i] }}" required>
               </div>
             </td>
           </tr>

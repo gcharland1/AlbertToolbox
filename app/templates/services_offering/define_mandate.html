@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container-fluid w-100 p-5">
+  <p>
+    <b>{{ client.contact_fname + " " + client.contact_name }}</b><br>
+    {{ client.company_name }}<br>
+    {{ client.address }}<br>
+    {{ ", ".join([client.city, client.province, client.zip]) }}<br>
+  </p>
+  <h5>Offre de services: {{ session['offer']['project_name']}}</h5>
+  <form id="mandate-form" method="POST" action="#">
+    <fieldset class="form-group">
+      <!-- Mandate description -->
+      <div class="form-group mt-2">
+        <label for="role">Description du mandat</label>
+        <textarea id="role" name="role" class="form-control" rows="4" required="Required">Albert Groupe conseil sera responsable de </textarea>
+      </div>
+      <br>
+      
+      <!-- Inclusions Exclusions Details, etc -->
+      <div id="mandate-details">
+        {% if 'mandate_details' in session['offer'] %}
+        {% for key in session['offer']['mandate_details'] %}
+        <div class="detail-div my-3" id="{{key}}-div">
+          <div class="row">
+            <label class="control-label col-1" for="{{key}}-name" style="font-weight:bold">Catégorie:</label>
+            <div class="col-3">
+              <input type="text" class="form-control" id="{{key}}-name" value="{{key}}" name="details-category" required>
+            </div>
+            <div class="col-8">
+              <button type="button" class="btn btn-secondary" onclick="toggleSection('{{key}}')">Afficher/masquer la section</button>
+              <button type="button" class="btn btn-danger rem-section">Supprimer la section</button>
+            </div>
+          </div>
+          
+          <div class="my-3 container-fluid w-75" id="{{ key }}" style="display=block">
+            <button class="btn btn-outline-success btn-sm" type="button" onclick="addElement('{{key}}-table', '{{key}}')">Ajouter une ligne</button>
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="remSelectedElements('{{key}}-table')">Supprimer les lignes sélectionnées</button>
+
+            <table class="table" id="{{ key }}-table">
+              {% for e in session['offer']['mandate_details'][key] %}
+              <tr>
+                <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+                <td><input type="text" class="form-control" name="{{ key }}" value="{{ e }}"></td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+      
+      <div class="my-3">
+        <button type="button" class="btn btn-success" onclick="addSection()">Ajouter une section</button>
+      </div>
+      
+      <script type="text/javascript">
+        function toggleSection(id) {
+          var element = document.getElementById(id);
+          if (element.style.display == 'none') {
+            element.style.display = 'block';
+          } else {
+            element.style.display = 'none';
+          }
+        }
+        
+        function removeSection(id) {
+          document.getElementById(id).remove();
+        }
+        
+        function addSection() {
+          var details_div = document.getElementById('mandate-details');
+          var n = String(document.getElementsByClassName('detail-div my-3').length);
+          
+          let detail_div_id = n + "-div";
+          let cat_name_id = n + '-name';
+          let table_id = n + '-table';
+          
+          details_div.innerHTML += `<div class="detail-div my-3" id="${detail_div_id}">\
+                                      <div class="row">\
+                                        <label class="control-label col-1" for="${cat_name_id}" style="font-weight:bold">Catégorie:</label>\
+                                        <div class="col-3">\
+                                          <input type="text" class="form-control" id="${cat_name_id}" name="details-category" required>\
+                                        </div>\
+                                        <div class="col-8">\
+                                          <button type="button" class="btn btn-secondary" onclick="toggleSection('${table_id}')">Afficher/masquer la section</button>\
+                                          <button type="button" class="btn btn-danger" onclick="removeSection('${detail_div_id}')">Supprimer la section</button>\
+                                        </div>\
+                                      </div>\
+                                      \
+                                      <div class="my-3 container-fluid w-75" id="${n}" style="display:block">\
+                                        <button class="btn btn-outline-success btn-sm" type="button" onclick="addElement('${table_id}', '${n}')">Ajouter une ligne</button>\
+                                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="remSelectedElements('${table_id}')">Supprimer les lignes sélectionnées</button>\
+                                        <table class="table" id="${table_id}">\
+                                          <tr>\
+                                            <td style="width:2%"><input type="checkbox" class="checkbox"></td>\
+                                            <td><input type="text" class="form-control" name="${n}" placeholder="Détail ..."></td>\
+                                          </tr>\
+                                        </table>\
+                                      </div>\
+                                      <hr>\
+                                    </div>`;
+            
+        }
+        
+        function addElement(table_id, element_name) {
+          var table = document.getElementById(table_id);
+          var new_row = table.insertRow(-1);
+          new_row.innerHTML = `<td><input type="checkbox" class="checkbox"></td>\
+                               <td><input type="text" class="form-control" name="${element_name}"></td>`;
+        }
+        
+        function remSelectedElements(table_id) {
+          var table = document.getElementById(table_id);
+          var rows = table.getElementsByTagName("tr");
+          var boxes = table.getElementsByClassName("checkbox");
+          
+          for (var i=rows.length-1; i>=0; i--) {
+            if (boxes[i].checked) {
+              rows[i].parentNode.removeChild(rows[i]);
+            }
+          }
+        }
+      </script>
+      
+      <div class="form-group mt-2">
+        <button class="btn btn-primary" type="submit" value="Submit">Suivant</button>
+        <a href="{{url_for('services_offering.new_services_offer')}}">
+          <button class="btn btn-danger" type="button">Annuler</button>
+        </a>
+      </div>
+      
+    </fieldset>
+</div>
+{% endblock %}

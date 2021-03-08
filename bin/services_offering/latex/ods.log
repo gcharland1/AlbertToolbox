@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7350 64-bit) (preloaded format=pdflatex 2020.4.6)  6 MAR 2021 10:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7350 64-bit) (preloaded format=pdflatex 2020.4.6)  7 MAR 2021 12:19
 entering extended mode
 **"C:/Users/Surface Book/Documents/Python/A0002_AlbertToolbox/AlbertToolbox/bin
 /services_offering/latex/ods.tex"
@@ -355,21 +355,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--1
  []
 
 )
-File: images/albert_logo.png Graphic file (type png)
-<use images/albert_logo.png>
-Package pdftex.def Info: images/albert_logo.png  used on input line 53.
-(pdftex.def)             Requested size: 179.53998pt x 49.79231pt.
-
-
-Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 54.14235pt, for example:
-(fancyhdr)                \setlength{\headheight}{54.14235pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-11.46323pt}.
-
-[2]
-<images/signature_sam.png, id=15, 107.091pt x 29.565pt>
+<images/signature_sam.png, id=10, 107.091pt x 29.565pt>
 File: images/signature_sam.png Graphic file (type png)
 <use images/signature_sam.png>
 Package pdftex.def Info: images/signature_sam.png  used on input line 72.
@@ -386,8 +372,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 79--79
 
 File: images/albert_logo.png Graphic file (type png)
 <use images/albert_logo.png>
+Package pdftex.def Info: images/albert_logo.png  used on input line 80.
+(pdftex.def)             Requested size: 179.53998pt x 49.79231pt.
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 54.14235pt, for example:
+(fancyhdr)                \setlength{\headheight}{54.14235pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-11.46323pt}.
+
+[2]
+File: images/albert_logo.png Graphic file (type png)
+<use images/albert_logo.png>
 Package pdftex.def Info: images/albert_logo.png  used on input line 83.
 (pdftex.def)             Requested size: 179.53998pt x 49.79231pt.
+
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
 (fancyhdr)                Make it at least 54.14235pt, for example:
@@ -400,20 +400,20 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 Here is how much of TeX's memory you used:
  3964 strings out of 480934
  58517 string characters out of 2909660
- 319620 words of memory out of 3000000
+ 319614 words of memory out of 3000000
  19786 multiletter control sequences out of 15000+200000
  538495 words of font info for 38 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,14n,45p,3293b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 30i,14n,45p,3280b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Surface Book\AppData\Loc
 al\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1095.pk> <C:\Users\Surface
  Book\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1200.pk> 
 <C:\Users\Surface Book\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi
 600\tcss1200.pk> <C:\Users\Surface Book\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
 r/jknappen/ec/dpi600\ecss1200.pk>
-Output written on ods.pdf (3 pages, 73843 bytes).
+Output written on ods.pdf (3 pages, 74547 bytes).
 PDF statistics:
- 128 PDF objects out of 1000 (max. 8388607)
+ 130 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -9,8 +9,8 @@
     {{ client.address }}<br>
     {{ ", ".join([client.city, client.province, client.zip]) }}<br>
   </p>
-  <h5>Offre de services: {{ session['project_name']}}</h5>
-  <form id="mandate-form" class="form-inline" method="POST" action="#">
+  <h5>Offre de services: {{ session['offer']['project_name'] }}</h5>
+  <form id="mandate-form" class="form-inline" method="POST">
     <fieldset class="form-group">
       <!-- Mandate description -->
       <div class="form-group mt-2">
@@ -26,7 +26,7 @@
         <button class="btn btn-success" type="button" onclick="addElement('mec-inclusions-table', 'mec-inc')">Ajouter une inclusion</button>
         <button class="btn btn-danger" type="button" onclick="remSelectedElements('mec-inclusions-table')">Supprimer les inclusions sélectionnées</button>
         <table class="table" id="mec-inclusions-table">
-          {% for e in session['mec_inc'] %}
+          {% for e in session['offer']['mec_inc'] %}
           <tr>
             <td style="width:2%"><input type="checkbox" class="checkbox"></td>
             <td><input type="text" class="form-control" name="mec-inc" value="{{ e }}"></td>
@@ -38,7 +38,7 @@
         <button class="btn btn-success" type="button" onclick="addElement('mec-exclusions-table', 'mec-exc')">Ajouter une exclusion</button>
         <button class="btn btn-danger" type="button" onclick="remSelectedElements('mec-exclusions-table')">Supprimer les exclusions sélectionnées</button>
         <table class="table" id="mec-exclusions-table">
-          {% for e in session['mec_exc'] %}
+          {% for e in session['offer']['mec_exc'] %}
           <tr>
             <td style="width:2%"><input type="checkbox" class="checkbox"></td>
             <td><input type="text" class="form-control" name="mec-exc" value="{{ e }}"></td>
@@ -55,7 +55,7 @@
         <button class="btn btn-success" type="button" onclick="addElement('elec-inclusions-table', 'elec-inc')">Ajouter une inclusion</button>
         <button class="btn btn-danger" type="button" onclick="remSelectedElements('elec-inclusions-table')">Supprimer les inclusions sélectionnées</button>
         <table class="table mt-1" id="elec-inclusions-table">
-          {% for e in session['elec_inc'] %}
+          {% for e in session['offer']['elec_inc'] %}
           <tr>
             <td style="width:2%"><input type="checkbox" class="checkbox"></td>
             <td><input type="text" class="form-control" name="elec-inc" value="{{ e }}"></td>
@@ -67,7 +67,7 @@
         <button class="btn btn-success" type="button" onclick="addElement('elec-exclusions-table', 'elec-exc')">Ajouter une exclusion</button>
         <button class="btn btn-danger" type="button" onclick="remSelectedElements('elec-exclusions-table')">Supprimer les exclusions sélectionnées</button>
         <table class="table" id="elec-exclusions-table">
-          {% for e in session['elec_exc'] %}
+          {% for e in session['offer']['elec_exc'] %}
           <tr>
             <td style="width:2%"><input type="checkbox" class="checkbox"></td>
             <td><input type="text" class="form-control" name="elec-exc" value="{{ e }}"></td>
