@@ -54,10 +54,11 @@ class ReportBuilder:
 
             for c in range(len(categories)):
                 if categories[c] in data:
-                    content += r'\par\underline{%s}\begin{itemize} ' % (cat_descriptions[c])
-                    for item in data[categories[c]]:
-                        content += r'\item[\textbullet] %s' % (item)
-                    content += r'\end{itemize}'
+                    if len(data[categories[c]]) > 0:
+                        content += r'\par\underline{%s}\begin{itemize} ' % (cat_descriptions[c])
+                        for item in data[categories[c]]:
+                            content += r'\item[\textbullet] %s' % (item)
+                        content += r'\end{itemize}'
 
             f.write(content)
 
