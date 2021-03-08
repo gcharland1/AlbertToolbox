@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7350 64-bit) (preloaded format=pdflatex 2020.4.6)  8 MAR 2021 14:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7350 64-bit) (preloaded format=pdflatex 2020.4.6)  8 MAR 2021 15:29
 entering extended mode
 **"C:/Users/Surface Book/Documents/Python/A0002_AlbertToolbox/AlbertToolbox/bin
 /services_offering/latex/ods.tex"
@@ -404,16 +404,16 @@ Here is how much of TeX's memory you used:
  19786 multiletter control sequences out of 15000+200000
  538495 words of font info for 38 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,14n,45p,2276b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,14n,45p,2284b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Surface Book\AppData\Loc
 al\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1095.pk> <C:\Users\Surface
  Book\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1200.pk> 
 <C:\Users\Surface Book\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi
 600\tcss1200.pk> <C:\Users\Surface Book\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
 r/jknappen/ec/dpi600\ecss1200.pk>
-Output written on ods.pdf (3 pages, 76100 bytes).
+Output written on ods.pdf (3 pages, 72194 bytes).
 PDF statistics:
- 136 PDF objects out of 1000 (max. 8388607)
+ 125 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

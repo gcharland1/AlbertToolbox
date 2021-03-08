@@ -145,8 +145,6 @@ def generate_pdf():
     work_dir = os.path.join(app.config['BASE_DIR'], 'bin/services_offering/latex/')
     pdf_file = report_builder.building_mechanics(work_dir, data)
 
-    clear_session(data.keys())
-
     return flask.send_from_directory(work_dir, pdf_file)
 
 @services_offering.route('/new_client', methods=["GET", "POST"])
