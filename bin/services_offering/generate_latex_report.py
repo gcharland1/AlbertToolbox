@@ -18,7 +18,10 @@ class ReportBuilder:
     def __init__(self):
         pass
 
-    def building_mechanics(self, work_dir, data):
+    def building_mechanics(self, work_dir, data, save_dir=None):
+        if not save_dir:
+            save_dir = work_dir
+
         main_tex_file = os.path.join(work_dir, 'ods.tex')
         address_tex_file = os.path.join(work_dir, 'address.tex')
         introduction_tex_file = os.path.join(work_dir, 'introduction.tex')
@@ -82,8 +85,18 @@ class ReportBuilder:
 
             f.write(content)
 
-        cmd = ['pdflatex', main_tex_file]
+        cmd = ["pdflatex", main_tex_file]
         proc = subprocess.Popen(cmd, cwd=work_dir)
         proc.communicate()
 
-        return 'ods.pdf'
+
+        pdf_file_name = data['project_name'].replace(' ', '_') + '.pdf'
+        if os.path.isfile(os.path.join(save_dir, pdf_file_name)):
+            os.remove(os.path.join(save_dir, pdf_file_name))
+
+        os.remove(os.path.join(work_dir, 'ods.aux'))
+        os.remove(os.path.join(work_dir, 'ods.log'))
+
+        os.rename(os.path.join(work_dir, 'ods.pdf'), os.path.join(save_dir, pdf_file_name))
+
+        return pdf_file_name

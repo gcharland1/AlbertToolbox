@@ -142,10 +142,24 @@ def generate_pdf():
             data[index] = flask.session[index]
 
     report_builder = ReportBuilder()
-    work_dir = os.path.join(app.config['BASE_DIR'], 'bin/services_offering/latex/')
-    pdf_file = report_builder.building_mechanics(work_dir, data)
+    work_dir = os.path.join(app.config['BASE_DIR'], 'bin', 'services_offering', 'latex')
+    pdf_file = report_builder.building_mechanics(work_dir, data, app.config['CLIENT_PDF'])
 
-    return flask.send_from_directory(work_dir, pdf_file)
+    msg = "<a href='%s' target='_blank'>Ouvrir l'offre de services</a>" % (flask.url_for('services_offering.open_pdf', filename=pdf_file))
+    flask.flash(flask.Markup(msg))
+
+    return flask.render_template('services_offering/review_offer.html',
+                                 title="Offre de services",
+                                 client=client)
+
+@services_offering.route('view_pdf/<filename>')
+def open_pdf(filename):
+    dir = app.config['CLIENT_PDF']
+    safe_path = os.path.join(dir, filename)
+    print(safe_path)
+    return flask.send_file(safe_path,
+                           as_attachment=False,
+                           cache_timeout=0)
 
 @services_offering.route('/new_client', methods=["GET", "POST"])
 def new_client():

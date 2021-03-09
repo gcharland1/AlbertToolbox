@@ -32,6 +32,9 @@ CSRF_SESSION_KEY = "secret"
 # Secret key for signing cookies
 SECRET_KEY = "secret"
 
+# Dure des cache pour les fichier envoyés
+CLIENT_PDF = os.path.join(BASE_DIR, 'app', 'static', 'client','pdf')
+
 # Mail service config
 MAIL_SERVER = 'smtp.googlemail.com'
 
