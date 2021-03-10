@@ -1,5 +1,5 @@
 import os
-import datetime
+import unidecode
 import subprocess
 
 class ReportBuilder:
@@ -82,7 +82,8 @@ class ReportBuilder:
         proc.communicate()
 
 
-        pdf_file_name = data['project_number'] + "_" + data['project_name'].replace(' ', '_') + '.pdf'
+        pdf_file_name = unidecode.unidecode(data['project_number'] + "_" + data['project_name'].replace(' ', '_') + '.pdf')
+        print(pdf_file_name)
         if os.path.isfile(os.path.join(save_dir, pdf_file_name)):
             os.remove(os.path.join(save_dir, pdf_file_name))
 
