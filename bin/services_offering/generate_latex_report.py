@@ -86,8 +86,8 @@ class ReportBuilder:
         if os.path.isfile(os.path.join(save_dir, pdf_file_name)):
             os.remove(os.path.join(save_dir, pdf_file_name))
 
-        os.remove(os.path.join(work_dir, 'ods.aux'))
-        #os.remove(os.path.join(work_dir, 'ods.log'))
+        if os.path.isfile(os.path.join(work_dir, 'ods.aux')):
+            os.remove(os.path.join(work_dir, 'ods.aux'))
 
         os.rename(os.path.join(work_dir, 'ods.pdf'), os.path.join(save_dir, pdf_file_name))
 
