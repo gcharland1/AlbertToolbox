@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container-fluid w-100 p-5">
+  <p>
+    <b>{{ client.contact_fname + " " + client.contact_name }}</b><br>
+    {{ client.company_name }}<br>
+    {{ client.address }}<br>
+    {{ ", ".join([client.city, client.province, client.zip]) }}<br>
+  </p>
+  <h5>Offre de services: {{ session['offer']['project_name']}}</h5>
+  <form id="mandate-form" method="POST" action="#">
+    <fieldset class="form-group">
+      <!-- Mandate description -->
+      <div class="form-group mt-2">
+        <label for="role">Description du mandat</label>
+        <textarea id="role" name="role" class="form-control" rows="4" required="Required">Albert Groupe conseil sera responsable de </textarea>
+      </div>
+      <br>
+      
+      <!-- Inclusions Exclusions Details, etc -->
+      <div id="mandate-details">
+        <!-- Champs pré-remplis selon la catégorie de mandat -->
+        {% if 'mandate_details' in session['offer'] %}
+        {% for key in session['offer']['mandate_details'] %}
+        <div class="detail-div my-3" id="{{key}}-div">
+          <div class="row">
+            <label class="control-label col-1" for="{{key}}-name" style="font-weight:bold">Catégorie:</label>
+            <div class="col-3">
+              <input type="text" class="form-control" id="{{key}}-name" value="{{key}}" name="details-category" required>
+            </div>
+            <div class="col-8">
+              <button type="button" class="btn btn-secondary" onclick="toggleSection('{{key}}')">Afficher/masquer la section</button>
+              <button type="button" class="btn btn-danger rem-section" onclick="removeSection('{{ key }}-div')">Supprimer la section</button>
+            </div>
+          </div>
+          
+          <div class="my-3 container-fluid w-75" id="{{ key }}" style="display=block">
+            <button class="btn btn-outline-success btn-sm" type="button" onclick="addElement('{{key}}-table', '{{key}}')">Ajouter une ligne</button>
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="remSelectedElements('{{key}}-table')">Supprimer les lignes sélectionnées</button>
+
+            <table class="table" id="{{ key }}-table">
+              {% for e in session['offer']['mandate_details'][key] %}
+              <tr>
+                <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+                <td><input type="text" class="form-control" name="{{ key }}" value="{{ e }}"></td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        
+        <!-- Champs vides -->
+        {% for i in range(15) %}
+        {% if i == 0 %}
+        <div class="detail-div my-3" id="{{ i }}-div">
+        {% else %}
+        <div class="detail-div my-3" id="{{ i }}-div" style="display:none">
+        {% endif %}
+          <div class="row">
+            <label class="control-label col-1" for="{{ i }}-name" style="font-weight:bold">Catégorie:</label>
+            <div class="col-3">
+              <input type="text" class="form-control" id="{{ i }}-name" name="{{i}}-name" required>
+            </div>
+            <div class="col-8">
+              <button type="button" class="btn btn-secondary" onclick="toggleSection('{{ i }}')">Afficher/masquer la section</button>
+              <button type="button" class="btn btn-danger rem-section" onclick="removeSection('{{ i }}-div')">Supprimer la section</button>
+            </div>
+          </div>
+          
+          <div class="my-3 container-fluid w-75" id="{{ i }}" style="display=block">
+            <button class="btn btn-outline-success btn-sm" type="button" onclick="addElement('{{ i }}-table', '{{ i }}')">Ajouter une ligne</button>
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="remSelectedElements('{{ i }}-table')">Supprimer les lignes sélectionnées</button>
+
+            <table class="table" id="{{ i }}-table">
+              <tr>
+                <td style="width:2%"><input type="checkbox" class="checkbox"></td>
+                <td><input type="text" class="form-control" name="{{ i }}" placeholder="Description de la tâche"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <div class="my-3">
+        <button type="button" class="btn btn-success" onclick="addSection()">Ajouter une section</button>
+      </div>
+      
+      <div class="form-group mt-2">
+        <button class="btn btn-primary" type="button" onclick="cleanAndSubmit()">Suivant</button>
+        <a href="{{url_for('services_offering.new_services_offer')}}">
+          <button class="btn btn-danger" type="button">Annuler</button>
+        </a>
+      </div>
+      
+      <script type="text/javascript">
+        function toggleSection(id) {
+          var element = document.getElementById(id);
+          if (element.style.display == 'none') {
+            element.style.display = 'block';
+          } else {
+            element.style.display = 'none';
+          }
+        }
+        
+        function removeSection(id) {
+          document.getElementById(id).remove();
+        }
+        
+        function addSection() {
+          var detail_divs = document.getElementsByClassName('detail-div');
+          
+          for (var i=0; i < detail_divs.length; i++) {
+            if (detail_divs[i].style.display == 'none') {
+              detail_divs[i].style.display = 'block';
+              break;
+            }
+          }
+        }
+        
+        function addElement(table_id, element_name) {
+          var table = document.getElementById(table_id);
+          var new_row = table.insertRow(-1);
+          new_row.innerHTML = `<td><input type="checkbox" class="checkbox"></td>\
+                               <td><input type="text" class="form-control" name="${element_name}"></td>`;
+        }
+        
+        function remSelectedElements(table_id) {
+          var table = document.getElementById(table_id);
+          var rows = table.getElementsByTagName("tr");
+          var boxes = table.getElementsByClassName("checkbox");
+          
+          for (var i=rows.length-1; i>=0; i--) {
+            if (boxes[i].checked) {
+              rows[i].parentNode.removeChild(rows[i]);
+            }
+          }
+        }
+        
+        function cleanAndSubmit() {
+          var detail_divs = document.getElementsByClassName('detail-div');
+          
+          for (var i=detail_divs.length-1; i>=0 ; i--) {
+            if (detail_divs[i].style.display == 'none') {
+              detail_divs[i].parentNode.removeChild(detail_divs[i]);
+              console.log(`Deleted section ${i}`)
+              console.log(detail_divs.length)
+            }
+          }
+          
+          document.getElementById('mandate-form').submit();
+        }
+      </script>
+     
+      
+    </fieldset>
+</div>
+{% endblock %}

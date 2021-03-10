@@ -34,3 +34,4 @@ app.register_blueprint(tools, url_prefix="/")
 app.register_blueprint(services_offering, url_prefix="/services")
 
 db.create_all(bind=['users', 'clients'])
+

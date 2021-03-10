@@ -24,58 +24,27 @@
         {{ client.address }}<br>
         {{ ", ".join([client.city, client.province, client.zip]) }}<br>
       </p>
-      <p><b>Sujet: Offre de services {{ session['project_name']}}</b></p>
+      <p><b>Sujet: Offre de services {{ session['offer']['project_name']}}</b></p>
       <p>Bonjour {{ client.contact_fname }},</p>
-      <p>Voici notre offre de service pour la réalisation du projet: {{ session['project_name']}}.</p>
+      <p>Voici notre offre de service pour la réalisation du projet: {{ session['offer']['project_name']}}.</p>
     </div>
     
     <!-- DESCRIPTION DU MANDAT -->
     <div>
       <b>Description du mandat</b>
-      <p>{{ session['mandate'] }}</p>
+      <p>{{ session['offer']['mandate'] }}</p>
     </div>
     
-    <!-- INCLUSIONS ET EXCLUSIONS -->
+    <!-- Définition du mandat -->
     <div>
-      <!-- Inclusions mécaniques -->
-      {% if session['mec_inc']|length > 0 %}
-      <b>Inclusions mécaniques</b>
+      {% for cat in session['offer']['mandate_details'] %}
+      <b>{{ cat }}</b>
       <ul>
-        {% for i in session['mec_inc'] %}
+        {% for i in session['offer']['mandate_details'][cat] %}
         <li>{{ i }}</li>
         {% endfor %}
       </ul>
-      {% endif %}
-      
-      <!-- Exclusion mécaniques -->
-      {% if session['mec_exc']|length > 0 %}
-      <b>Exclusions mécaniques</b>
-      <ul>
-        {% for i in session['mec_exc'] %}
-        <li>{{ i }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      
-      <!-- Inclusions électriques -->
-      {% if session['elec_inc']|length > 0 %}
-      <b>Inclusions électriques</b>
-      <ul>
-        {% for i in session['elec_inc'] %}
-        <li>{{ i }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      
-      <!-- Exclusion électriques -->
-      {% if session['elec_exc']|length > 0 %}
-      <b>Exclusions électriques</b>
-      <ul>
-        {% for i in session['elec_exc'] %}
-        <li>{{ i }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      {% endfor %}
     </div>
     
     <!-- HONORAIRES -->
@@ -83,15 +52,15 @@
       <b>HONORAIRES*</b>
       <div class="container-fluid w-75 mx-auto justify-content-center">
         <table class="table">
-          {% for i in range(session['prices']|length) %}
+          {% for i in range(session['offer']['prices']|length) %}
           <tr>
-            <td>{{ session['price_descriptions'][i] }}</td>
-            <td>{{ session['prices'][i] }} $</td>
+            <td>{{ session['offer']['price_descriptions'][i] }}</td>
+            <td>{{ session['offer']['prices'][i] }} $</td>
           </tr>
           {% endfor %}
           <tr>
             <th scope="row" class="sticky-end">TOTAL</th>
-            <td><b>{{ session['total_price'] }} $</b></td>
+            <td><b>{{ session['offer']['total_price'] }} $</b></td>
           </tr>
         </table>
         <small>* Ces taux excluent les taxes applicables</small>

@@ -27,7 +27,7 @@
     <!--- Section Services -->
     <h5 class="pt-2">Services</h5>
     <div class="input-group">
-      <select class="form-select" name="mandate_type" onchange="defineMandate()" id="mandate-type">
+      <select class="form-select" name="mandate_type" onchange="defineMandate({{ available_forms }})" id="mandate-type">
         <option selected disabled hidden>Choisir ...</option>
         {% for type in service_types %}
         <option value="{{type}}">{{type}}</option>
@@ -37,10 +37,9 @@
     <div class="py-2" id="next-step" style="display:none">
     </div>
     <script type="text/javascript">
-      function defineMandate() {
+      function defineMandate(available_forms) {
         var mandateDefinitionDiv = document.getElementById("next-step");
         var mandate = document.getElementById("mandate-type").value;
-        var available_forms = ['Mécanique du bâtiment'];
         
         if (available_forms.includes(mandate)) {
           mandateDefinitionDiv.innerHTML = '<button form="services_form" type="submit" value="Submit" class="btn btn-primary">Suivant</button>';
