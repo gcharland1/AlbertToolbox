@@ -54,10 +54,22 @@ def define_mandate():
         flask.session['offer']['mandate'] = form_data['role']
         flask.session['offer']['mandate_details'] = {}
 
+        # Catégories existantes dans Flask.Session
         details_categories = form_data.getlist('details-category')
-        for cat in details_categories:
-            flask.session['offer']['mandate_details'][cat] = form_data.getlist(cat)
-            print(cat, form_data.getlist(cat))
+        for i in range(len(details_categories)):
+            cat = details_categories[i]
+            items = form_data.getlist(cat)
+            flask.session['offer']['mandate_details'][cat] = items
+
+        # Nouvelles catégories ajoutées
+        for i in range(15):
+            i_str = str(i)
+            i_name = i_str + "-name"
+            if i_name in form_data:
+                cat = form_data[i_name]
+                items = form_data.getlist(i_str)
+                if len(items) > 0 and not cat == "":
+                    flask.session['offer']['mandate_details'][cat] = items
 
         flask.session['offer']['inclusions_defined'] = True
         flask.session.modified = True
@@ -66,7 +78,7 @@ def define_mandate():
 
         return flask.redirect(flask.url_for(url))
     else:
-        if not 'mandate_defined' in flask.session['offer']:
+        if not 'inclusions_defined' in flask.session['offer']:
             mandate_type = flask.session['offer']['mandate_type']
 
             with open(os.path.join(app.config['BASE_DIR'], 'bin/services_offering/project_specifications.json'),

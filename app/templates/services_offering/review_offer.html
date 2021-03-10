@@ -35,47 +35,16 @@
       <p>{{ session['offer']['mandate'] }}</p>
     </div>
     
-    <!-- INCLUSIONS ET EXCLUSIONS -->
+    <!-- Définition du mandat -->
     <div>
-      <!-- Inclusions mécaniques -->
-      {% if session['offer']['mec_inc']|length > 0 %}
-      <b>Inclusions mécaniques</b>
+      {% for cat in session['offer']['mandate_details'] %}
+      <b>{{ cat }}</b>
       <ul>
-        {% for i in session['offer']['mec_inc'] %}
+        {% for i in session['offer']['mandate_details'][cat] %}
         <li>{{ i }}</li>
         {% endfor %}
       </ul>
-      {% endif %}
-      
-      <!-- Exclusion mécaniques -->
-      {% if session['offer']['mec_exc']|length > 0 %}
-      <b>Exclusions mécaniques</b>
-      <ul>
-        {% for i in session['offer']['mec_exc'] %}
-        <li>{{ i }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      
-      <!-- Inclusions électriques -->
-      {% if session['offer']['elec_inc']|length > 0 %}
-      <b>Inclusions électriques</b>
-      <ul>
-        {% for i in session['offer']['elec_inc'] %}
-        <li>{{ i }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      
-      <!-- Exclusion électriques -->
-      {% if session['offer']['elec_exc']|length > 0 %}
-      <b>Exclusions électriques</b>
-      <ul>
-        {% for i in session['offer']['elec_exc'] %}
-        <li>{{ i }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      {% endfor %}
     </div>
     
     <!-- HONORAIRES -->
