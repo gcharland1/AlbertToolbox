@@ -18,15 +18,15 @@ def new_services_offer():
         form_data = flask.request.form
 
         flask.session['offer'] = {}
+        flask.session['offer']['project_number'] = form_data['project_number']
+        if not flask.session['offer']['project_number']:
+            flask.session['offer']['project_number'] = "PXXX"
         flask.session['offer']['client_company'] = form_data['client']
         flask.session['offer']['mandate_type'] = form_data['mandate_type']
         flask.session['offer']['project_name'] = form_data['project_name']
 
-        if flask.session['offer']['mandate_type'] == "Mécanique du bâtiment":
-            url = 'services_offering.building_mechanic'
-            url = 'services_offering.define_mandate'
-        else:
-            url = 'services_offering.define_mandate'
+
+        url = 'services_offering.define_mandate'
 
         return flask.redirect(flask.url_for(url))
     else:
@@ -94,49 +94,6 @@ def define_mandate():
                                      title='Détails du mandat',
                                      client = client)
 
-@services_offering.route('/building_mechanic', methods=["GET", "POST"])
-def building_mechanic():
-    if 'client_company' in flask.session['offer']:
-        client = Client.query.filter_by(company_name=flask.session['offer']['client_company']).first()
-    else:
-        msg = "Aucun client n'a été sélectionné. Veuillez sélectionner un client pour continuer."
-        flask.flash(flask.Markup(msg), "info")
-        return flask.redirect(flask.url_for('services_offering.new_services_offer'))
-    if flask.request.method == "POST":
-
-        form_data = flask.request.form
-
-        flask.session['offer']['mandate'] = form_data['role']
-
-        flask.session['offer']['mec_inc'] = form_data.getlist("mec-inc")
-        flask.session['offer']['mec_exc'] = form_data.getlist("mec-exc")
-        flask.session['offer']['elec_inc'] = form_data.getlist("elec-inc")
-        flask.session['offer']['elec_exc'] = form_data.getlist("elec-exc")
-
-        flask.session['offer']['inclusions_defined'] = True
-
-        flask.session.modified = True
-
-        url = "services_offering.price_definition"
-
-        return flask.redirect(flask.url_for(url))
-
-
-    else:
-        if not 'inclusions_defined' in flask.session['offer']:
-            print('Defining inclusions')
-            with open(os.path.join(app.config['BASE_DIR'], 'bin/services_offering/project_specifications.json'), 'r', encoding='utf-8') as json_file:
-                defaults = json.load(json_file)
-                flask.session['offer']['mec_inc'] = defaults['building mechanics']['mechanical']['inclusions']
-                flask.session['offer']['mec_exc'] = defaults['building mechanics']['mechanical']['exclusions']
-                flask.session['offer']['elec_inc'] = defaults['building mechanics']['electrical']['inclusions']
-                flask.session['offer']['elec_exc'] = defaults['building mechanics']['electrical']['exclusions']
-                flask.session.modified = True
-
-        return flask.render_template("services_offering/building_mechanic_form.html",
-                                     title="Offre de services",
-                                     client=client)
-
 @services_offering.route('/pricing', methods=["GET", "POST"])
 def price_definition():
     if 'client_company' in flask.session['offer']:
@@ -177,19 +134,15 @@ def review_offer():
 
 @services_offering.route('/generate_pdf')
 def generate_pdf():
-    if flask.session['offer']['mandate_type'] == 'Mécanique du bâtiment':
-        useful_keys = ['project_name',
-                           'mandate',
-                           'mec_inc',
-                           'mec_exc',
-                           'elec_inc',
-                           'elec_exc',
-                           'prices',
-                           'price_descriptions',
-                           'total_price',
-                           'client']
-    else:
-        useful_keys = []
+    useful_keys = ['project_name',
+                   'project_number',
+                   'mandate',
+                   'mandate_details',
+                   'prices',
+                   'price_descriptions',
+                   'total_price',
+                   'client']
+
 
     client = Client.query.filter_by(company_name=flask.session['offer']['client_company']).first()
 
@@ -222,7 +175,7 @@ def generate_pdf():
 def open_pdf(filename):
     dir = app.config['CLIENT_PDF']
     safe_path = os.path.join(dir, filename)
-    print(safe_path)
+
     return flask.send_file(safe_path,
                            as_attachment=False,
                            cache_timeout=0)

@@ -46,22 +46,14 @@ class ReportBuilder:
         with open(mandate_tex_file, 'w', encoding='utf-8') as f:
             content = r'DESCRIPTION DU MANDAT\\ '
             content += r'%s' % (data['mandate'])
-            categories = ['mec_inc',
-                          'mec_exc',
-                          'elec_inc',
-                          'elec_exc']
-            cat_descriptions = ['Inclusions mécaniques:',
-                                'Exclusions mécaniques:',
-                                'Inclusions électriques:',
-                                'Exclusions électriques:']
+            categories = data['mandate_details'].keys()
 
-            for c in range(len(categories)):
-                if categories[c] in data:
-                    if len(data[categories[c]]) > 0:
-                        content += r'\par\underline{%s}\begin{itemize} ' % (cat_descriptions[c])
-                        for item in data[categories[c]]:
-                            content += r'\item[\textbullet] %s' % (item)
-                        content += r'\end{itemize}'
+            for c in categories:
+                if len(data['mandate_details'][c]) > 0:
+                    content += r'\par\underline{%s }: \par\begin{itemize} ' % (c)
+                    for item in data['mandate_details'][c]:
+                        content += r'\item[\textbullet] %s' % (item)
+                    content += r'\end{itemize}\vspace{0.5cm}'
 
             f.write(content)
 
@@ -90,12 +82,12 @@ class ReportBuilder:
         proc.communicate()
 
 
-        pdf_file_name = data['project_name'].replace(' ', '_') + '.pdf'
+        pdf_file_name = data['project_number'] + "_" + data['project_name'].replace(' ', '_') + '.pdf'
         if os.path.isfile(os.path.join(save_dir, pdf_file_name)):
             os.remove(os.path.join(save_dir, pdf_file_name))
 
         os.remove(os.path.join(work_dir, 'ods.aux'))
-        os.remove(os.path.join(work_dir, 'ods.log'))
+        #os.remove(os.path.join(work_dir, 'ods.log'))
 
         os.rename(os.path.join(work_dir, 'ods.pdf'), os.path.join(save_dir, pdf_file_name))
 
