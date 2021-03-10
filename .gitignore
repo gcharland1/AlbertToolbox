@@ -6,4 +6,4 @@ __pycache__/*
 *.wsgi
 .gitignore
 run.py
-bin/services_offering/latex
+app/static/client/*
