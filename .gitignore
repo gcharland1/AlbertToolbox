@@ -1,8 +1,7 @@
-venv/*
-.idea/*
+venv/
+.idea/
 *.db
 **/__pycache__/
-**/__pycache__/*
 *.wsgi
 run.py
 **/*.tex
