@@ -1,9 +1,9 @@
 venv/*
 .idea/*
 *.db
-__pycache__/
-__pycache__/*
+**/__pycache__/
+**/__pycache__/*
 *.wsgi
-.gitignore
 run.py
-app/static/client/*
+**/*.tex
+!**/ods.tex

@@ -1,4 +1,5 @@
 import os
+import sys
 
 # Statement for enabling the development environment
 DEBUG = False
@@ -33,7 +34,10 @@ CSRF_SESSION_KEY = "secret"
 SECRET_KEY = "secret"
 
 # Dure des cache pour les fichier envoyés
-CLIENT_PDF = os.path.join(BASE_DIR, 'app', 'static', 'client','pdf')
+if sys.platform.startswith('linux'):
+    CLIENT_PDF = "/home/www-data/"
+else:
+    CLIENT_PDF = os.path.join(BASE_DIR, 'app', 'static', 'client','pdf')
 
 # Mail service config
 MAIL_SERVER = 'smtp.googlemail.com'
