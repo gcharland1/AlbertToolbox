@@ -61,11 +61,19 @@ class ReportBuilder:
             content = r'HONORAIRES* \\ '
             content += r'\begin{center}\begin{tabular}{l@{\hspace{1cm}}|c@{\hspace{1cm}}}'
 
+            fixed_price = True
             for p in range(len(data['prices'])):
-                content += r'%s & %s \$  \\ \hline ' % (data['price_descriptions'][p], data['prices'][p])
+                if p < len(data['prices'])-1:
+                    content += r'%s & %s %s \\ \hline ' % (data['price_descriptions'][p], data['prices'][p], data['price_units'][p].replace('$', r'\$'))
+                else:
+                    content += r'%s & %s %s \\ ' % (data['price_descriptions'][p], data['prices'][p], data['price_units'][p].replace('$', r'\$'))
+                if not data['price_units'][p] == '$':
+                    fixed_price = False
 
-            total_price = str(sum([int(p) for p in data['prices']]))
-            content += r'\textbf{TOTAL} & \textbf{ %s \$} \\ ' % (total_price)
+            if fixed_price:
+                total_price = str(sum([int(p) for p in data['prices']]))
+                content += r'\hline \textbf{TOTAL} & \textbf{ %s \$} \\ ' % (total_price)
+
             content += r'\end{tabular} \end{center} '
             content += r'\small{* Ces taux excluent les taxes applicables } '
 

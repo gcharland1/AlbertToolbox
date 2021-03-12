@@ -106,17 +106,29 @@ def price_definition():
     if flask.request.method == "POST":
         form_data = flask.request.form
 
-        flask.session['offer']['price_descriptions'] = form_data.getlist('price-description')
+        flask.session['offer']['price_descriptions'] = form_data.getlist('price-description', type=str)
         flask.session['offer']['prices'] = form_data.getlist('price', type=int)
-        flask.session['offer']['total_price'] = sum(flask.session['offer']['prices'])
+        flask.session['offer']['price_units'] = form_data.getlist('unit', type=str)
+
+        flask.session['offer']['total_price'] = 0
+        for i in range(len(flask.session['offer']['prices'])):
+            if flask.session['offer']['price_units'][i] == "$":
+                flask.session['offer']['total_price'] += flask.session['offer']['prices'][i]
+            else:
+                flask.session['offer']['varied_price_units'] = True
+                break
+
         flask.session['offer']['prices_defined'] = True
 
         flask.session.modified = True
 
         return flask.redirect(flask.url_for('services_offering.review_offer'))
     else:
+        units = ['$', '$/hre', '$/km', '$/jr', '$/sem', '$/mois']
+
         return flask.render_template('services_offering/project_rate.html',
                                      title='Honoraires',
+                                     units=units,
                                      client=client)
 
 @services_offering.route('/review')
@@ -140,6 +152,7 @@ def generate_pdf():
                    'mandate_details',
                    'prices',
                    'price_descriptions',
+                   'price_units',
                    'total_price',
                    'client']
 

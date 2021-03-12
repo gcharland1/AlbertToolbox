@@ -55,13 +55,15 @@
           {% for i in range(session['offer']['prices']|length) %}
           <tr>
             <td>{{ session['offer']['price_descriptions'][i] }}</td>
-            <td>{{ session['offer']['prices'][i] }} $</td>
+            <td>{{ session['offer']['prices'][i] }} {{ session['offer']['price_units'][i] }}</td>
           </tr>
           {% endfor %}
+          {% if not session['offer']['varied_price_units'] %}
           <tr>
             <th scope="row" class="sticky-end">TOTAL</th>
             <td><b>{{ session['offer']['total_price'] }} $</b></td>
           </tr>
+          {% endif %}
         </table>
         <small>* Ces taux excluent les taxes applicables</small>
       </div>

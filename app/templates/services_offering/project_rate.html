@@ -14,7 +14,7 @@
     <b>Description du mandat</b>
     <p>{{ session['offer']['mandate'] }}</p>
     
-    <!-- Inclusions mécaniques -->
+    <!-- Détails du mandat -->
     {% for key in session['offer']['mandate_details'].keys(): %}
       <b>{{ key }}</b>
       <ul>
@@ -23,36 +23,6 @@
         {% endfor %}
       </ul>
     {% endfor %}
-    
-    <!-- Exclusion mécaniques -->
-    {% if session['offer']['mec_exc']|length > 0 %}
-    <b>Exclusions mécaniques</b>
-    <ul>
-      {% for i in session['offer']['mec_exc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    
-    <!-- Inclusions électriques -->
-    {% if session['offer']['elec_inc']|length > 0 %}
-    <b>Inclusions électriques</b>
-    <ul>
-      {% for i in session['offer']['elec_inc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    
-    <!-- Exclusion électriques -->
-    {% if session['offer']['elec_exc']|length > 0 %}
-    <b>Exclusions électriques</b>
-    <ul>
-      {% for i in session['offer']['elec_exc'] %}
-      <li>{{ i }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
   </div>
   <div class="w-75 container-fluid p-3">
     <h5>Honoraires</h5>
@@ -68,7 +38,14 @@
             <td>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <div class="input-group-text">$</div>
+                  <select class="form-select" name="unit" required="required">
+                    <option selected value="{{ session['offer']['price_units'][i] }}">
+                      {{ session['offer']['price_units'][i] }}
+                    </option>
+                    {% for unit in units %}
+                    <option value="{{unit}}">{{unit}}</option>
+                    {% endfor %}
+                  </select>
                 </div>
                 <input type="number" class="form-control" name="price" value="{{ session['offer']['prices'][i] }}" required>
               </div>
@@ -81,7 +58,11 @@
             <td>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <div class="input-group-text">$</div>
+                  <select class="form-select" name="unit" required="required">
+                    {% for unit in units %}
+                    <option value="{{unit}}">{{unit}}</option>
+                    {% endfor %}
+                  </select>
                 </div>
                 <input type="number" class="form-control" name="price" placeholder="Entrer le montant" required>
               </div>
@@ -98,7 +79,11 @@
                                   <td>\
                                     <div class="input-group">\
                                       <div class="input-group-prepend">\
-                                        <div class="input-group-text">$</div>\
+                                        <select class="form-select" name="unit" required="required">\
+                                          {% for unit in units %}\
+                                          <option value="{{unit}}">{{unit}}</option>\
+                                          {% endfor %}\
+                                        </select>\
                                       </div>\
                                       <input type="number" class="form-control" name="price" placeholder="Entrer le montant" required>\
                                     </div>\
