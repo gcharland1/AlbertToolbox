@@ -27,33 +27,35 @@
       <div id="mandate-details">
         <!-- Champs pré-remplis selon la catégorie de mandat -->
         {% if 'mandate_details' in session['offer'] %}
-        {% for key in session['offer']['mandate_details'] %}
-        <div class="detail-div my-3" id="{{key}}-div">
+        {% for i in range(session['offer']['mandate_details']|length) %}
+        {% with detail = session['offer']['mandate_details'][i] %}
+        <div class="detail-div my-3" id="{{detail[0]}}-div">
           <div class="row">
-            <label class="control-label col-1" for="{{key}}-name" style="font-weight:bold">Catégorie:</label>
+            <label class="control-label col-1" for="{{detail[0]}}-name" style="font-weight:bold">Catégorie:</label>
             <div class="col-3">
-              <input type="text" class="form-control" id="{{key}}-name" value="{{key}}" name="details-category" required>
+              <input type="text" class="form-control" id="{{detail[0]}}-name" value="{{detail[0]}}" name="details-category" required>
             </div>
             <div class="col-8">
-              <button type="button" class="btn btn-secondary" onclick="toggleSection('{{key}}')">Afficher/masquer la section</button>
+              <button type="button" class="btn btn-secondary" onclick="toggleSection('{{detail[0]}}')">Afficher/masquer la section</button>
               <button type="button" class="btn btn-danger rem-section" onclick="removeSection('{{ key }}-div')">Supprimer la section</button>
             </div>
           </div>
           
           <div class="my-3 container-fluid w-75" id="{{ key }}" style="display=block">
-            <button class="btn btn-outline-success btn-sm" type="button" onclick="addElement('{{key}}-table', '{{key}}')">Ajouter une ligne</button>
-            <button class="btn btn-outline-danger btn-sm" type="button" onclick="remSelectedElements('{{key}}-table')">Supprimer les lignes sélectionnées</button>
+            <button class="btn btn-outline-success btn-sm" type="button" onclick="addElement('{{detail[0]}}-table', '{{detail[0]}}')">Ajouter une ligne</button>
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="remSelectedElements('{{detail[0]}}-table')">Supprimer les lignes sélectionnées</button>
 
             <table class="table" id="{{ key }}-table">
-              {% for e in session['offer']['mandate_details'][key] %}
+              {% for e in detail[1] %}
               <tr>
                 <td style="width:2%"><input type="checkbox" class="checkbox"></td>
-                <td><input type="text" class="form-control" name="{{ key }}" value="{{ e }}"></td>
+                <td><input type="text" class="form-control" name="{{detail[0]}}" value="{{ e }}"></td>
               </tr>
               {% endfor %}
             </table>
           </div>
         </div>
+        {% endwith %}
         {% endfor %}
         {% endif %}
         

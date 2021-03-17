@@ -52,14 +52,14 @@ def define_mandate():
         form_data = flask.request.form
 
         flask.session['offer']['mandate'] = form_data['role']
-        flask.session['offer']['mandate_details'] = {}
+        flask.session['offer']['mandate_details'] = []
 
         # Catégories existantes dans Flask.Session
         details_categories = form_data.getlist('details-category')
         for i in range(len(details_categories)):
             cat = details_categories[i]
             items = form_data.getlist(cat)
-            flask.session['offer']['mandate_details'][cat] = items
+            flask.session['offer']['mandate_details'].append([cat, items])
 
         # Nouvelles catégories ajoutées
         for i in range(15):
@@ -69,7 +69,7 @@ def define_mandate():
                 cat = form_data[i_name]
                 items = form_data.getlist(i_str)
                 if len(items) > 0 and not cat == "":
-                    flask.session['offer']['mandate_details'][cat] = items
+                    flask.session['offer']['mandate_details'].append([cat, items])
 
         flask.session['offer']['inclusions_defined'] = True
         flask.session.modified = True
@@ -86,9 +86,9 @@ def define_mandate():
                 defaults = json.load(json_file)
 
                 if mandate_type in defaults.keys():
-                    flask.session['offer']['mandate_details'] = {}
+                    flask.session['offer']['mandate_details'] = []
                     for cat in defaults[mandate_type].keys():
-                        flask.session['offer']['mandate_details'][cat] = defaults[mandate_type][cat]
+                        flask.session['offer']['mandate_details'].append([cat, defaults[mandate_type][cat]])
 
         return flask.render_template('services_offering/define_mandate.html',
                                      title='Détails du mandat',

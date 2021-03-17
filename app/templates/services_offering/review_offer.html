@@ -37,14 +37,14 @@
     
     <!-- Définition du mandat -->
     <div>
-      {% for cat in session['offer']['mandate_details'] %}
-      <b>{{ cat }}</b>
+      {% for i in range(session['offer']['mandate_details']|length) %}
+      <b>{{ session['offer']['mandate_details'][i][0] }}</b>
       <ul>
-        {% for i in session['offer']['mandate_details'][cat] %}
+        {% for i in session['offer']['mandate_details'][i][1] %}
         <li>{{ i }}</li>
         {% endfor %}
       </ul>
-      {% endfor %}
+        {% endfor %}
     </div>
     
     <!-- HONORAIRES -->

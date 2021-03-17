@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7350 64-bit) (preloaded format=pdflatex 2020.4.6)  12 MAR 2021 16:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7350 64-bit) (preloaded format=pdflatex 2020.4.6)  17 MAR 2021 10:46
 entering extended mode
 **"C:/Users/Surface Book/Documents/Python/A0002_AlbertToolbox/AlbertToolbox/bin
 /services_offering/latex/ods.tex"
@@ -374,11 +374,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--70
 
 (client_signature.tex)
 Underfull \hbox (badness 10000) in paragraph at lines 77--77
-\T1/phv/m/n/12 Construction Ré-no-va-tion Jé-ré-mie
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 77--77
 
  []
 
@@ -398,15 +393,15 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 Here is how much of TeX's memory you used:
  3704 strings out of 480934
  53316 string characters out of 2909660
- 312162 words of memory out of 3000000
+ 311162 words of memory out of 3000000
  19526 multiletter control sequences out of 15000+200000
  544661 words of font info for 41 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 30i,15n,45p,3321b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,15n,45p,3321b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/
 enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhv
 b8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on ods.pdf (3 pages, 59123 bytes).
+Output written on ods.pdf (3 pages, 58723 bytes).
 PDF statistics:
  26 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

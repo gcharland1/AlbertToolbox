@@ -46,12 +46,12 @@ class ReportBuilder:
         with open(mandate_tex_file, 'w', encoding='utf-8') as f:
             content = r'DESCRIPTION DU MANDAT\\ '
             content += r'%s' % (data['mandate'])
-            categories = data['mandate_details'].keys()
+            n_cat = len(data['mandate_details'])
 
-            for c in categories:
-                if len(data['mandate_details'][c]) > 0:
-                    content += r'\par\underline{%s }: \par\begin{itemize} ' % (c)
-                    for item in data['mandate_details'][c]:
+            for c in range(n_cat):
+                if len(data['mandate_details'][c][1]) > 0:
+                    content += r'\par\underline{%s }: \par\begin{itemize} ' % (data['mandate_details'][c][0])
+                    for item in data['mandate_details'][c][1]:
                         content += r'\item[\textbullet] %s' % (item)
                     content += r'\end{itemize}\vspace{0.5cm}'
 
