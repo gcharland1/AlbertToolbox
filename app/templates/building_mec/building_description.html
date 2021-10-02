@@ -1,0 +1,43 @@
+{%extends "base.html"%}
+{%block title%}{{title}}{%endblock%}
+{%block content%}
+<div class="container-fluid py-3 w-75">
+  <h1>Définition du bâtiment</h1>
+  
+  <form action="{{ url_for('building_tools.building_description', n=form.n_rows) }}" method="POST">
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Entrez vos données</legend>
+      <div class="form-group">
+        {% if form.n_rows > 0 %}
+        {{ form.hidden_fields }}
+        <table class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Conduit no.</th>
+              <th scope="col">{{form.rows[0].item_field.label()}}</th>
+              <th scope="col">{{form.rows[0].CFM_field.label()}}</th>
+              <th scope="col">{{form.rows[0].speed_field.label()}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%for i in range(form.n_rows)%}
+            <tr>
+              <td scope="row">{{i + 1}}</td>
+              <td>{{form.rows[i].item_field}}</td>
+              <td>{{form.rows[i].CFM_field}}</td>
+              <td>{{form.rows[i].speed_field}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+      </div>
+    </fieldset>
+    <div class="form-group pt-3">
+      {{form.submit_field(class="btn btn-primary")}}
+      {{form.add_entry_field(class="btn btn-secondary")}}
+      {{form.remove_entries_field(class="btn btn-danger")}}
+    </div>
+  </form>
+</div>
+{%endblock%}

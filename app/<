@@ -1,0 +1,14 @@
+import flask
+
+from app.building_mec import forms
+#from bin import estimator
+
+building_tools = flask.Blueprint('building_tools', __name__)
+
+
+@building_tools.route('/building_tools/', methods=["GET", "POST"])
+def building_description():
+
+    return flask.render_template("building_mec/building_description.html",
+                                 title="Mécanique du bâtiment",
+                                 )
